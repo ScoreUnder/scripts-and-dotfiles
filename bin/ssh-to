@@ -1,0 +1,3 @@
+#!/bin/sh
+host=$(< ~/.ssh/known_hosts cut -d' ' -f1 | cut -d, -f1 | grep -v : | sort | dmenu -p '(ssh) Host') \
+    && exec i3-sensible-terminal -e ssh "$host"

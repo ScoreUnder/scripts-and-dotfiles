@@ -1,0 +1,3 @@
+[submodule "pomfclip"]
+	path = pomfclip
+	url = https://github.com/ScoreUnder/pomfclip.git

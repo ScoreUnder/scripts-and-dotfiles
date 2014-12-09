@@ -1,0 +1,8 @@
+#!/bin/sh
+oldtime=$(date +%s%N)
+while IFS= read -r line
+do
+    time=$(date +%s%N)
+    echo "$((time-oldtime)) $line"
+    oldtime=$time
+done

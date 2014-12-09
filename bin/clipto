@@ -1,0 +1,3 @@
+#!/bin/sh
+host=$(< ~/.ssh/known_hosts cut -d' ' -f1 | cut -d, -f1 | sort -u | dmenu -p "Hostname") \
+    && xclip -o -selection c | ssh -o LogLevel=ERROR "$host" xclip -i -selection c -display :0 &

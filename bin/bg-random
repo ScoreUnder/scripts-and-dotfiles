@@ -1,0 +1,9 @@
+#!/bin/sh
+if [ $# = 0 ]; then
+    set -- ~/img/wallpaper_safe
+    hr=$(date +%H)
+    [ "$hr" -gt 18 -o "$hr" -lt 10 ] &&
+        set -- "$@" ~/img/wallpaper
+fi
+fn="$(find "$@" -type f -print0 | shuf -zn1 | tr -d \\0; echo x)"; fn=${fn%x}
+exec feh --bg-fill "$fn"

@@ -1,0 +1,10 @@
+#!/bin/sh
+if [ -z "$DISPLAY" ]
+then BROWSER=w3m
+elif pgrep -x firefox > /dev/null
+then BROWSER=firefox
+elif pgrep -x chromium > /dev/null
+then BROWSER=chromium
+else BROWSER=luakit
+fi
+exec "$BROWSER" "$@"

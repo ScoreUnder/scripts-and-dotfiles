@@ -1,0 +1,5 @@
+#!/bin/sh
+val="$(( $(cat "$1") / 1000 ))"
+echo "${val}°C"
+[ "$val" -gt "${2:-60}" ] && exit 33
+exit 0

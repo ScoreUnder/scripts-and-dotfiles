@@ -1,0 +1,10 @@
+#!/bin/sh
+cd ~/.i3/workspaces
+i3-msg workspace 2
+i3-msg 'move workspace to output DVI-I-0'
+i3-msg workspace 1
+i3-msg 'move workspace to output DVI-D-0'
+for f in $(cat list); do
+    i3-msg workspace \""$f"\"
+    [ -r "$f" ] && i3-msg append_layout "$(readlink -f "$f")"
+done

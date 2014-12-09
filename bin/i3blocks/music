@@ -1,0 +1,9 @@
+#!/bin/sh
+mpc status | {
+    read n
+    read p || { echo 'No song'; exit 33; }
+    case "$p" in
+        "[paused]"*) n="[paused] $n";;
+    esac
+    echo "$n"
+}

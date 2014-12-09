@@ -1,0 +1,12 @@
+#!/bin/sh
+[ "$#" = 3 ] || { echo 'Need 3 args exactly! (file, mapping name, mountpoint)'; exit 1; }
+loopdev=$(losetup -f) || exit
+cleanup_and_exit() {
+    c=$?
+    losetup -d "$loopdev"
+    exit "$c"
+}
+trap cleanup_and_exit INT HUP TERM QUIT
+losetup "$loopdev" "$1" || exit
+sudo tcplay -m "$2" -d "$loopdev" || cleanup_and_exit
+sudo mount /dev/mapper/"$2" "$3" -o "nosuid,nodev,noatime,uid=$(id -u),gid=$(id -g),umask=027,fmask=137" || exit

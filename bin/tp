@@ -1,0 +1,35 @@
+#!/bin/sh
+filename_filter=echo
+
+eval set -- "$(getopt -l basename,help,filter: -- bhf: "$@")"
+
+while :; do
+    case "$1" in
+        -b|--basename)
+            filename_filter=basename
+            ;;
+        -h|--help)
+            cat <<EOF
+"Copy to phone"
+$0 [ -b | -h | -f FILTER ] [--] file...
+Args:
+    -b | --basename          Only include the file's basename (don't use directory structure)
+    -h | --help              Show help
+    -f | --filter <filter>   Command to filter given paths by
+EOF
+            ;;
+        -f|--filter)
+            filename_filter=$2
+            shift
+            ;;
+        --)
+            break
+            ;;
+    esac
+    shift
+done
+shift
+
+for f do
+    adb -d push "$f" /extSdCard/"$($filename_filter "$f")"
+done

@@ -1,0 +1,8 @@
+#!/bin/sh
+[ "$(id -u)" = 0 ] || exec sudo -- "$0" "$@"
+systemctl disable catalyst-hook
+pacman -S xf86-video-ati lib32-ati-dri ati-dri lib32-mesa-libgl mesa-libgl
+pacman -Rs catalyst-hook catalyst-utils lib32-catalyst-utils
+mv -v /etc/X11/xorg.conf.d/20-catalyst.conf /etc/X11/xorg.conf.d.unused/
+mv -v /etc/X11/xorg.conf.d.unused/20-radeon.conf /etc/X11/xorg.conf.d/
+rm -v /etc/modules-load.d/catalyst.conf

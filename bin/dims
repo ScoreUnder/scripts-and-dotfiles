@@ -1,0 +1,11 @@
+#!/bin/sh
+for f do
+    if DIMS=$(gm identify -format %wx%h "$f" 2>/dev/null | head -1) && [ -n "$DIMS" ]; then
+        [ "${DIMS#*x*x}" != "$DIMS" ] && echo "STUPID FILE $f" >&2 && continue
+        WIDTH=${DIMS%x*}
+        HEIGHT=${DIMS#*x}
+        if [ "$HEIGHT" -ne 0 ] && [ "$(echo "0 20k $WIDTH $HEIGHT / 4 3 / [1]sx <x p" | dc)" -eq 1 -a "$WIDTH" -ge 800 -a "$HEIGHT" -ge 600 ]; then
+            printf %s\\0 "$f"
+        fi
+    fi
+done

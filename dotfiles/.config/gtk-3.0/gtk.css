@@ -1,0 +1,25 @@
+GtkNotebook {
+    padding: 0;
+}
+GtkNotebook tab GtkLabel {
+    font-weight: normal;
+    font-family: DejaVu Sans;
+}
+GtkNotebook tab #closebutton {
+    padding: 0;
+}
+GtkButton {
+    padding: 2px;
+}
+GtkHeaderBar {
+    padding: 2px;
+}
+.window-frame, .window-frame:backdrop {
+    box-shadow: 0 0 0 black;
+    border-style: none;
+    margin: 0;
+    border-radius: 0;
+}
+.titlebar {
+    border-radius: 0;
+}

@@ -1,0 +1,7 @@
+#!/bin/sh
+for possible_agent in /tmp/ssh-*/agent.*; do
+    [ -w "$possible_agent" ] && break
+done
+[ -w "$possible_agent" ] || { echo >&2 'Failed to grab an agent'; exit 1; }
+export SSH_AUTH_SOCK="$possible_agent"
+exec "$@"

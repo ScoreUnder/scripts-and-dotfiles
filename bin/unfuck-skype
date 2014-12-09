@@ -1,0 +1,7 @@
+#!/bin/sh
+for sig in 15 1 2 9; do
+    pkill -x -"$sig" skype || break
+    sleep 1
+done
+
+find ~/.Skype -name '*.lck' -o -name '*.lock' -delete

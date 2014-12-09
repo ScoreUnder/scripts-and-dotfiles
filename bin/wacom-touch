@@ -1,0 +1,6 @@
+#!/bin/sh
+case "$1" in
+    t*|e*|on)  xsetwacom set 'Wacom Bamboo Craft Finger touch' Touch on ;;
+    f*|d*|off) xsetwacom set 'Wacom Bamboo Craft Finger touch' Touch off ;;
+    *) echo >&2 'enable/disable/true/false/on/off' ;;
+esac

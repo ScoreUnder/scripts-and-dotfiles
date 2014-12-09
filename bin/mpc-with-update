@@ -1,0 +1,5 @@
+#!/bin/sh
+mpc "$@"
+success=$?
+pkill -SIGRTMIN+1 i3blocks
+exit "$success"

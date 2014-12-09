@@ -1,0 +1,19 @@
+#!/bin/sh
+# Sets the background in preparation to call fbterm
+
+image=${1?Please specify an image filename}
+res=${2:-1366x768}
+
+tmpfile=
+cleanup() {
+    rm -- "$tmpfile"
+    trap - EXIT INT HUP QUIT TERM
+    exit
+}
+trap cleanup EXIT INT HUP QUIT TERM
+tmpfile=$(mktemp --tmpdir resized-image-XXXXXXXXXXXX.png)
+
+gm convert "$image" -resize "$res^" -gravity center -extent "$res" -fill black -colorize 80% "$tmpfile"
+fbv -cui "$tmpfile" <<\EOF
+q
+EOF

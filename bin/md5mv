@@ -1,0 +1,9 @@
+#!/bin/sh
+# Renames a file to its md5 hash plus extension
+
+for f do
+    fbase="$(basename "$f"; echo x)"; fbase=${fbase%?x}
+    fext=.${fbase##*.}
+    [ "$fext" = ".$fbase" ] && fext=
+    mv -v -- "$f" "$(md5sum "$f" | cut -d' ' -f1)$fext"
+done
