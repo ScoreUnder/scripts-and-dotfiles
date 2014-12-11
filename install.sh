@@ -25,7 +25,7 @@ safecopy() {
             while :; do case $answer in
                 [iI]) operation=_install; break;;
                 [gG]) operation=_copy_to_git; break;;
-                [sS]) return;;
+                [sS]) return 0;;
                 [qQ]) exit 0;;
                 *)
                     echo "What should I do? (I)nstall, Update in (G)it repo, (S)kip, (Q)uit"
@@ -33,7 +33,7 @@ safecopy() {
                     ;;
             esac; done
         else
-            return
+            return 0
         fi
     fi
     "$operation" "$@"
@@ -45,6 +45,8 @@ recurse() {
             recurse "$1" "$file"
         elif [ -f "$file" ]; then
             "$1" "$file"
+        else
+            true
         fi
     done
 }
