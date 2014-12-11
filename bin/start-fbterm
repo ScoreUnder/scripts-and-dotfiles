@@ -1,2 +1,3 @@
 #!/bin/sh
-exec fbterm-bg "$(find ~/img/wallpaper -type f -print0 | shuf -zn1 | tr '\0' '\n')" -n tewi
+img=$(bg-random -n; echo x); img=${img%??}
+exec fbterm-bg "$img" -n tewi
