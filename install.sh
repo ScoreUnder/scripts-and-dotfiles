@@ -40,15 +40,21 @@ safecopy() {
 }
 
 recurse() {
-    for file in "$2"/*; do
+    for file in "$2"/* "$2"/.*; do
+        case "$(basename "$file")" in
+            # Handle globbed ./..
+            .|..) continue;;
+            # Handle failed globs (blah/* where * doesn't exist)
+            *) [ -e "$file" ] || continue;;
+        esac
+
         if [ -d "$file" ]; then
             recurse "$1" "$file"
         elif [ -f "$file" ]; then
             "$1" "$file"
-        else
-            true
         fi
     done
+    true
 }
 
 _copy_loop() {
