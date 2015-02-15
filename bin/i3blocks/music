@@ -1,9 +1,34 @@
 #!/bin/sh
-mpc status | {
-    read n
+mpc status -f '%file%\n%artist%\n%title%\n%time%' | {
+    read file
+    read artist
+    read title
+    read time
     read p || { echo 'No song'; exit 33; }
     case "$p" in
-        "[paused]"*) n="[paused] $n";;
+        "[paused]"*)
+            paused="[paused] "
+            colour="#808080"
+            ;;
+        *)
+            paused=
+            case "$file" in
+                *.mp3) colour='#ff80ff';;
+                *.flac) colour='#80ffff';;
+                *.ogg) colour='#80ff80';;
+                *.xm) colour='#ff8080';;
+                *) colour='#ffffff';;
+            esac
+            ;;
     esac
-    echo "$n"
+
+    if [ -z "$artist" ]; then friendly=$title
+    elif [ -n "$title" ]; then friendly="$artist - $title"
+    else friendly=
+    fi
+
+    friendly="$paused${friendly:-$file}${time:+ [$time]}"
+    echo "$friendly"
+    echo "$paused${title:-$file}"
+    echo "$colour"
 }

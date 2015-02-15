@@ -1,0 +1,74 @@
+#!/bin/sh
+. ~/docs/dec/vars 2>/dev/null
+
+# {{{ Utilities
+plain_basename() {
+    # Gets basename without extension from URL
+    fname=${1%%#*}
+    fname=${fname%%'?'*}
+    fname=${fname##*/}
+    fname=${fname%.*}
+    printf %s\\n "$fname"
+}
+get_ext() {
+    # Gets file extension from URL
+    fname=${1%%#*}
+    fname=${fname%%'?'*}
+    fname=${fname##*/}
+    fext=${fname##*.}
+
+    # Returns false if no ext was found; prints & returns true if it was found
+    [ "$fext" != "$fname" ] && printf %s\\n "$fext"
+}
+die() { printf '%s: %s\n' "$prog_name" "$*" >&2; exit 1; }
+warn() { printf '\033[93;1m%s\033[0m\n' "$*"; }
+# }}}
+
+# Grab parameters
+prog_name=$0
+url=$1
+newname=${2:-$(plain_basename "$url")}
+[ "${newname#*/}" = "$newname" ] || die 'New filename must not contain slashes. Use the dir for that.'
+dir=${3:-${SAVED_IMAGE_DIR:?Need somewhere to output to}}
+[ "${dir#-}" = "$dir" ] || dir=./$dir
+
+case $url in
+    */sample_*)
+        warn 'You might be downloading a resized sample!';;
+    */thumb/*|*[0-9]s.jpg)
+        warn 'You might be downloading a thumbnail!';;
+esac
+
+tmpfile=
+cleanup() { ret=$?; rm -f -- "$tmpfile"; exit "$ret"; }
+trap cleanup EXIT HUP INT TERM
+tmpfile=$(mktemp)
+
+# Download
+wget --quiet --show-progress -O "$tmpfile" -- "$url" || exit
+
+# Determine real file type if possible. Fuck you, imgur, for mislabelling file types
+case $(<$tmpfile file -) in
+    *": GIF image data"*) ext=gif;;
+    *": PNG image data"*) ext=png;;
+    *": JPEG image data"*) ext=jpg;;
+    *": HTML document"*) die 'Got an HTML document, possible 404?';;
+    *) ext=$(get_ext "$url");;
+esac
+
+# Find a unique filename
+newpath=$dir/$newname.$ext
+i=2
+while [ -e "$newpath" ]; do
+    newpath=$dir/$newname$i.$ext
+    i=$((i+1))
+done
+
+mv -- "$tmpfile" "$newpath" || exit
+printf 'Saved as %s\n' "$newpath"
+
+# Optimize if possible
+case $ext in
+    png) optipng -o7 -zm1-9 "$newpath";;
+    jpg) jpeg-optimize "$newpath";;
+esac

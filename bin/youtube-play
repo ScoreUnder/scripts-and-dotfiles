@@ -1,0 +1,14 @@
+#!/bin/sh
+vid=${1:-$(xsel)}
+id=${vid##*'?v='}
+id=${id##*'&v='}
+id=${id%%[?&]*}
+id=${id##*'/'}
+
+cd ~/videos
+
+if ! [ -e *"-$id."* ]; then
+    youtube-dl -f best --no-call-home --prefer-ffmpeg -- "$vid"
+fi
+
+mplayer -- *"-$id."*

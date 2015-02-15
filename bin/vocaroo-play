@@ -1,0 +1,4 @@
+#!/bin/sh
+id=${1:-$(xsel)}
+id=${id##*/}
+curl -sL "http://vocaroo.com/media_command.php?media=$id&command=download_ogg" | mplayer -really-quiet -
