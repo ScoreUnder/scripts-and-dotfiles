@@ -6,12 +6,14 @@ signal=1
 
 [disk-green]
 label=G
-command=~/bin/i3blocks/disk /mnt/green1
+command=~/bin/i3blocks/disk
+instance=/mnt/green1
 interval=30
 
 [disk-root]
 label=/
-command=~/bin/i3blocks/disk /
+command=~/bin/i3blocks/disk
+instance=/
 interval=30
 
 [network]

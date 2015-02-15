@@ -57,12 +57,11 @@ recurse() {
     true
 }
 
-_copy_loop() {
-    safecopy "$1" "$HOME/$1"
-}
+_copy_loop() { safecopy "$1" "$HOME/$1"; }
 recurse _copy_loop bin
 
-echo 'As always, make sure you have pulled submodules!'
-pomfclip/install.sh
+_dotfiles_copy_loop() { safecopy "$1" "$HOME/${1#*/}"; }
+recurse _dotfiles_copy_loop dotfiles
 
-# TODO non-~/bin dotfiles
+echo 'As always, make sure you have pulled submodules!'
+cd pomfclip && ./install.sh

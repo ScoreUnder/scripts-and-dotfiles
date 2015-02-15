@@ -191,6 +191,7 @@ bindsym $mod+Shift+slash move to scratchpad
 bindsym Print exec scrot
 bindsym Ctrl+Print exec pomfclip
 bindsym Mod1+Print exec scrot -s
+bindsym $mod+x exec wild-keybind
 
 focus_follows_mouse yes
 mouse_warping none
