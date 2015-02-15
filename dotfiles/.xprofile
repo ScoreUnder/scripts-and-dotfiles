@@ -4,9 +4,7 @@ contains() {
 }
 
 if contains "$LXSESSION" "i3"; then
-    if ! contains :"$PATH": :"$HOME/bin":; then
-        PATH=$HOME/bin:$PATH
-    fi
+    . ~/.environment
     export GTK_IM_MODULE='uim'
     export QT_IM_MODULE='uim'
     uim-xim &

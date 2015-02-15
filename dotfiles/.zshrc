@@ -38,6 +38,6 @@ function prompt_customgrml_setup() {
 prompt_themes+=(customgrml)
 prompt customgrml
 
-export "IDEA_VM_OPTIONS=$HOME/.IdeaIC13/idea$BITS.vmoptions" "GOPATH=$HOME/src/go" "XDG_DESKTOP_DIR=$HOME" "PYTHONWARNINGS=all"
+. ~/.environment
 HISTORY_IGNORE="(l|ll|..|...)"
 umask 077

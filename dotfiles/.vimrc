@@ -36,7 +36,7 @@ nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>te :tabedit<space>
 nnoremap <leader>j Ji;<esc>
 
-vnoremap > >gv
-vnoremap < <gv
+"vnoremap > >gv
+"vnoremap < <gv
 
 autocmd BufEnter ?akefile* set noet nocindent

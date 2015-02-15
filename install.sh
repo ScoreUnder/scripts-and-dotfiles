@@ -62,4 +62,7 @@ _copy_loop() {
 }
 recurse _copy_loop bin
 
+echo 'As always, make sure you have pulled submodules!'
+pomfclip/install.sh
+
 # TODO non-~/bin dotfiles
