@@ -2,8 +2,12 @@
 # Renames a file to its md5 hash plus extension
 
 for f do
-    fbase="$(basename "$f"; echo x)"; fbase=${fbase%?x}
+    fbase=${f##*/}      # Get basename by deleting up to & including the last slash.
+    fdir=${f%"$fbase"}  # Get dirname by deleting the basename. Includes trailing slash.
     fext=.${fbase##*.}
     [ "$fext" = ".$fbase" ] && fext=
-    mv -v -- "$f" "$(md5sum "$f" | cut -d' ' -f1)$fext"
+    if hash=$(md5sum "$f"); then  # Only rename if md5sum succeeds
+        newname=$fdir${hash%% *}$fext
+        mv -v -- "$f" "$newname"
+    fi
 done
