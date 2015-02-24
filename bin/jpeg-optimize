@@ -1,5 +1,6 @@
 #!/bin/sh
 # Use with mozjpeg instead of libjpeg-turbo for best results.
+PATH=/opt/mozjpeg/bin:$PATH
 tmpfile=$(mktemp)
 cleanup() { ret=$?; rm -f -- "$tmpfile"; exit "$ret"; }
 
