@@ -1,4 +1,4 @@
 #!/bin/sh
-socat - "UNIX-CONNECT:$HOME/.urxvt/urxvtd-kirisame" < /dev/null > /dev/null 2>&1 ||
+socat - "UNIX-CONNECT:$HOME/.urxvt/urxvtd-$(hostname)" < /dev/null > /dev/null 2>&1 ||
     urxvtd -q -o -f
 exec urxvtc "$@"
