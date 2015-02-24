@@ -52,6 +52,7 @@ case $(<$tmpfile file -) in
     *": GIF image data"*) ext=gif;;
     *": PNG image data"*) ext=png;;
     *": JPEG image data"*) ext=jpg;;
+    *": PC bitmap"*) ext=bmp;;
     *": HTML document"*) die 'Got an HTML document, possible 404?';;
     *) ext=$(get_ext "$url");;
 esac
