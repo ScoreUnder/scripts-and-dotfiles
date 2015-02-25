@@ -28,6 +28,11 @@ filetype plugin indent on
 cmap Q q
 cmap Q! q!
 
+" latex stuff
+filetype plugin indent on
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor = "latex"
+
 nnoremap <space> za
 
 nnoremap <leader>w :w!<cr>
