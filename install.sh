@@ -8,11 +8,11 @@ else
 fi
 
 _install() {
-    install -pvTD -- "$@"
+    install -pvTDm "$(stat -c%a "$1")" -- "$1" "$2"
 }
 
 _copy_to_git() {
-    install -pT -- "$2" "$1"
+    install -pTm "$(stat -c%a "$2")" -- "$2" "$1"
 }
 
 safecopy() {
