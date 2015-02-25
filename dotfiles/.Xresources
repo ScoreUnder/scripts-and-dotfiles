@@ -1,0 +1,146 @@
+URxvt*geometry: 120x40
+! URxvt*font: xft:Terminus:style=Regular:pixelsize=14:antialias=false
+! URxvt*font: xft:Source Code Pro:style=Regular:pixelsize=11:antialias=0:hinting=0:rgba=none
+URxvt*font: xft:Tewi:pixelsize=9:antialias=false
+! URxvt*font: -lucy-tewi-medium-r-normal--11-90-75-75-p-58-iso10646-1
+! URxvt*letterSpace: 0
+
+URxvt*saveLines: 10000
+URxvt*scrollBar: false
+
+URxvt*cursorColor: white
+URxvt*cursorColor2: #aaaaaa
+
+! URxvt.iconFile: /usr/share/icons/Humanity/apps/48/bash.svg
+
+URxvt.iso14755: off
+URxvt.iso14755_52: off
+
+! tabbedex is not provided by default (Debian/Ubuntu)
+! put it in ~/.urxvt/
+URxvt.perl-lib: .urxvt/
+URxvt.perl-ext-common: default,matcher,vtwheel,clipboard
+! Launch firefox with the a left click on a URL
+URxvt.url-launcher: /usr/bin/xdg-open
+URxvt.matcher.button: 1
+
+URxvt.keysym.S-C-C: perl:clipboard:copy
+URxvt.keysym.S-C-V: perl:clipboard:paste
+URxvt.keysym.S-C-B: perl:clipboard:paste_escaped
+
+! Tabs: gray background, ~white text
+! and the opposite for the currently focused tab
+URxvt.tabbed.tabbar-fg: 7
+URxvt.tabbed.tabbar-bg: 8
+URxvt.tabbed.tab-fg: 8
+URxvt.tabbed.tab-bg: 7
+
+! Display the title of terminal next to tabs list
+URxvt.tabbed.title: true
+URxvt.tabbed.title-bg: 8
+URxvt.tabbed.title-fg: 7
+
+! correct name so that applications detects a 256 color
+! enabled terminal emulator
+URxvt*termName: rxvt-unicode-256color
+
+! emulate xterm-style control codes for ctrl+arrows and alt+arrows, etc
+URxvt.keysym.S-Up:        \033[1;2A
+URxvt.keysym.S-Down:      \033[1;2B
+URxvt.keysym.S-Right:     \033[1;2C
+URxvt.keysym.S-Left:      \033[1;2D
+URxvt.keysym.M-Up:        \033[1;3A
+URxvt.keysym.M-Down:      \033[1;3B
+URxvt.keysym.M-Right:     \033[1;3C
+URxvt.keysym.M-Left:      \033[1;3D
+URxvt.keysym.S-M-Up:      \033[1;4A
+URxvt.keysym.S-M-Down:    \033[1;4B
+URxvt.keysym.S-M-Right:   \033[1;4C
+URxvt.keysym.S-M-Left:    \033[1;4D
+URxvt.keysym.C-Up:        \033[1;5A
+URxvt.keysym.C-Down:      \033[1;5B
+URxvt.keysym.C-Right:     \033[1;5C
+URxvt.keysym.C-Left:      \033[1;5D
+URxvt.keysym.S-C-Up:      \033[1;6A
+URxvt.keysym.S-C-Down:    \033[1;6B
+URxvt.keysym.S-C-Right:   \033[1;6C
+URxvt.keysym.S-C-Left:    \033[1;6D
+URxvt.keysym.M-C-Up:      \033[1;7A
+URxvt.keysym.M-C-Down:    \033[1;7B
+URxvt.keysym.M-C-Right:   \033[1;7C
+URxvt.keysym.M-C-Left:    \033[1;7D
+URxvt.keysym.S-M-C-Up:    \033[1;8A
+URxvt.keysym.S-M-C-Down:  \033[1;8B
+URxvt.keysym.S-M-C-Right: \033[1;8C
+URxvt.keysym.S-M-C-Left:  \033[1;8D
+
+!! GNOME Terminal color scheme
+!! taken from http://xcolors.net/dl/gnometerm
+!! Black
+!*color0:   #000000
+!*color8:   #555753
+!
+!! Red
+!*color1:   #cc0000
+!*color9:   #ef2929
+!
+!! Green
+!*color2:   #4e9a06
+!*color10:  #8ae234
+!
+!! Yellow
+!*color3:   #c4a000
+!*color11:  #fce94f
+!
+!! Blue
+!*color4:   #3465a4
+!*color12:  #729fcf
+!
+!! Magenta
+!*color5:   #75507b
+!*color13:  #ad7fa8
+!
+!! Cyan
+!*color6:   #06989a
+!*color14:  #34e2e2
+!
+!! White
+!*color7:   #d3d7cf
+!*color15:  #eeeeec
+
+URxvt.cursorColor:  #dc74d1
+URxvt.pointerColor: #dc74d1
+!URxvt.background:   #0e0e0e
+!URxvt.foreground:   #4ad5e1
+URxvt.color0:       #000000
+URxvt.color8:       #8b8f93
+URxvt.color1:       #dc7491
+URxvt.color9:       #ff94a1
+URxvt.color2:       #0eb8d7
+URxvt.color10:      #4ed8e7
+URxvt.color3:       #dfe324
+URxvt.color11:      #dff345
+URxvt.color4:       #4040c0
+URxvt.color12:      #8080ff
+URxvt.color5:       #ce88f0
+URxvt.color13:      #fea8ff
+URxvt.color6:       #73f7ff
+URxvt.color14:      #73f7ff
+URxvt.color7:       #e1dddd
+URxvt.color15:      #e1dddd
+
+URxvt*foreground: #ffffff
+URxvt*depth: 32
+URxvt*background: rgba:0000/0000/0000/e000
+
+URxvt*fading: 30
+
+Xft.lcdfilter: ldcdefault
+Xft.hintstyle: hintslight
+
+xterm*font: Tewi
+xterm*termName: xterm-256color
+xterm*locale: true
+xterm*metaSendsEscape: true
+xterm*foreground: rgb:cc/cc/cc
+xterm*background: rgb:00/00/00
