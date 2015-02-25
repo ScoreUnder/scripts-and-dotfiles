@@ -108,6 +108,9 @@ URxvt.keysym.S-M-C-Left:  \033[1;8D
 !*color7:   #d3d7cf
 !*color15:  #eeeeec
 
+! Modified version of a "non standard colour scheme"
+! I found it on an online man page somewhere.
+! http://linux.die.net/man/7/urxvt
 URxvt.cursorColor:  #dc74d1
 URxvt.pointerColor: #dc74d1
 !URxvt.background:   #0e0e0e
