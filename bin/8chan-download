@@ -7,7 +7,7 @@ board=${thread%%/res/*}; board=${board##*/}
 base_url=https://media.8chan.co/$board/src/
 
 wget -O - --quiet -- "$thread" | \
-  jq -r '[.posts[], .posts[].extra_files[]][] | select(.tim and .filename and .ext) | .tim, .filename + .ext, .tim + .ext' | \
+    jq -r '[.posts[], .posts[].extra_files[]?][] | select(.tim and .filename and .ext) | .tim, .filename + .ext, .tim + .ext' | \
   while IFS= read -r time && IFS= read -r file && IFS= read -r file_mangled; do
     file=$(basename "$file")
     [ -s "${time}_$file" ] && echo "Skipping ${time}_$file" || wget -O "${time}_$file" "$base_url$file_mangled"
