@@ -1,5 +1,6 @@
 #!/bin/sh
 thread=${1?Please supply a thread URL to download}
+thread=${thread%%#*}
 [ "$thread" != "${thread%html}" ] && thread=${thread%html}json
 
 board=${thread%%/res/*}; board=${board##*/}
