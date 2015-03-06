@@ -2,8 +2,6 @@
 if [[ ! ":$PATH:" =~ ":$HOME/bin:" ]] {
     export PATH="$HOME/bin:$PATH"
 }
-alias djava="java -Dswing.systemlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true"
-alias -s jar="djava -jar"
 function sshclip() { xclip -selection c -o | ssh $* "xclip -selection c -d :0" }
 function dmn { ( "$@" & ) < /dev/null >& /dev/null; }
 
