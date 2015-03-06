@@ -19,7 +19,6 @@ optimize_result() {
 # Usage: optimize_with_func optimize "$@"
 # where optimize is a shell function taking 2 parameters (original file, file to write to)
 optimize_with_func() {
-    local tmpfile
     tmpfile=
     cleanup() { ret=$?; rm -f -- "$tmpfile"; exit "$ret"; }
     trap cleanup EXIT HUP INT TERM
