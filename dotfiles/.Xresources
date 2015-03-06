@@ -16,6 +16,10 @@ URxvt*cursorColor2: #aaaaaa
 URxvt.iso14755: off
 URxvt.iso14755_52: off
 
+URxvt.scrollTtyKeypress: on
+URxvt.scrollTtyOutput: off
+URxvt.scrollWithBuffer: on
+
 ! tabbedex is not provided by default (Debian/Ubuntu)
 ! put it in ~/.urxvt/
 URxvt.perl-lib: .urxvt/
