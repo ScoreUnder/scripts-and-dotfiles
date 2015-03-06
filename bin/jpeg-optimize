@@ -1,24 +1,7 @@
 #!/bin/sh
 # Use with mozjpeg instead of libjpeg-turbo for best results.
 PATH=/opt/mozjpeg/bin:$PATH
-tmpfile=$(mktemp)
-cleanup() { ret=$?; rm -f -- "$tmpfile"; exit "$ret"; }
 
-trap cleanup EXIT HUP INT TERM
-for f do
-    [ "${f#-}" != "$f" ] && f=./$f
-    jpegtran -progressive -copy none -optimise "$f" > $tmpfile
-    size=$(stat -c%s "$f")
-    newsize=$(stat -c%s "$tmpfile")
-    if [ "$newsize" = 0 ]; then
-        printf '%s: Optimization failed\n' "$f"
-    elif [ "$size" -gt "$newsize" ]; then
-        cp -- "$tmpfile" "$f"
-        printf '%s: %d → %d bytes (%s%% saved)\n' "$f" "$size" "$newsize" "$(printf 'scale=1;100*(%s-%s)/%s\n' "$size" "$newsize" "$size"|bc)"
-    elif [ "$size" = "$newsize" ]; then
-        cp -- "$tmpfile" "$f"
-        printf '%s: No change in size; overwritten anyway\n' "$f"
-    else
-        printf '%s: Cannot optimize (%s < %s)\n' "$f" "$size" "$newsize"
-    fi
-done
+optimize() { jpegtran -progressive -copy none -optimise "$1" > "$2"; }
+. optimize-utils.sh || exit
+optimize_with_func optimize "$@"
