@@ -1,10 +1,45 @@
 #!/bin/sh
-if [ -z "$DISPLAY" ]
-then BROWSER=w3m
-elif pgrep -x firefox > /dev/null
-then BROWSER=firefox
-elif pgrep -x chromium > /dev/null
-then BROWSER=chromium
-else BROWSER=luakit
+# Picks a sensible browser to use, based on what's installed and what's
+# currently running.
+
+tried_gui=false
+if [ -n "$DISPLAY" ]; then
+    tried_gui=true
+    # In order of preference - the first one in the list which is installed will
+    # be run if no others are running.
+    browsers="luakit firefox palemoon chromium"
+    installed_browsers=
+    for BROWSER in $browsers; do
+        # If the browser is running, use it
+        pgrep -x "$BROWSER" > /dev/null && exec "$BROWSER" "$@"
+    done
+
+    # If we got here, no browser is running
+    for BROWSER in $browsers; do
+        command -v "$BROWSER" > /dev/null && exec "$BROWSER" "$@"
+    done
+
+    echo >&2 "No GUI web browsers installed; tried: $browsers"
 fi
-exec "$BROWSER" "$@"
+
+# Set up a prefix for if we need to show an error...
+if $tried_gui
+then prefix="No GUI browsers installed"
+else prefix="No display"
+fi
+
+if tty >/dev/null; then
+    # If we don't have a display but we do have a terminal, use a text browser.
+    if [ -z "$DISPLAY" ]; then
+        # most preferred browser comes first
+        browsers="w3m lynx links"
+        for BROWSER in $browsers; do
+            command -v "$BROWSER" > /dev/null && exec "$BROWSER" "$@"
+        done
+        echo >&2 "$prefix and no console web browsers installed; tried: $browsers"
+        exit 1
+    fi
+else
+    echo >&2 "$prefix and no TTY. You're making this hard for me!"
+    exit 1
+fi

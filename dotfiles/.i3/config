@@ -178,7 +178,7 @@ for_window [title="Firefox Preferences"] floating enable
 #for_window [title="File Transfers"] floating enable
 for_window [class="Guake"] floating enable; border none
 for_window [class="jetbrains-idea"] border none
-bindsym XF86HomePage exec firefox
+bindsym XF86HomePage exec sensible-browser
 bindsym XF86AudioNext exec mpc-with-update next
 bindsym XF86AudioPrev exec mpc-with-update prev
 bindsym XF86AudioPlay exec mpc-with-update toggle
