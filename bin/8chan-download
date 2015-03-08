@@ -4,7 +4,7 @@ thread=${thread%%#*}
 [ "$thread" != "${thread%html}" ] && thread=${thread%html}json
 
 board=${thread%%/res/*}; board=${board##*/}
-base_url=https://media.8chan.co/$board/src/
+base_url=https://media.8ch.net/$board/src/
 
 wget -O - --quiet -- "$thread" |
   jq -r '[.posts[], .posts[].extra_files[]?][] | select(.tim and .filename and .ext) | .tim, .filename + .ext, .tim + .ext' |
