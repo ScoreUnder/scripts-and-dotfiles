@@ -11,4 +11,4 @@ if ! [ -e *"-$id."* ]; then
     youtube-dl -f best --no-call-home --prefer-ffmpeg -- "$vid"
 fi
 
-mplayer -- *"-$id."*
+exec mpv -- *-"$id".*
