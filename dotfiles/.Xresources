@@ -123,8 +123,8 @@ URxvt.color0:       #000000
 URxvt.color8:       #8b8f93
 URxvt.color1:       #dc7491
 URxvt.color9:       #ff94a1
-URxvt.color2:       #0eb8d7
-URxvt.color10:      #4ed8e7
+URxvt.color2:       #0eb867
+URxvt.color10:      #4ed897
 URxvt.color3:       #dfe324
 URxvt.color11:      #dff345
 URxvt.color4:       #4040c0
