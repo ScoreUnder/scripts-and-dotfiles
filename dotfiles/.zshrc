@@ -1,8 +1,3 @@
-#!/usr/bin/zsh
-if [[ ! ":$PATH:" =~ ":$HOME/bin:" ]] {
-    export PATH="$HOME/bin:$PATH"
-}
-function sshclip() { xclip -selection c -o | ssh $* "xclip -selection c -d :0" }
 function dmn { ( "$@" & ) < /dev/null >& /dev/null; }
 
 _print_shlvl_chevrons() {
@@ -45,5 +40,4 @@ prompt_themes+=(customgrml)
 prompt customgrml
 
 . ~/.environment
-HISTORY_IGNORE="(l|ll|..|...)"
 umask 077
