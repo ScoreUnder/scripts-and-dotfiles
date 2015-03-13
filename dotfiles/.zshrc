@@ -1,7 +1,7 @@
 function dmn { ( "$@" & ) < /dev/null >& /dev/null; }
 
 _print_shlvl_chevrons() {
-    [ "${SHLVL:-0}" -le 1 ] && exit
+    [ "${SHLVL:-0}" -le 1 ] && return
     local i
     for ((i=1; i < $SHLVL; i++)) {
         echo -n '>'
