@@ -4,4 +4,4 @@ for sig in 15 1 2 9; do
     sleep 1
 done
 
-find ~/.Skype -name '*.lck' -o -name '*.lock' -delete
+find ~/.Skype \( -name '*.lck' -o -name '*.lock' \) -delete
