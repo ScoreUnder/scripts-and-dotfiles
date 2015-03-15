@@ -5,4 +5,3 @@ if flock -n 6; then
     i3lock -dnc 000000
     rm "$LOCKFILE"
 fi
-exec 6>&-
