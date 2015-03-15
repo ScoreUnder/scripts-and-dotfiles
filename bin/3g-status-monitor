@@ -1,0 +1,48 @@
+#!/bin/sh
+poll_interval=2
+poll_url=192.168.1.1/api/monitoring/status
+signal_bars_tag=SignalIcon
+battery_percent_tag=BatteryPercent
+charging_tag=BatteryStatus
+
+signal=0
+battery=0
+charging=0
+
+get_xml_line() {
+    # get_xml_line "$line" "tagname"
+    line=${1##*<$2>}
+    echo ${line%%</$2>*}
+}
+
+while :; do
+    raw=$(curl "$poll_url" -s)
+    while read line; do
+        case "$line" in
+            "<$signal_bars_tag>"*)
+                signal=$(get_xml_line "$line" "$signal_bars_tag");;
+            "<$battery_percent_tag>"*)
+                battery=$(get_xml_line "$line" "$battery_percent_tag");;
+            "<$charging_tag>"*)
+                charging=$(get_xml_line "$line" "$charging_tag");;
+        esac
+    done << EOF
+$raw
+EOF
+    echo
+    signal=$((signal * 2))
+    printf '\033[0;1mSignal:  \033[92m'
+    for x in $(seq 1 "$signal"); do printf '#'; done
+    printf '\033[91m'
+    for x in $(seq "$signal" 9); do printf '#'; done
+
+    battery=$((battery / 10))
+    printf '\n\033[0;1mBattery: \033[92m'
+    for x in $(seq 1 "$battery"); do printf '#'; done
+    printf '\033[91m'
+    for x in $(seq "$battery" 9); do printf '#'; done
+    [ "$charging" != 0 ] && printf '\033[0m+'
+    # No newline printed here, otherwise you have to resize the terminal to 3 lines long to see it properly!
+
+    sleep "$poll_interval"
+done
