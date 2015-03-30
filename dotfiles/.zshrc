@@ -39,5 +39,7 @@ function prompt_customgrml_setup() {
 prompt_themes+=(customgrml)
 prompt customgrml
 
+READNULLCMD=less
+
 . ~/.environment
 umask 077
