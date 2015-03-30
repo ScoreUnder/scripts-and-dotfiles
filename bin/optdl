@@ -1,5 +1,5 @@
 #!/bin/sh
-. ~/docs/dec/vars 2>/dev/null
+[ -r ~/docs/dec/vars ] && . ~/docs/dec/vars
 
 # {{{ Utilities
 plain_basename() {
