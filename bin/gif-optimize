@@ -1,7 +1,7 @@
 #!/bin/sh
 optimize() {
     cp -- "$1" "$2"
-    gifsicle --batch -O3 -- "$2" || { printf 'Filename: %s\n' "$1" >&2; false; }
+    gifsicle --batch --no-comments --no-names --no-extensions -O3 -- "$2" || { printf 'Filename: %s\n' "$1" >&2; false; }
 }
 . optimize-utils.sh || exit
 optimize_with_func optimize "$@"
