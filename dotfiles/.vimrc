@@ -25,9 +25,6 @@ highlight Visual guibg=#222244
 execute pathogen#infect()
 filetype plugin indent on
 
-cmap Q q
-cmap Q! q!
-
 " latex stuff
 filetype plugin indent on
 set grepprg=grep\ -nH\ $*
