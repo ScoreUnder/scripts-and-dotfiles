@@ -162,22 +162,23 @@ bar {
         inactive_workspace #333333 #000000 #888888
         urgent_workspace   #2f343a #900000 #ffffff
     }
-    tray_output DVI-D-1
+    tray_output DVI-D-0
 }
 
 bindsym $mod+Shift+b bar mode toggle
 
 hide_edge_borders both
 new_window 1pixel
-assign [class="Steam"] steam
+assign [class="Steam"] Steam
 for_window [class="URxvt"] border 1pixel
 for_window [class="Sakura"] border 1pixel
-for_window [class="Xfce4-notifyd"] floating enable; border none
+for_window [class="Xfce4-notifyd"] floating enable, border none
 for_window [class="Truecrypt"] floating enable
 for_window [title="Firefox Preferences"] floating enable
 #for_window [title="File Transfers"] floating enable
-for_window [class="Guake"] floating enable; border none
-for_window [class="jetbrains-idea"] border none
+for_window [class="Guake"] floating enable, border none
+for_window [class="rdesktop"] border none, floating disable
+assign [title="Outbreak RDP"] "Outbreak RDP"
 bindsym XF86HomePage exec sensible-browser
 bindsym XF86AudioNext exec mpc-with-update next
 bindsym XF86AudioPrev exec mpc-with-update prev
@@ -191,7 +192,6 @@ bindsym $mod+Shift+slash move to scratchpad
 bindsym Print exec scrot
 bindsym Ctrl+Print exec pomfclip
 bindsym Mod1+Print exec scrot -s
-bindsym $mod+x exec wild-keybind
 
 focus_follows_mouse yes
 mouse_warping none
@@ -200,6 +200,15 @@ mode "keyquote" {
     bindsym $mod+BackSpace mode default
 }
 bindsym $mod+BackSpace mode keyquote
+
+mode "run" {
+    bindsym Escape mode default
+
+    bindsym Return exec i3-sensible-terminal, mode default
+    bindsym f exec firefox, mode default
+    bindsym l exec luakit, mode default
+}
+bindsym $mod+x mode run
 
 # class                 border  backgr. text    indicator
 client.focused          #4c7899 #285577 #ffffff #2e9ef4
