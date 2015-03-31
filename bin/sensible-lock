@@ -2,7 +2,8 @@
 LOCKFILE="/tmp/screen-lock-$DISPLAY"
 exec 6>"$LOCKFILE"
 if flock -n 6; then
+    pkill -x -STOP firefox 2>/dev/null
     i3lock -dnc 000000
+    pkill -x -CONT firefox 2>/dev/null
     rm "$LOCKFILE"
 fi
-exec 6>&-
