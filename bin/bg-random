@@ -15,7 +15,7 @@ if [ "$#" = 0 ]; then
     [ "$hr" -lt 9 -o "$hr" -ge 18 ] &&
         set -- "$@" ~/img/wallpaper
 fi
-fn="$(find "$@" -type f -print0 | shuf -zn1 | tr -d \\0; echo x)"; fn=${fn%x}
+fn="$(find "$@" -type f -print0 | shuf --random-source=/dev/urandom -zn1 | tr -d \\0; echo x)"; fn=${fn%x}
 if "$dry"
 then echo "$fn"
 else exec feh --bg-fill "$fn"
