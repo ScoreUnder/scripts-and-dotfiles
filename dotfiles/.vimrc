@@ -22,6 +22,7 @@ endif
 syntax on
 highlight Normal guibg=#000000 guifg=#FFFFFF
 highlight Visual guibg=#222244
+highlight LineNr ctermbg=235
 execute pathogen#infect()
 filetype plugin indent on
 
