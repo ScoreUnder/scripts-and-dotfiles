@@ -15,7 +15,7 @@ if contains "$LXSESSION" "i3"; then
     xautolock -locker ~/bin/sensible-lock -time 15 &
     /usr/lib/openbox/openbox-xdg-autostart &
     wallpaper-cycler &
-    xcompmgr &
+    compton --backend glx &
     volumeicon &
     setxkbmap -option caps:none gb
     xmodmap -e "keycode 66 = Zenkaku_Hankaku"
