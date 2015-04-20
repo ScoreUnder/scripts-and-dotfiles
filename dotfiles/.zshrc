@@ -41,5 +41,7 @@ prompt customgrml
 
 READNULLCMD=less
 
+stty -ixon
+
 . ~/.environment
 umask 077
