@@ -1,12 +1,11 @@
 #!/bin/sh
-cachedir=${XDG_CACHE_HOME:-"$HOME/.cache"}
-[ -d "$cachedir" ] || mkdir -p "$cachedir"
-cache=$cachedir/dmenu_run
+[ -d "${XDG_CACHE_HOME:=~/.cache}" ] || mkdir -p "$XDG_CACHE_HOME"
+cache=$XDG_CACHE_HOME/dmenu_run
 eval exec "$(
     IFS=:
     if stest -dqr -n "$cache" $PATH; then
         stest -flx $PATH | sort -u | tee "$cache" | dmenu "$@"
     else
-        dmenu "$@" < "$cache"
+        dmenu "$@" < $cache
     fi
 )"
