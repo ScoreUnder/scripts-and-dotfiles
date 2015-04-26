@@ -4,8 +4,8 @@ cache=$XDG_CACHE_HOME/dmenu_run
 eval exec "$(
     IFS=:
     if stest -dqr -n "$cache" $PATH; then
-        stest -flx $PATH | sort -u | tee "$cache" | dmenu "$@"
+        stest -flx $PATH | sort -u | tee "$cache"
     else
-        dmenu "$@" < $cache
-    fi
+        cat "$cache"
+    fi | dmenu -f "$@"
 )"
