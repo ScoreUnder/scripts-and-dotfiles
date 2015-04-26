@@ -28,9 +28,7 @@ mpc status -f '%file%\n%artist%\n%title%\n%time%' | {
     fi
 
     friendly="$paused${friendly:-$file}${time:+ [$time]}"
-    {
-        echo "$friendly"
-        echo "$paused${title:-$file}"
-        echo "$colour"
-    } | sed 's/&/\&amp;/g;s/</\&lt;/g;s/>/\&gt;/g;s/"/\&quot;/g'
+    echo "$friendly"
+    echo "$paused${title:-$file}"
+    echo "$colour"
 }
