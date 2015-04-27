@@ -1,7 +1,7 @@
 interval=5
 command=~/bin/i3blocks/$BLOCK_NAME
 
-[music]
+[media]
 signal=1
 
 [disk-green]

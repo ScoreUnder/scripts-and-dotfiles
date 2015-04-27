@@ -180,10 +180,10 @@ for_window [class="Guake"] floating enable, border none
 for_window [class="rdesktop"] border none, floating disable
 assign [title="Outbreak RDP"] "Outbreak RDP"
 bindsym XF86HomePage exec sensible-browser
-bindsym XF86AudioNext exec mpc-with-update next
-bindsym XF86AudioPrev exec mpc-with-update prev
-bindsym XF86AudioPlay exec mpc-with-update toggle
-bindsym XF86AudioStop exec mpc-with-update stop
+bindsym XF86AudioNext exec press-next
+bindsym XF86AudioPrev exec press-prev
+bindsym XF86AudioPlay exec press-pause
+bindsym XF86AudioStop exec press-stop
 bindsym $mod+b border toggle
 bindsym Ctrl+$mod+l exec sensible-lock
 bindsym Ctrl+$mod+b exec bg-random

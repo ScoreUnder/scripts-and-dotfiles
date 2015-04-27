@@ -1,0 +1,89 @@
+#!/bin/sh
+get_mpv_status_raw() {
+    socat - unix:"$HOME/.config/mpv/mpv.sock" << EOF | jq -r 'select(.error == "success") | .data' | iconv --from-code=utf-8 --to-code=latin1
+{"command":["get_property_string","media-title"]}
+{"command":["get_property_string","length"]}
+{"command":["get_property_string","pause"]}
+EOF
+}
+
+get_mpv_status() {
+    get_mpv_status_raw 2>/dev/null | {
+        read title
+        read duration
+        read pause || return 1
+
+        if [ "$pause" = no ]; then
+            paused=
+            colour='#FF00CC'
+        else
+            paused='[paused] '
+            colour='#808080'
+        fi
+
+        duration=${duration%.*}
+        duration_sec=$((duration % 60))
+        duration_min=$(((duration / 60) % 60))
+        duration_hour=$((duration / 3600))
+        if [ "$duration_hour" = 0 ]; then
+            duration=$(printf ' [%d:%02d]' "$duration_min" "$duration_sec")
+        else
+            duration=$(printf ' [%d:%02d:%02d]' "$duration_hour" "$duration_min" "$duration_sec")
+        fi
+
+        printf %s\\n "$paused$title$duration" "$paused$title" "$colour"
+
+        [ -n "$paused" ] && return 2
+        return 0
+    }
+}
+
+get_mpd_status() {
+    mpc status -f '%file%\n%artist%\n%title%\n%time%' | {
+        read file
+        read artist
+        read title
+        read time
+        read p || return 1;
+        case "$p" in
+            "[paused]"*)
+                paused="[paused] "
+                colour="#808080"
+                ;;
+            *)
+                paused=
+                case "$file" in
+                    *.mp3) colour='#ff80ff';;
+                    *.flac) colour='#80ffff';;
+                    *.ogg) colour='#80ff80';;
+                    *.xm) colour='#ff8080';;
+                    *) colour='#ffffff';;
+                esac
+                ;;
+        esac
+
+        if [ -z "$artist" ]; then friendly=$title
+        elif [ -n "$title" ]; then friendly="$artist - $title"
+        else friendly=
+        fi
+
+        friendly="$paused${friendly:-$file}${time:+ [$time]}"
+        printf %s\\n "$friendly" "$paused${title:-$file}" "$colour"
+
+        [ -n "$paused" ] && return 2
+        return 0
+    }
+}
+
+mpd_status=$(get_mpd_status); mpd_status_ret=$?
+if [ "$mpd_status_ret" != 0 ]; then
+    mpv_status=$(get_mpv_status)
+    [ $? != 1 ] && { printf %s\\n "$mpv_status"; exit 0; }
+fi
+
+if [ "$mpd_status_ret" != 1 ]; then
+    printf %s\\n "$mpd_status"; exit 0
+fi
+
+echo "No media"
+exit 33

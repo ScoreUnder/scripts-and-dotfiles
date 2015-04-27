@@ -1,0 +1,12 @@
+#!/bin/sh
+mpv_stop() {
+    echo stop | socat - unix:"$HOME/.config/mpv/mpv.sock"
+}
+
+case $(active_media_player) in
+    mpd) mpc stop;;
+    mpv) mpv_stop;;
+esac
+success=$?
+pkill -SIGRTMIN+1 i3blocks
+exit "$success"

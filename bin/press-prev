@@ -1,0 +1,13 @@
+#!/bin/sh
+mpv_prev() {
+    echo playlist_prev | socat - unix:"$HOME/.config/mpv/mpv.sock"
+    sleep 0.5
+}
+
+case $(active_media_player) in
+    mpd) mpc prev;;
+    mpv) mpv_prev;;
+esac
+success=$?
+pkill -SIGRTMIN+1 i3blocks
+exit "$success"

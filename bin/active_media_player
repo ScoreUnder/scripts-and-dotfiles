@@ -1,0 +1,9 @@
+#!/bin/sh
+# Outputs which media player should be viewed, or controlled by media keys
+
+# MPD if it's playing
+mpc status -f '' | grep -q paused || { echo mpd; exit; }
+# Otherwise, MPV (if it's open)
+socat - unix:"$HOME/.config/mpv/mpv.sock" </dev/null && { echo mpv; exit; }
+# Still no? MPD by default
+echo mpd

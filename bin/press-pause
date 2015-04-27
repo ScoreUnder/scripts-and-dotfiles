@@ -1,0 +1,12 @@
+#!/bin/sh
+mpv_toggle() {
+    echo pause | socat - unix:"$HOME/.config/mpv/mpv.sock"
+}
+
+case $(active_media_player) in
+    mpd) mpc toggle;;
+    mpv) mpv_toggle;;
+esac
+success=$?
+pkill -SIGRTMIN+1 i3blocks
+exit "$success"
