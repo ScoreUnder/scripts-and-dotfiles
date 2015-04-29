@@ -190,7 +190,8 @@ bindsym Ctrl+$mod+b exec bg-random
 bindsym $mod+slash scratchpad show
 bindsym $mod+Shift+slash move to scratchpad
 bindsym Print exec scrot
-bindsym Ctrl+Print exec pomfclip
+bindsym Ctrl+Print exec pomfclip --uguu
+bindsym Ctrl+Shift+Print exec pomfclip
 bindsym Mod1+Print exec scrot -s
 
 focus_follows_mouse yes
