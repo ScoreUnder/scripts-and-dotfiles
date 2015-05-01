@@ -16,7 +16,7 @@ get_xml_line() {
 }
 
 while :; do
-    raw=$(curl "$poll_url" -s)
+    raw=$(curl -s -- "$poll_url") || { sleep "$poll_interval"; continue; }
     while read line; do
         case "$line" in
             "<$signal_bars_tag>"*)
