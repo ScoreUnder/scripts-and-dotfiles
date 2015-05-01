@@ -15,6 +15,14 @@ get_xml_line() {
     echo ${line%%</$2>*}
 }
 
+print_bar() {
+    # print_bar label progress
+    printf '\033[0;1m%-9s\033[92m' "$1:"
+    for x in $(seq 1 "$2"); do printf '#'; done
+    printf '\033[91m'
+    for x in $(seq "$2" 9); do printf '#'; done
+}
+
 while :; do
     raw=$(curl -s -- "$poll_url") || { sleep "$poll_interval"; continue; }
     while read line; do
@@ -30,17 +38,9 @@ while :; do
 $raw
 EOF
     echo
-    signal=$((signal * 2))
-    printf '\033[0;1mSignal:  \033[92m'
-    for x in $(seq 1 "$signal"); do printf '#'; done
-    printf '\033[91m'
-    for x in $(seq "$signal" 9); do printf '#'; done
-
-    battery=$((battery / 10))
-    printf '\n\033[0;1mBattery: \033[92m'
-    for x in $(seq 1 "$battery"); do printf '#'; done
-    printf '\033[91m'
-    for x in $(seq "$battery" 9); do printf '#'; done
+    print_bar Signal "$((signal * 2))"
+    echo
+    print_bar Battery "$((battery / 10))"
     [ "$charging" != 0 ] && printf '\033[0m+'
     # No newline printed here, otherwise you have to resize the terminal to 3 lines long to see it properly!
 
