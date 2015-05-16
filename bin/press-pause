@@ -1,6 +1,6 @@
 #!/bin/sh
 mpv_toggle() {
-    echo pause | socat - unix:"$HOME/.config/mpv/mpv.sock"
+    echo 'cycle pause' | socat - unix:"$HOME/.config/mpv/mpv.sock"
 }
 
 case $(active_media_player) in
