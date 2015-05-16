@@ -1,6 +1,6 @@
 #!/bin/sh
 get_mpv_status_raw() {
-    socat - unix:"$HOME/.config/mpv/mpv.sock" << EOF | jq -r 'select(.error == "success") | .data' | iconv --from-code=utf-8 --to-code=latin1
+    socat - unix:"$HOME/.config/mpv/mpv.sock" << EOF | jq -r 'select(.error == "success") | .data'
 {"command":["get_property_string","media-title"]}
 {"command":["get_property_string","length"]}
 {"command":["get_property_string","pause"]}
