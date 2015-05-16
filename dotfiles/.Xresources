@@ -24,7 +24,7 @@ URxvt.scrollWithBuffer: on
 ! tabbedex is not provided by default (Debian/Ubuntu)
 ! put it in ~/.urxvt/
 URxvt.perl-lib: .urxvt/
-URxvt.perl-ext-common: default,matcher,vtwheel,clipboard
+URxvt.perl-ext-common: default,matcher,clipboard
 ! Launch firefox with the a left click on a URL
 URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
