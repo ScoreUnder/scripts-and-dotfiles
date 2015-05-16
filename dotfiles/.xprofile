@@ -13,7 +13,7 @@ if contains "$LXSESSION" "i3"; then
     pkill -u "$(id -u)" ssh-agent
     eval "$(ssh-agent)"
     xautolock -locker ~/bin/sensible-lock -time 15 &
-    /usr/lib/openbox/openbox-xdg-autostart &
+    CopyAgent &
     wallpaper-cycler &
     compton --backend glx &
     volumeicon &
