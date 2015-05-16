@@ -1,4 +1,7 @@
 function dmn { ( "$@" & ) < /dev/null >& /dev/null; }
+makepkg() {
+    ionice -n 7 makepkg "$@"
+}
 
 _print_shlvl_chevrons() {
     [ "${SHLVL:-0}" -le 1 ] && return
