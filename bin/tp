@@ -1,12 +1,17 @@
 #!/bin/sh
 filename_filter=echo
+directory=/extSdCard
 
-eval set -- "$(getopt -l basename,help,filter: -- bhf: "$@")"
+eval set -- "$(getopt -l basename,directory:,help,filter: -- bd:hf: "$@")"
 
 while :; do
     case "$1" in
         -b|--basename)
             filename_filter=basename
+            ;;
+        -d|--directory)
+            directory=$2
+            shift
             ;;
         -h|--help)
             cat <<EOF
@@ -14,6 +19,7 @@ while :; do
 $0 [ -b | -h | -f FILTER ] [--] file...
 Args:
     -b | --basename          Only include the file's basename (don't use directory structure)
+    -d | --directory         Choose directory to send to (default /extSdCard)
     -h | --help              Show help
     -f | --filter <filter>   Command to filter given paths by
 EOF
@@ -31,5 +37,5 @@ done
 shift
 
 for f do
-    adb -d push "$f" /extSdCard/"$($filename_filter "$f")"
+    adb -d push "$f" "$directory/$($filename_filter "$f")"
 done
