@@ -32,6 +32,7 @@ set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 
 nnoremap <space> za
+nnoremap g] :pts <c-r>=expand("<cword>")<cr><cr>
 
 nnoremap <leader>w :w!<cr>
 nnoremap <leader>tn :tabnew<cr>
