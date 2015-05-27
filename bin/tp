@@ -1,7 +1,7 @@
 #!/bin/sh
 # tp: To Phone (sends a file to a connected android device using adb)
 
-filename_filter=echo
+filename_filter='printf %s'
 directory=/extSdCard
 
 eval set -- "$(getopt -l basename,directory:,help,filter: -- bd:hf: "$@")"
@@ -9,7 +9,7 @@ eval set -- "$(getopt -l basename,directory:,help,filter: -- bd:hf: "$@")"
 while :; do
     case "$1" in
         -b|--basename)
-            filename_filter=basename
+            filename_filter='basename --'
             ;;
         -d|--directory)
             directory=$2
@@ -40,5 +40,5 @@ done
 shift
 
 for f do
-    adb -d push "$f" "$directory/$($filename_filter "$f")"
+    adb -d push "$f" "$directory/$(eval "$filename_filter \"\$f\"")"
 done
