@@ -1,4 +1,6 @@
 #!/bin/sh
+# tp: To Phone (sends a file to a connected android device using adb)
+
 filename_filter=echo
 directory=/extSdCard
 
@@ -16,13 +18,14 @@ while :; do
         -h|--help)
             cat <<EOF
 "Copy to phone"
-$0 [ -b | -h | -f FILTER ] [--] file...
+$0 [ -b | -h | -f FILTER ] [ -d DIRECTORY ] [--] file...
 Args:
     -b | --basename          Only include the file's basename (don't use directory structure)
     -d | --directory         Choose directory to send to (default /extSdCard)
     -h | --help              Show help
     -f | --filter <filter>   Command to filter given paths by
 EOF
+            exit
             ;;
         -f|--filter)
             filename_filter=$2
