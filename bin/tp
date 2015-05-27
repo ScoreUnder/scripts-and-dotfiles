@@ -4,7 +4,7 @@
 filename_filter='printf %s'
 directory=/extSdCard
 
-eval set -- "$(getopt -l basename,directory:,help,filter: -- bd:hf: "$@")"
+eval set -- "$(getopt -l basename,directory:,help,filter: -o bd:hf: -n "$0" -- "$@")"
 
 while :; do
     case "$1" in
