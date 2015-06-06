@@ -9,7 +9,6 @@ if contains "$LXSESSION" "i3"; then
     export QT_IM_MODULE='uim'
     uim-xim &
     export XMODIFIERS='@im=uim'
-    export SUDO_ASKPASS=/usr/lib/ssh/x11-ssh-askpass
     pkill -u "$(id -u)" ssh-agent
     eval "$(ssh-agent)"
     xautolock -locker ~/bin/sensible-lock -time 15 &
