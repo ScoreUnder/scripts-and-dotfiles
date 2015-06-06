@@ -1,5 +1,6 @@
 #!/bin/sh
 cd "$(dirname "$0")"
+my_dir=machine-specific/${HOSTNAME:-$(hostname)}
 
 if echo test | read -s -n1 testvar 2>/dev/null; then
     sread() { read -s -n1 "$@"; }
@@ -17,6 +18,9 @@ _copy_to_git() {
 
 safecopy() {
     local operation answer
+
+    [ -e "$my_dir/$1" ] && set -- "$my_dir/$1" "$2"
+
     operation=_install
     if [ -r "$2" ]; then
         if ! diff -U5 "$2" "$1"; then
