@@ -25,10 +25,11 @@ safecopy() {
             while :; do case $answer in
                 [iI]) operation=_install; break;;
                 [gG]) operation=_copy_to_git; break;;
+                [vV]) operation=vimdiff; break;;
                 [sS]) return 0;;
                 [qQ]) exit 0;;
                 *)
-                    echo "What should I do? (I)nstall, Update in (G)it repo, (S)kip, (Q)uit"
+                    echo "What should I do? (I)nstall, Update in (G)it repo, (V)imdiff, (S)kip, (Q)uit"
                     sread answer
                     ;;
             esac; done
