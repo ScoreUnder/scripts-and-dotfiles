@@ -207,7 +207,9 @@ mode "run" {
 
     bindsym Return exec i3-sensible-terminal, mode default
     bindsym f exec firefox, mode default
+    bindsym p exec palemoon, mode default
     bindsym l exec luakit, mode default
+    bindsym s exec ssh-add -c, mode default
 }
 bindsym $mod+x mode run
 
