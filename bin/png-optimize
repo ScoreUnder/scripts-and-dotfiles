@@ -1,0 +1,10 @@
+#!/bin/sh
+optimize() {
+    if command -v zopflipng >/dev/null; then
+        zopflipng -m --lossy_8bit --lossy_transparent "$1" "$2"
+    else
+        optipng -o7 -zm1-9 -o "$2" -- "$1"
+    fi
+}
+. optimize-utils.sh || exit
+optimize_with_func optimize "$@"

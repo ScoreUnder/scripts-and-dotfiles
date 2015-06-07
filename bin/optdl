@@ -70,7 +70,7 @@ printf 'Saved as %s\n' "$newpath"
 
 # Optimize if possible
 case $ext in
-    png) optipng -o7 -zm1-9 "$newpath";;
+    png) png-optimize "$newpath";;
     jpg) jpeg-optimize "$newpath";;
     gif) gif-optimize "$newpath";;
 esac
