@@ -9,13 +9,13 @@ if contains "$LXSESSION" "i3"; then
     export QT_IM_MODULE='uim'
     uim-xim &
     export XMODIFIERS='@im=uim'
-    pkill -u "$(id -u)" ssh-agent
     eval "$(ssh-agent)"
     xautolock -locker ~/bin/sensible-lock -time 15 &
     CopyAgent &
     wallpaper-cycler &
     compton --backend glx &
     volumeicon &
+    urxvtd -q -o &
     setxkbmap -option caps:none gb
     xmodmap -e "keycode 66 = Zenkaku_Hankaku"
     ~/.i3/scripts/when-i3-starts ~/.i3/scripts/load-workspaces &
