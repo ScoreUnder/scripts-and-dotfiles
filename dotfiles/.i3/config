@@ -189,10 +189,10 @@ bindsym Ctrl+$mod+l exec sensible-lock
 bindsym Ctrl+$mod+b exec bg-random
 bindsym $mod+slash scratchpad show
 bindsym $mod+Shift+slash move to scratchpad
-bindsym Print exec scrot
+bindsym Print exec take-screenshot
 bindsym Ctrl+Print exec pomfclip --uguu
 bindsym Ctrl+Shift+Print exec pomfclip
-bindsym Mod1+Print exec scrot -s
+bindsym Mod1+Print exec take-screenshot -s
 
 focus_follows_mouse yes
 mouse_warping none

@@ -1,0 +1,15 @@
+#!/bin/sh
+extra_args=
+
+eval "set -- $(getopt -n "$0" -o s -- "$@")"
+while [ $# != 0 ]; do
+    case "$1" in
+        -s) extra_args="$extra_args -sc 1,0,0,0.8";;
+        --) break;;
+    esac; shift
+done; shift
+
+[ "$#" = 0 ] && set -- "$HOME/$(date +%F-%H%M%S%N).png"
+[ "$#" = 1 ] || { echo 'Only one image filename supported.' >&2; exit 1; }
+
+eval "exec maim $extra_args --hidecursor -- \"\$1\""
