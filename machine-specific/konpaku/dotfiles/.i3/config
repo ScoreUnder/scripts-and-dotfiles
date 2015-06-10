@@ -151,7 +151,6 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
     status_command i3status
-    # status_command i3blocks
     colors {
         background #000000
         statusline #ffffff
@@ -162,7 +161,6 @@ bar {
         inactive_workspace #333333 #000000 #888888
         urgent_workspace   #2f343a #900000 #ffffff
     }
-    tray_output DVI-D-0
 }
 
 bindsym $mod+Shift+b bar mode toggle
