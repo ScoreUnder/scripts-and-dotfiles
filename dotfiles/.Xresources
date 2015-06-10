@@ -9,6 +9,8 @@ URxvt.preeditType: Root
 URxvt*saveLines: 10000
 URxvt*scrollBar: false
 
+URxvt.urgentOnBell: true
+
 URxvt*cursorColor: white
 URxvt*cursorColor2: #aaaaaa
 
