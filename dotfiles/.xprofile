@@ -1,22 +1,40 @@
 #!/bin/sh
-contains() {
-    [ "${1#*$2}" != "$1" ]
-}
+# Import important environment vars
+. ~/.environment
 
-if contains "$LXSESSION" "i3"; then
-    . ~/.environment
-    export GTK_IM_MODULE='uim'
-    export QT_IM_MODULE='uim'
-    uim-xim &
-    export XMODIFIERS='@im=uim'
-    eval "$(ssh-agent)"
-    xautolock -locker ~/bin/sensible-lock -time 15 &
-    CopyAgent &
-    wallpaper-cycler &
-    compton --backend glx &
-    volumeicon &
-    urxvtd -q -o &
-    setxkbmap -option caps:none gb
-    xmodmap -e "keycode 66 = Zenkaku_Hankaku"
-    ~/.i3/scripts/when-i3-starts ~/.i3/scripts/load-workspaces &
-fi
+( # Set up screens
+  # Proprietary driver version
+  xrandr --output DP-0 --off --output DVI-I-0 --mode 1024x768 --pos 0x0 --rotate normal --output DVI-D-0 --primary --mode 1920x1080 --pos 1024x0 --rotate normal --output HDMI-0 --off
+  # Open driver version
+  xrandr --output DP-1 --off --output DVI-I-1 --mode 1024x768 --pos 0x0 --rotate normal --output DVI-D-1 --primary --mode 1920x1080 --pos 1024x0 --rotate normal --output HDMI-1 --off
+) 2>/dev/null &
+
+# Turn on uim for Japanese input
+export GTK_IM_MODULE='uim'
+export QT_IM_MODULE='uim'
+uim-xim &
+export XMODIFIERS='@im=uim'
+
+# Run SSH agent
+eval "$(ssh-agent)"
+
+# Auto-lock screen
+xautolock -locker ~/bin/sensible-lock -time 15 &
+# CopyAgent auto-start so that important stuff gets synced
+CopyAgent &
+# Random wallpapers on boot and every 10 mins
+wallpaper-cycler &
+# Compositing for transparency and forced vsync
+compton --backend glx &
+# Volume icon to make it easy to change volume using the keyboard or mouse
+volumeicon &
+# urxvtd because I use the terminal every minute of every day
+urxvtd -q -o &
+# Num lock!
+numlockx &
+( # Set up key map
+  setxkbmap -option caps:none gb
+  xmodmap -e "keycode 66 = Zenkaku_Hankaku"
+) &
+# Load i3 workspaces if applicable
+~/.i3/scripts/when-i3-starts ~/.i3/scripts/load-workspaces &
