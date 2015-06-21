@@ -26,6 +26,8 @@ wallpaper-cycler &
 compton --backend glx &
 # Volume icon to make it easy to change volume using the keyboard or mouse
 volumeicon &
+# Read in settings in Xresources
+xrdb ~/.Xresources &
 # urxvtd because I use the terminal every minute of every day
 urxvtd -q -o &
 # Num lock!
