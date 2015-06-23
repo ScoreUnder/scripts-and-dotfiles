@@ -187,9 +187,9 @@ bindsym XF86AudioPlay exec press-pause
 bindsym XF86AudioStop exec press-stop
 
 # For keyboards with only volume keys
-bindsym Ctrl+XF86AudioRaiseVolume exec press-next
-bindsym Ctrl+XF86AudioLowerVolume exec press-prev
-bindsym Ctrl+XF86AudioMute exec press-pause
+bindsym Shift+XF86AudioRaiseVolume exec press-next
+bindsym Shift+XF86AudioLowerVolume exec press-prev
+bindsym Shift+XF86AudioMute exec press-pause
 
 bindsym $mod+b border toggle
 bindsym Ctrl+$mod+l exec sensible-lock
