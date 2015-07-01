@@ -1,0 +1,10 @@
+#!/bin/sh
+devices=$(xinput list --short | awk '/HUION H420/{print $(NF-3)}' | cut -d= -f2)
+matrix='
+0.9782608695652174 0    0.34782608695652173
+0                  1.5 -0.25
+0                  0    1
+'
+for device in $devices; do
+    xinput set-prop "$device" 'Coordinate Transformation Matrix' $matrix
+done

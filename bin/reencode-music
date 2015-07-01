@@ -1,0 +1,26 @@
+#!/bin/bash
+_prog_name=$0
+die() { printf "%s: %s" "$_prog_name" "$*" >&2; exit 1; }
+[ "$#" != 0 ] || die "Need a dir to transcode"
+
+reencode_file() {
+    file=$1
+    fbase=$(basename -- "$file")
+    [ "$fbase" = . -o "$fbase" = .. ] && continue
+    [ -e "$file" ] || continue
+
+    if [ "${fbase##*.}" = flac ]
+    then ffmpeg -i "$file" -q:a 6 -vn "$base/${fbase%.flac}.ogg"
+    else cp -r "$file" "$base/$fbase"
+    fi
+}
+
+export -f reencode_file
+export PARALLEL_SHELL=bash
+for dir do
+    [ -r "$dir" ] || die "No read access: $dir"
+    [ -d "$dir" ] || die "Not a directory: $dir"
+    export base="$(basename -- "$dir")"
+    mkdir -p -- "$base"
+    parallel --bar reencode_file ::: "$dir"/* "$dir"/.*
+done
