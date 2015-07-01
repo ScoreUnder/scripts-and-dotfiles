@@ -1,0 +1,2 @@
+#!/bin/sh
+exec firejail --profile="$HOME/.config/firejail/skype.profile" --shell=none -- fjinit fjinit apulse32 /usr/bin/skype "$@"
