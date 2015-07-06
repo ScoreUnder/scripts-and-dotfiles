@@ -5,13 +5,13 @@ die() { printf "%s: %s" "$_prog_name" "$*" >&2; exit 1; }
 
 reencode_file() {
     file=$1
-    fbase=$(basename -- "$file")
-    [ "$fbase" = . -o "$fbase" = .. ] && continue
-    [ -e "$file" ] || continue
+    fbase=${file##*/}
+    [ "$fbase" = . -o "$fbase" = .. ] && return
+    [ -e "$file" ] || return
 
     if [ "${fbase##*.}" = flac ]
     then ffmpeg -i "$file" -q:a 6 -vn "$base/${fbase%.flac}.ogg"
-    else cp -r "$file" "$base/$fbase"
+    else cp -r --reflink=auto "$file" "$base/$fbase"
     fi
 }
 
