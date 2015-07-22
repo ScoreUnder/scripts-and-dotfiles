@@ -1,9 +1,9 @@
 #!/bin/sh
 shellquote() {
     for arg do
-        printf %s\\n "$arg" | sed "s/'/\\\\'/g;1s/^/'/;\$s/\$/' \\\\/"
+        printf %s\\n "$arg" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/' \\\\/"
     done
-    printf ' '
+    printf '\n '
 }
 oldjail=$(firejail --list | grep -e 'firefox\.profile.*fjinit firefox') && exec firejail --join="${oldjail%%:*}" -- /usr/bin/firefox "$(shellquote "$@")"
 exec firejail --profile="$HOME/.config/firejail/firefox.profile" --shell=none -- fjinit fjinit firefox "$@"
