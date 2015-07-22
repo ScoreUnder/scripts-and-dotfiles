@@ -1,7 +1,10 @@
 #!/bin/sh
+skype_dir=~/.jails/skype/.Skype
+[ -d "$skype_dir" ] && [ -w "$skype_dir" ] || skype_dir=~/.Skype
+
 for sig in 15 1 2 9; do
     pkill -x -"$sig" skype || break
     sleep 1
 done
 
-exec find ~/.Skype \( -name '*.lck' -o -name '*.lock' \) -delete
+exec find "$skype_dir" \( -name '*.lck' -o -name '*.lock' \) -delete
