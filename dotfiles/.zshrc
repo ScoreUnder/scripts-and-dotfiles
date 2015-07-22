@@ -39,6 +39,12 @@ function prompt_customgrml_setup() {
     grml_prompt_setup customgrml
 }
 
+# {{{ Bindkey setup
+# Home/end for mosh
+bindkey "\e[7~" beginning-of-line
+bindkey "\e[8~" end-of-line
+# }}}
+
 prompt_themes+=(customgrml)
 prompt customgrml
 
