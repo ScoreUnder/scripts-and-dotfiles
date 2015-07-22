@@ -5,7 +5,7 @@ id=${id##*'&v='}
 id=${id%%[?&]*}
 id=${id##*'/'}
 
-cd ~/videos
+cd ~/videos/youtube || exit
 
 good_file=
 find_good_file() {
