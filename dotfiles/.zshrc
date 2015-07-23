@@ -4,12 +4,9 @@ makepkg() {
 }
 
 _print_shlvl_chevrons() {
-    [ "${SHLVL:-0}" -le 1 ] && return
-    local i
-    for ((i=1; i < $SHLVL; i++)) {
-        echo -n '>'
-    }
-    echo ' '
+    if ((SHLVL <= 1)) return
+    local i="$(printf '%*s' "$((SHLVL-1))" '')"
+    echo "${i// />} "
 }
 
 function prompt_customgrml_precmd() {
