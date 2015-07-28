@@ -1,2 +1,5 @@
 #!/bin/sh
-while :; do ${2:-bg-random}; sleep "${1:-600}"; done
+while :; do
+    ${2:-bg-random}
+    sleep "${1:-600}"
+done
