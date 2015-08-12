@@ -1,13 +1,33 @@
 #!/bin/sh
+# Get video URL from the clipboard
 vid=${1:-$(xsel)}
 
-filename=$(youtube-dl --get-filename -- "$vid")
+# Extract video ID from URL
+id=${vid##*'?v='}
+id=${id##*'&v='}
+id=${id%%[?&]*}
+id=${id##*'/'}
 
-mkdir -p -- ~/videos/youtube
-cd -- ~/videos/youtube || exit
+# Ensure VIDEOS/youtube exists, go there
+videos=$(xdg-user-dir VIDEOS || printf %s\\n "$HOME")
+mkdir -p -- "$videos/youtube"
+cd -- "$videos/youtube" || exit
 
+# Search for the video on the disk without querying youtube-dl for a filename (performance reasons)
+filename=
+for f in *-"$id".*; do
+    if [ -r "$f" ] && [ "${f%.part}" = "$f" ]; then
+        filename=$f
+        break
+    fi
+done
+
+# If it doesn't exist, query the real filename
+[ -f "$filename" ] || filename=$(youtube-dl --get-filename -- "$vid")
+# If our best guess to the filename exists, play that video
 [ -f "$filename" ] && exec mpv -- "$filename"
 
+# Otherwise, stream and download
 youtube-dl --newline -f best --no-call-home --prefer-ffmpeg -o - -- "$vid" |
     tee -- "$filename" |
     mpv -
