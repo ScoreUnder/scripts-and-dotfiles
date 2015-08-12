@@ -1,35 +1,13 @@
 #!/bin/sh
 vid=${1:-$(xsel)}
-id=${vid##*'?v='}
-id=${id##*'&v='}
-id=${id%%[?&]*}
-id=${id##*'/'}
 
-cd ~/videos/youtube || exit
+filename=$(youtube-dl --get-filename -- "$vid")
 
-good_file=
-find_good_file() {
-    for f in *-"$id".*; do
-        if [ -r "$f" ] && [ "${f%.part}" = "$f" ]; then
-            good_file=$f
-            return 0
-        fi
-    done
-    return 1
-}
+mkdir -p -- ~/videos/youtube
+cd -- ~/videos/youtube || exit
 
-if ! find_good_file; then
-    if tty > /dev/null
-    then progress() { cat; }
-    else
-        progress() {
-            stdbuf -i0 -o0 awk '{print substr($2,1,length($2)-1)}' |
-                zenity --progress --no-cancel --auto-close --title='youtube-play' --text='Downloading youtube video'
-        }
-    fi
+[ -f "$filename" ] && exec mpv -- "$filename"
 
-    youtube-dl --newline -f best --no-call-home --prefer-ffmpeg -- "$vid" | progress
-    find_good_file || exit
-fi
-
-exec mpv -- *-"$id".*
+youtube-dl --newline -f best --no-call-home --prefer-ffmpeg -o - -- "$vid" |
+    tee -- "$filename" |
+    mpv -
