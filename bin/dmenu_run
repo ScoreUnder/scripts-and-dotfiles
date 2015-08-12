@@ -1,4 +1,5 @@
 #!/bin/sh
+unset SHLVL
 [ -d "${XDG_CACHE_HOME:=$HOME/.cache}" ] || mkdir -p "$XDG_CACHE_HOME"
 cache=$XDG_CACHE_HOME/dmenu_run
 eval exec "$(
