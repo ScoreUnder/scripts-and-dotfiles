@@ -1,5 +1,10 @@
 #!/bin/sh
 while :; do
+    # Do not switch backgrounds while a VNC viewer is attached to this display
+    while pgrep -ax x11vnc | grep -qe "-display $DISPLAY"; do
+        sleep "${1:-600}"
+    done
+
     eval "${2:-bg-random}"
     sleep "${1:-600}"
 done
