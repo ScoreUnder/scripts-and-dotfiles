@@ -12,6 +12,6 @@ wget -O - --quiet -- "$thread" |
     file=${file##*/}
     if [ -s "${time}_$file" ]
     then echo "Skipping ${time}_$file"
-    else wget --quiet --show-progress -O "${time}_$file" "$base_url$file_mangled"
+    else wget --continue --quiet --show-progress -O "${time}_$file" "$base_url$file_mangled"
     fi
   done
