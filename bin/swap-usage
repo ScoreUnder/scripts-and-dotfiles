@@ -1,19 +1,33 @@
-#! /bin/bash
-#
-# swap.sh: Shows the swap usage of each process
-# Author: Robert Love
+#!/usr/bin/env python
+# Simple script to show swap usage of all processes on Linux
+# Tested on Arch Linux 4.1.3.201508011613-1-grsec
+# About 9 times faster than the shell equivalent in my snippets repo
 
-swap_total=0
-for i in /proc/[0-9]*; do
-  pid=$(echo $i | sed -e 's/\/proc\///g')
-  swap_pid=$(cat /proc/$pid/smaps |
-    awk 'BEGIN{total=0}/^Swap:/{total+=$2}END{print total}')
-  if [ "$swap_pid" -gt 0 ]; then
-    name=$(cat /proc/$pid/status | grep ^Name: |
-      awk '{print $2}')
-    echo "${name} (${pid}) ${swap_pid} kB"
-    let swap_total+=$swap_pid
-  fi
-done
-echo
-echo "Total: ${swap_total} kB"
+from glob import glob
+import sys
+
+tlmap = dict.fromkeys(range(32), ' ')
+procs = filter(lambda x: x[6:].isdigit(), glob("/proc/[0-9]*"))
+
+# Done this way to avoid the "unclosed file" warning
+def slurp(f):
+    with open(f) as fh:
+        return fh.read()
+
+print("PID\tSwap_KB\tName")
+for proc in procs:
+    try:
+        status = slurp(proc + "/status").split('\n')
+        commandline = slurp(proc + "/cmdline").translate(tlmap)
+    except FileNotFoundError:
+        print("Warning: Cannot read information about %s" % (proc,), file=sys.stderr)
+        continue
+
+    pid = proc[6:]
+    swap = ([line.split()[1] for line in status if line.startswith("VmSwap:")] + ['-'])[0]
+
+    # Skip kernel processes
+    if swap == '-' and commandline == '':
+        continue
+
+    print("%s\t%s\t%s" % (pid, swap, commandline))
