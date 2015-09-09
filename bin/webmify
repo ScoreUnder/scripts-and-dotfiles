@@ -1,9 +1,39 @@
 #!/bin/sh
+prog_name=${0##*/}
+
+usage() {
+    printf '%s: Encode a webm using ffmpeg
+Usage:
+    %s [options] [--] [file...]
+
+Parameters:
+    --lossless      Encode losslessly.
+    --help          Show this message and exit.
+    --              Signifies the end of the options list. An argument not beginning with a dash has the same effect, except -- is not treated as a filename.
+    file...         List of files to convert. Their converted name will be the same as the original, with ".webm" appended.
+' "$prog_name" "$prog_name"
+}
+
+lossless=
+
+for arg do
+    case "$arg" in
+        (--lossless) lossless="-lossless 1";;
+        (--help) usage; exit;;
+        (--) shift; break;;
+        (-*) printf 'Unknown argument %s\n' "$arg" >&2; exit 1;;
+        (*) break;;
+    esac
+    shift
+done
+
+command -v ffmpeg >/dev/null || { printf 'This script requires ffmpeg\n' >&2; exit 1; }
+
 for file do
-    ffmpeg -i "$file" -c:v libvpx-vp9 -pass 1 -b:v 1000K -threads 1 -speed 4 \
+    ffmpeg -i "$file" -c:v libvpx-vp9 $lossless -pass 1 -b:v 1000K -threads 1 -speed 4 \
         -tile-columns 0 -frame-parallel 0 -auto-alt-ref 1 -lag-in-frames 25 \
-        -g 9999 -aq-mode 0 -an -f webm /dev/null
-    ffmpeg -i "$file" -c:v libvpx-vp9 -pass 2 -b:v 1000K -threads 1 -speed 0 \
+        -g 9999 -aq-mode 0 -an -f webm -y /dev/null
+    ffmpeg -i "$file" -c:v libvpx-vp9 $lossless -pass 2 -b:v 1000K -threads 1 -speed 0 \
         -tile-columns 0 -frame-parallel 0 -auto-alt-ref 1 -lag-in-frames 25 \
         -g 9999 -aq-mode 0 -c:a libopus -b:a 64k -f webm "$file.webm"
 done
