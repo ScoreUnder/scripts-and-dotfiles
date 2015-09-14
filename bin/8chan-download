@@ -7,7 +7,7 @@ board=${thread%%/res/*}; board=${board##*/}
 base_url=https://8ch.net/$board/src/
 
 wget -O - --quiet -- "$thread" |
-  jq -r '[.posts[], .posts[].extra_files[]?][] | select(.tim and .filename and .ext) | .tim, .filename + .ext, .tim + .ext' |
+    jq -r '[.posts[], (.posts[].extra_files|select(.))[]][] | select(.tim and .filename and .ext) | .tim, .filename + .ext, .tim + .ext' |
   while IFS= read -r time && IFS= read -r file && IFS= read -r file_mangled; do
     file=${file##*/}
     wget --continue --quiet --show-progress -O "${time}_$file" "$base_url$file_mangled" ||
