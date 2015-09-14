@@ -13,6 +13,8 @@ wget -O - --quiet -- "$thread" |
     time=${time##*/}
     file=${file##*/}
 
-    wget --continue --quiet --show-progress -O "${time}_$file" "$base_url$file_mangled" ||
-        echo >&2 "Failed to download '$base_url$file_mangled' to '${time}_$file'."
+    source_url=$base_url$file_mangled
+    dest_file=${time}_$file
+    wget --continue --quiet --show-progress -O "$dest_file" -- "$source_url" ||
+        echo >&2 "Failed to download '$source_url' to '$dest_file'."
   done
