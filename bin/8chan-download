@@ -9,7 +9,10 @@ base_url=https://8ch.net/$board/src/
 wget -O - --quiet -- "$thread" |
     jq -r '[.posts[], (.posts[].extra_files|select(.))[]][] | select(.tim and .filename and .ext) | .tim, .filename + .ext, .tim + .ext' |
   while IFS= read -r time && IFS= read -r file && IFS= read -r file_mangled; do
+    # Disallow slashes in "time" and "file" for security purposes
+    time=${time##*/}
     file=${file##*/}
+
     wget --continue --quiet --show-progress -O "${time}_$file" "$base_url$file_mangled" ||
         echo >&2 "Failed to download '$base_url$file_mangled' to '${time}_$file'."
   done
