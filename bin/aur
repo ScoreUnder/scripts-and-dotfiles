@@ -1,0 +1,10 @@
+#!/bin/mksh
+flags=()
+for arg do
+    case $arg in
+        -*) flags+=("$arg"); shift;;
+        *) break;;
+    esac
+done
+
+for arg do git clone "${flags[@]}" "aur@aur.archlinux.org:${arg}.git"; done
