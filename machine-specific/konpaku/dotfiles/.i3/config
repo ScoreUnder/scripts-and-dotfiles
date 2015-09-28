@@ -209,6 +209,7 @@ mode "run" {
     bindsym p exec palemoon, mode default
     bindsym l exec luakit, mode default
     bindsym s exec ssh-add -c, mode default
+    bindsym u exec uzbl-tabbed, mode default
 }
 bindsym $mod+x mode run
 
