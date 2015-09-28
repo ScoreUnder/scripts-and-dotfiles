@@ -15,6 +15,10 @@ wget -O - --quiet -- "$thread" |
 
     source_url=$base_url$file_mangled
     dest_file=${time}_$file
-    wget --continue --quiet --show-progress -O "$dest_file" -- "$source_url" ||
-        echo >&2 "Failed to download '$source_url' to '$dest_file'."
+    if [ -f "$dest_file" ] && [ -s "$dest_file" ]; then
+      echo "Skipping '$dest_file'."
+    else
+      wget --continue --quiet --show-progress -O "$dest_file" -- "$source_url" ||
+        { echo >&2 "Failed to download '$source_url' to '$dest_file'."; mv -- "$dest_file" "$dest_file.part"; }
+    fi
   done
