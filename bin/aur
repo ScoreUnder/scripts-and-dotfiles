@@ -1,10 +1,14 @@
 #!/bin/mksh
 flags=()
+prefix=aur@aur.archlinux.org:
 for arg do
     case $arg in
-        -*) flags+=("$arg"); shift;;
-        *) break;;
+        (--https) prefix=https://aur.archlinux.org/;;
+        (--prefix=*) prefix=${arg#*=};;
+        (-*) flags+=("$arg");;
+        (*) break;;
     esac
+    shift
 done
 
-for arg do git clone "${flags[@]}" "aur@aur.archlinux.org:${arg}.git"; done
+for arg do git clone "${flags[@]}" "$prefix$arg.git"; done
