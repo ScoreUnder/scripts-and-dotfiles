@@ -16,6 +16,7 @@ set completeopt=menu,preview,menuone
 set hlsearch
 set incsearch
 set mouse=a
+set shortmess=filnxtToOI
 if match(&term, 'screen') >= 0 || match(&term, 'xterm') >= 0
     set term=xterm-256color
 endif
