@@ -34,10 +34,10 @@ _pretty_path() {
     else
         pretty_dir=\~$pretty_dir${1#$part}
     fi
-    print -- "$pretty_dir"
+    print -r -- "$pretty_dir"
     _last_pwd=$1
 }
-PS1=$'$(_exitcode)\e[1;34m'"$USER"$'\e[0m@\e['$(host_color)$'m'$(hostname)$' \e[1;37m$(_pretty_path "$PWD")\e[0m$(_vcsinfo) \$ '
+PS1=$'\001\r$(_exitcode)\001\e[1;34m\001'"$USER"$'\001\e[0m\001@\001\e['$(host_color)$'m\001'$(hostname)$' \001\e[1;37m\001$(_pretty_path "$PWD")\001\e[0m\001$(_vcsinfo) \$ '
 
 # {{{ This code mostly taken from grml-dash-config
 # Some are modified for efficiency on mksh
@@ -45,17 +45,18 @@ _exitcode() {
     integer code="$?" cols
     if (( code )); then
         cols=$(tput cols)
+        print -n '\001'
         tput cuf $((cols-3))
         print -n ':('
         tput cub $((cols-1))
-        print -n $'\033[91;1m'"$code "
+        print -nr $'\033[91;1m\001'"$code "
     fi
 }
 
 _vcs_prompt() {
-    print -n $' \033[35m(\033[39m'"$1"$'\033[35m)\033[33m-\033[35m[\033[32m'"$2"
-    (( $# == 3 )) && print -n $'\033[31m:\033[33m'"$3"
-    print -n $'\033[35m]\033[0m'
+    print -nr $' \001\033[35m\001(\001\033[39m\001'"$1"$'\001\033[35m\001)\001\033[33m\001-\001\033[35m\001[\001\033[32m\001'"$2"
+    (( $# == 3 )) && print -nr $'\001\033[31m\001:\001\033[33m\001'"$3"
+    print -nr $'\001\033[35m\001]\001\033[0m\001'
 }
 
 _vcsinfo() {
