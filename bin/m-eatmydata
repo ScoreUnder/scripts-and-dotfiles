@@ -1,0 +1,2 @@
+#!/bin/sh
+exec eatmydata dmenu_run -p eatmydata "$@"
