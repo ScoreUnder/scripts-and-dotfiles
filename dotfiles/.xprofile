@@ -36,5 +36,7 @@ numlockx &
   setxkbmap -option caps:none gb
   xmodmap -e "keycode 66 = Zenkaku_Hankaku"
 ) &
+# Disable mouse acceleration
+xinput set-prop 'Logitech USB-PS/2 Optical Mouse' 'Device Accel Profile' -1 &
 # Load i3 workspaces if applicable
 ~/.i3/scripts/when-i3-starts ~/.i3/scripts/load-workspaces &
