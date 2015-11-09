@@ -44,6 +44,7 @@ nnoremap <leader>j Ji;<esc>
 "vnoremap > >gv
 "vnoremap < <gv
 
+au BufNewFile,BufRead *.sls set ft=yaml
 autocmd BufEnter ?akefile* set noet nocindent
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
