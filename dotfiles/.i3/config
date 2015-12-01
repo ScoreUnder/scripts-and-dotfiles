@@ -185,8 +185,8 @@ bindsym Ctrl+$mod+b exec bg-random
 bindsym $mod+slash scratchpad show
 bindsym $mod+Shift+slash move to scratchpad
 bindsym Print exec take-screenshot
-bindsym Ctrl+Print exec pomfclip --uguu
-bindsym Ctrl+Shift+Print exec pomfclip --love
+bindsym Ctrl+Print exec pomfclip
+bindsym Ctrl+Shift+Print exec pomfclip --service=kyaa
 bindsym Mod1+Print exec take-screenshot -s
 
 focus_follows_mouse yes
