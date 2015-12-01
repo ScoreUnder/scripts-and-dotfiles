@@ -13,7 +13,7 @@ cleanup() {
 trap cleanup EXIT INT HUP QUIT TERM
 tmpfile=$(mktemp --tmpdir resized-image-XXXXXXXXXXXX.png)
 
-gm convert "$image" -resize "$res^" -gravity center -extent "$res" -fill black -colorize 80% "$tmpfile"
+gm convert "$image" -resize "$res^" -gravity center -extent "$res" -fill black -colorize 87% "$tmpfile"
 fbv -cui "$tmpfile" <<\EOF
 q
 EOF
