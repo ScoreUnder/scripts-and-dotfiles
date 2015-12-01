@@ -5,5 +5,5 @@ shellquote() {
     done
     printf ' '
 }
-oldjail=$(firejail --list | grep -e 'firefox\.profile.*fjinit firefox') && exec firejail --join="${oldjail%%:*}" -- /usr/bin/firefox "$(shellquote "$@")"
-exec firejail --profile="$HOME/.config/firejail/firefox.profile" --shell=none -- fjinit fjinit firefox "$@"
+oldjail=$(firejail --list | grep -e 'firefox\.profile.*fjinit /usr/bin/firefox') && exec firejail --join="${oldjail%%:*}" -- /usr/bin/firefox "$(shellquote "$@")"
+exec firejail --profile="$HOME/.config/firejail/firefox.profile" --shell=none -- fjinit fjinit /usr/bin/firefox "$@"
