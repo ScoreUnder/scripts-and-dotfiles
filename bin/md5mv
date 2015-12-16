@@ -6,7 +6,7 @@ for f do
     fdir=${f%"$fbase"}  # Get dirname by deleting the basename. Includes trailing slash.
     fext=.${fbase##*.}
     [ "$fext" = ".$fbase" ] && fext=
-    if hash=$(md5sum "$f"); then  # Only rename if md5sum succeeds
+    if hash=$(md5sum <"$f"); then  # Only rename if md5sum succeeds
         newname=$fdir${hash%% *}$fext
         mv -v -- "$f" "$newname"
     fi
