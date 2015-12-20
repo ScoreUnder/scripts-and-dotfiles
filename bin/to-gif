@@ -1,0 +1,56 @@
+#!/bin/sh
+# http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
+
+cut_arg() {
+    case $1 in
+        (--*=*)  arg=${1#*=} shiftby=1;;
+        (--*|-?) arg=$2 shiftby=2;;
+        (*)      arg=${1#??} shiftby=1;;
+    esac
+}
+
+del_arg() {
+    case $1 in
+        (--*|-?) more=false;;
+        (*)      arg=-${1#??} more=true;;
+    esac
+}
+
+dither=bayer:bayer_scale=5
+stats_mode=diff
+quiet=
+
+while [ ${1++} ]; do
+    case $1 in
+        (-d*|--dither|--dither=*)
+            cut_arg "$1" "$2"; shift $shiftby
+            dither=$arg
+            ;;
+        (-s*|--stats-mode|--stats-mode=*)
+            cut_arg "$1" "$2"; shift $shiftby
+            stats_mode=$arg
+            ;;
+        (-o*|--output|--output=*)
+            cut_arg "$1" "$2"; shift $shiftby
+            output=$arg
+            ;;
+        (-q*|--quiet)
+            del_arg "$1"; shift; $more && set -- "$arg" "$@";
+            quiet='-v warning'
+            ;;
+        (--) shift; break;;
+        (-*) echo >&2 "Unknown arg $1"; exit 1;;
+        (*) break;;
+    esac
+done
+
+cleanup() {
+    ret=$?; rm -f -- "$palette"; trap - EXIT; exit "$ret"
+}
+
+palette=
+trap cleanup EXIT INT HUP TERM
+palette=$(mktemp --tmpdir paletteXXXXXXXXXXX.png)
+
+ffmpeg $quiet -i "${1?Need an input file}" -vf "palettegen=stats_mode=$stats_mode" -y -- "$palette"
+ffmpeg $quiet -i "$1" -i "$palette" -lavfi "[0:v][1:v] paletteuse=dither=$dither" -- "${output:-$1.gif}"
