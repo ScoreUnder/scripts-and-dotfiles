@@ -11,4 +11,4 @@ for arg do
     shift
 done
 
-for arg do git clone "${flags[@]}" "$prefix$arg.git"; done
+for arg do git clone "${flags[@]}" "$prefix${arg#aur/}.git"; done
