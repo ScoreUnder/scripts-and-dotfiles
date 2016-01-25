@@ -105,8 +105,12 @@ URxvt*background: rgba:0000/0000/0000/e000
 
 URxvt*fading: 30
 
-Xft.lcdfilter: ldcdefault
+Xft.lcdfilter: lcddefault
 Xft.hintstyle: hintslight
+Xft.hinting: 1
+Xft.autohint: 0
+Xft.antialias: 1
+Xft.rgba: rgb
 
 xterm*font: Tewi
 xterm*termName: xterm-256color
