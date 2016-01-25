@@ -1,10 +1,6 @@
 URxvt*geometry: 120x40
-! URxvt*font: xft:Terminus:style=Regular:pixelsize=14:antialias=false
-! URxvt*font: xft:Source Code Pro:style=Regular:pixelsize=11:antialias=0:hinting=0:rgba=none
-! URxvt*font: -lucy-tewi-medium-r-normal--11-90-75-75-p-58-iso10646-1
 URxvt.font: xft:Tewi:pixelsize=9:antialias=false
 URxvt.preeditType: Root
-! URxvt*letterSpace: 0
 
 URxvt*saveLines: 10000
 URxvt*scrollBar: false
@@ -23,11 +19,8 @@ URxvt.scrollTtyKeypress: on
 URxvt.scrollTtyOutput: off
 URxvt.scrollWithBuffer: on
 
-! tabbedex is not provided by default (Debian/Ubuntu)
-! put it in ~/.urxvt/
 URxvt.perl-lib: .urxvt/
 URxvt.perl-ext-common: default,matcher,clipboard
-! Launch firefox with the a left click on a URL
 URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
 
@@ -81,43 +74,10 @@ URxvt.keysym.S-M-C-Down:  \033[1;8B
 URxvt.keysym.S-M-C-Right: \033[1;8C
 URxvt.keysym.S-M-C-Left:  \033[1;8D
 
-!! GNOME Terminal color scheme
-!! taken from http://xcolors.net/dl/gnometerm
-!! Black
-!*color0:   #000000
-!*color8:   #555753
-!
-!! Red
-!*color1:   #cc0000
-!*color9:   #ef2929
-!
-!! Green
-!*color2:   #4e9a06
-!*color10:  #8ae234
-!
-!! Yellow
-!*color3:   #c4a000
-!*color11:  #fce94f
-!
-!! Blue
-!*color4:   #3465a4
-!*color12:  #729fcf
-!
-!! Magenta
-!*color5:   #75507b
-!*color13:  #ad7fa8
-!
-!! Cyan
-!*color6:   #06989a
-!*color14:  #34e2e2
-!
-!! White
-!*color7:   #d3d7cf
-!*color15:  #eeeeec
-
 ! Modified version of a "non standard colour scheme"
 ! I found it on an online man page somewhere.
 ! http://linux.die.net/man/7/urxvt
+! See also http://xcolors.net/dl/gnometerm for a more standard set
 URxvt.cursorColor:  #dc74d1
 URxvt.pointerColor: #dc74d1
 !URxvt.background:   #0e0e0e
