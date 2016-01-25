@@ -38,5 +38,8 @@ numlockx &
 ) &
 # Disable mouse acceleration
 xinput set-prop 'Logitech USB-PS/2 Optical Mouse' 'Device Accel Profile' -1 &
+# Set up sensible finger tapping options
+xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Two-Finger Scrolling' 1 1 &
+xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Tap Action' 0 0 0 0 1 2 3 &
 # Load i3 workspaces if applicable
 ~/.i3/scripts/when-i3-starts ~/.i3/scripts/load-workspaces &
