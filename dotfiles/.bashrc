@@ -10,6 +10,8 @@ alias ls='ls --color=auto -F'
 alias l='ls -l'
 alias lh='l -Ah'
 
+HISTIGNORE=l:ls:lh
+
 shopt -s autocd
 
 host_color() {
