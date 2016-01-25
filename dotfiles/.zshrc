@@ -1,3 +1,4 @@
+. ~/.environment
 function dmn { ( "$@" & ) < /dev/null >& /dev/null; }
 makepkg() {
     ionice -n 7 makepkg "$@"
@@ -49,5 +50,4 @@ READNULLCMD=less
 
 stty -ixon
 
-. ~/.environment
 umask 077

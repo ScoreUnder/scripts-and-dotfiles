@@ -4,6 +4,7 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
+. ~/.environment
 
 alias ls='ls --color=auto -F'
 alias l='ls -l'
