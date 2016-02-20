@@ -9,6 +9,9 @@
   xrandr --output DP-1 --off --output DVI-I-1 --mode 1024x768 --pos 0x0 --rotate normal --output DVI-D-1 --primary --mode 1920x1080 --pos 1024x0 --rotate normal --output HDMI-1 --off
 ) 2>/dev/null &
 
+# Read in settings in Xresources
+xrdb ~/.Xresources
+
 # Turn on uim for Japanese input
 export GTK_IM_MODULE='uim'
 export QT_IM_MODULE='uim'
@@ -26,8 +29,6 @@ wallpaper-cycler &
 compton --backend glx &
 # Volume icon to make it easy to change volume using the keyboard or mouse
 volumeicon &
-# Read in settings in Xresources
-xrdb ~/.Xresources &
 # urxvtd because I use the terminal every minute of every day
 urxvtd -q -o &
 # Num lock!
