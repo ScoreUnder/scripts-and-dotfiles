@@ -21,6 +21,8 @@ export XMODIFIERS='@im=uim'
 # Run SSH agent
 eval "$(ssh-agent)"
 
+# Notification daemon
+dunst &
 # Auto-lock screen
 xautolock -locker ~/bin/sensible-lock -time 15 &
 # Random wallpapers on boot and every 10 mins
