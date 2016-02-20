@@ -1,7 +1,7 @@
 #!/bin/sh
 optimize() {
     if command -v zopflipng >/dev/null; then
-        zopflipng -m -y --lossy_8bit --lossy_transparent "$1" "$2"
+        zopflipng -y ${ZOPFLIPNG_ARGS:--m --lossy_8bit --lossy_transparent} "$1" "$2"
     else
         optipng -o7 -zm1-9 -o "$2" -- "$1"
     fi
