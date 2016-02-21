@@ -1,2 +1,2 @@
 (define uim-xim-use-xft-font? #t)
-(define uim-xim-xft-font-name "Sazanami Mincho")
+(define uim-xim-xft-font-name "IPAPGothic")
