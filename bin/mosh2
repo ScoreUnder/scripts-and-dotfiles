@@ -7,7 +7,7 @@ info=$(ssh "$@" <<\END_SSH
     . /etc/locale.conf >&2;
     export LANG
     env -u SHLVL mosh-server || exit
-    echo "=cut="
+    echo '=cut='
     curl -sS ipinfo.io | jq -r .ip
 END_SSH
 ) || die 'SSH reported failure, giving up.'
