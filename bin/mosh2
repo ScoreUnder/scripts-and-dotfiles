@@ -1,0 +1,49 @@
+#!/bin/sh
+die() { printf %s\\n "$*" >&2; exit 1; }
+
+# Start mosh on the server, retrieve its IP from ipinfo.io
+# Feel free to replace with a better method of finding the IP
+info=$(ssh "$@" <<\END_SSH
+    . /etc/locale.conf >&2;
+    export LANG
+    env -u SHLVL mosh-server || exit
+    echo "=cut="
+    curl -sS ipinfo.io | jq -r .ip
+END_SSH
+) || die 'SSH reported failure, giving up.'
+
+# Ensure these variables are not already filled (in the environment)
+# Because we check their contents later
+mosh_port=
+MOSH_KEY=
+
+while read -r mosh connect port key; do
+    # Don't allow curl/jq output to bleed into mosh output parsing
+    [ "$mosh" = '=cut=' ] && break
+
+    if [ "$mosh $connect" = "MOSH CONNECT" ]; then
+        mosh_port=$port
+        MOSH_KEY=$key
+        break
+    fi
+done <<EOF
+$info
+EOF
+
+if [ "$mosh $connect" != "MOSH CONNECT" ] || [ -z "$mosh_port" ] || [ -z "$MOSH_KEY" ]; then
+    die 'Did not find mosh server banner'
+fi
+
+lf='
+'
+# IP should be the very last line, so delete everything up-to-and-including the final LF
+ip=${info##*"$lf"}
+
+# Only really need to check for "-" which could be used to pass switches to mosh-client
+# Anything else mosh-client will reject as a bad IP
+[ "${ip#-}" = "$ip" ] || die 'Malformed IP from ipinfo.io'
+# If jq didn't output anything, the last line will be our '=cut='
+[ "$ip" = '=cut=' ] && die 'No IP from ipinfo.io'
+
+export MOSH_KEY
+exec mosh-client "$ip" "$mosh_port"
