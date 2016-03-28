@@ -8,3 +8,4 @@ matrix='
 for device in $devices; do
     xinput set-prop "$device" 'Coordinate Transformation Matrix' $matrix
 done
+xinput disable 'HUION H420 Keyboard'
