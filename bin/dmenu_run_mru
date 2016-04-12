@@ -1,0 +1,44 @@
+#!/bin/sh
+unset SHLVL
+[ -d "${XDG_CACHE_HOME:=$HOME/.cache}" ] || mkdir -p "$XDG_CACHE_HOME"
+cache=$XDG_CACHE_HOME/dmenu_run
+mru_cache=$XDG_CACHE_HOME/dmenu_run_mru
+command="$(
+    {
+        IFS=:
+        sort -nr -- "$mru_cache" | cut -d'	' -f2-
+        if stest -dqr -n "$cache" $PATH; then
+            stest -flx $PATH | sort -u | tee "$cache"
+        else
+            cat "$cache"
+        fi
+    } | dmenu -f "$@"
+)" || exit
+
+[ -z "$command" ] && exit
+
+perl -e '
+    use strict;
+    use warnings;
+    use Errno "ENOENT";
+    my ($mru_cache, $command) = @ARGV;
+    my $found = 0;
+    open(my $cache_w, ">", "$mru_cache.new") or die "Could not write new cache: $!";
+    if (open(my $cache, "<", $mru_cache)) {
+        while (<$cache>) {
+            chomp;
+            my ($amt, $cmd) = split /\t/, $_, 2;
+            next if !defined $cmd;
+            if ($cmd eq $command) {
+                ++$amt;
+                $found = 1;
+            }
+            print $cache_w "$amt\t$cmd\n";
+        }
+    } else {
+        die "Could not open cache for reading: $!" if $! != ENOENT;
+    }
+    print $cache_w "1\t$command\n" unless $found;
+    rename "$mru_cache.new", $mru_cache;
+' -- "$mru_cache" "$command" &
+eval exec "$command"
