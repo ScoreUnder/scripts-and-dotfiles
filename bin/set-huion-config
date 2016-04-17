@@ -1,11 +1,42 @@
-#!/bin/sh
-devices=$(xinput list --short | awk '/HUION H420/{print $(NF-3)}' | cut -d= -f2)
-matrix='
-0.9782608695652174 0    0.34782608695652173
-0                  1.5 -0.25
-0                  0    1
-'
-for device in $devices; do
-    xinput set-prop "$device" 'Coordinate Transformation Matrix' $matrix
-done
-xinput disable 'HUION H420 Keyboard'
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+# X, Y, W, H
+my @desired_tablet_area = (0, 1/6, 2/3, 2/3);
+my $desired_monitor = 'DVI-D-0';
+
+sub get_monitor_area {
+    my @total_area;
+    my @monitor_area;
+
+    open my $xrandr, '-|', 'xrandr';
+    while (<$xrandr>) {
+        @total_area = ($1, $2) if /^Screen 0:.* current (\d+) x (\d+)/;
+        if (/\Q$desired_monitor\E connected.*? (\d+)x(\d+)\+(\d+)\+(\d+)/) {
+            @monitor_area = ($3, $4, $1, $2);
+        }
+    }
+
+    die qq(Could not find the requested monitor "$desired_monitor") if !@monitor_area;
+    die 'Could not find the total area of the screen' if !@total_area;
+    $monitor_area[$_] /= $total_area[$_ & 1] for 0..3;
+    @monitor_area;
+}
+
+my @monitor_area = get_monitor_area;
+my @scale = map {$monitor_area[$_] / $desired_tablet_area[$_]} 2, 3;
+my @offset = map {$monitor_area[$_] - $desired_tablet_area[$_] * $scale[$_]} 0, 1;
+
+my @matrix = (
+    $scale[0],         0, $offset[0],
+            0, $scale[1], $offset[1],
+            0,         0,          1,
+);
+
+open my $xinput, '-|', qw/xinput list --short/;
+while (<$xinput>) {
+    next unless /HUION H420.*\sid=(\d+)\s.*pointer/;
+    system 'xinput', 'set-prop', $1, 'Coordinate Transformation Matrix', @matrix;
+}
+system 'xinput', 'disable', 'HUION H420 Keyboard';
