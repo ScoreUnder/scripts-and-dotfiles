@@ -44,7 +44,11 @@ nnoremap <leader>j Ji;<esc>
 "vnoremap > >gv
 "vnoremap < <gv
 
-au BufNewFile,BufRead *.sls set ft=yaml
+" Bullet point digraph
+dig bp 8226
+
+au BufNewFile,BufRead *.sls set ft=yaml sw=2 ts=2
+au BufNewFile,BufRead *.yml set ft=yaml sw=2 ts=2
 autocmd BufEnter ?akefile* set noet nocindent
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
