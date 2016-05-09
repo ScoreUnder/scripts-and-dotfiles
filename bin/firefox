@@ -1,4 +1,8 @@
 #!/bin/sh
+if ! firejail --help >/dev/null 2>&1; then
+    exec /usr/bin/firefox "$@"
+fi
+
 shellquote() {
     for arg do
         printf %s\\n "$arg" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/' \\\\/"
