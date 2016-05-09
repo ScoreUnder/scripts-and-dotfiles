@@ -22,5 +22,5 @@ for dir do
     [ -d "$dir" ] || die "Not a directory: $dir"
     export base="$(basename -- "$dir")"
     mkdir -p -- "$base"
-    parallel --bar reencode_file ::: "$dir"/* "$dir"/.*
+    parallel --bar reencode_file ::: "$dir"/* "$dir"/.* </dev/null
 done
