@@ -44,7 +44,7 @@ bindkey "\e[8~" end-of-line
 # }}}
 
 prompt_themes+=(customgrml)
-prompt customgrml
+command -v prompt >/dev/null && prompt customgrml
 
 READNULLCMD=less
 
