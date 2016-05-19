@@ -1,9 +1,10 @@
-URxvt*geometry: 120x40
+URxvt.geometry: 120x40
 URxvt.font: xft:Tewi:pixelsize=9:antialias=false
 URxvt.preeditType: Root
 
-URxvt*saveLines: 10000
-URxvt*scrollBar: false
+URxvt.saveLines: 10000
+
+URxvt.scrollBar: false
 
 URxvt.urgentOnBell: true
 
