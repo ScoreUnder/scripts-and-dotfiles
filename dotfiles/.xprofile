@@ -37,7 +37,8 @@ urxvtd -q -o &
 numlockx &
 ( # Set up key map
   setxkbmap -option caps:none gb
-  xmodmap -e "keycode 66 = Zenkaku_Hankaku"
+  xmodmap -e 'keycode 66 = Zenkaku_Hankaku'
+  xmodmap -e 'keycode 135 = Super_R Super_R Super_R Super_R'
 ) &
 # Disable mouse acceleration
 xinput set-prop 'Logitech USB-PS/2 Optical Mouse' 'Device Accel Profile' -1 &
