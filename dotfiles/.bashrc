@@ -11,6 +11,7 @@ alias l='ls -l'
 alias lh='l -Ah'
 
 HISTIGNORE=l:ls:lh
+HISTCONTROL=ignoreboth
 
 shopt -s autocd
 
