@@ -5,6 +5,7 @@ URxvt.preeditType: Root
 URxvt.saveLines: 10000
 
 URxvt.scrollBar: false
+URxvt.internalBorder: 0
 
 URxvt.urgentOnBell: true
 
