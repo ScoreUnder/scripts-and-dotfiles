@@ -18,6 +18,8 @@ command="$(
 [ -z "$command" ] && exit
 
 perl -e '
+    fork and exit;
+
     use strict;
     use warnings;
     use Errno "ENOENT";
@@ -40,5 +42,5 @@ perl -e '
     }
     print $cache_w "1\t$command\n" unless $found;
     rename "$mru_cache.new", $mru_cache;
-' -- "$mru_cache" "$command" &
+' -- "$mru_cache" "$command"
 eval exec "$command"
