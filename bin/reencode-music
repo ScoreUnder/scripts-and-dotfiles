@@ -1,5 +1,5 @@
-#!/bin/bash
-_prog_name=$0
+#!/bin/sh
+_prog_name=${0##*/}
 die() { printf "%s: %s" "$_prog_name" "$*" >&2; exit 1; }
 [ "$#" != 0 ] || die "Need a dir to transcode"
 
@@ -15,12 +15,16 @@ reencode_file() {
     fi
 }
 
-export -f reencode_file
-export PARALLEL_SHELL=bash
+if [ "$1" = --single-internal ]; then
+    shift
+    reencode_file "$@"
+    exit
+fi
+
 for dir do
     [ -r "$dir" ] || die "No read access: $dir"
     [ -d "$dir" ] || die "Not a directory: $dir"
     export base="$(basename -- "$dir")"
     mkdir -p -- "$base"
-    parallel --bar reencode_file ::: "$dir"/* "$dir"/.* </dev/null
+    parallel -q --bar "$0" --single-internal {} ::: "$dir"/* "$dir"/.* </dev/null
 done
