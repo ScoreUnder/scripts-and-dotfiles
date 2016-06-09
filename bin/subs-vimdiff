@@ -1,0 +1,18 @@
+#!/bin/sh
+leftfile= rightfile=
+
+cleanup() {
+    rm -f -- "$leftfile" "$rightfile"
+}
+trap cleanup EXIT
+trap 'exit 1' INT HUP TERM
+
+leftfile=$(mktemp) && rightfile=$(mktemp) || exit
+
+subs-to-plaintext "${1:?}" >"$leftfile"
+subs-to-plaintext "${2:?}" >"$rightfile"
+
+LEFT="$1.txt" RIGHT="$2.txt"
+export LEFT RIGHT
+# No exec because traps must fire
+vimdiff "$leftfile" "$rightfile" -c 'silent f $LEFT | wn | silent f $RIGHT | wp'
