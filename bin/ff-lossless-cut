@@ -1,0 +1,22 @@
+#!/usr/bin/env perl
+sub normalise_time {
+    my @parts = split /:/, $_[0];
+    my $res = 0;
+    $res = $res * 60 + $_ for @parts;
+    $res;
+}
+
+my ($in, $out, $from, $to) = @ARGV;
+die "Usage: $0 in.mkv out.mkv cut_from cut_to\n" unless defined $to;
+
+$from = normalise_time $from;
+
+my @duration_arg;
+if ($to ne 'end') {
+    $to = normalise_time $to;
+    my $duration = $to - $from;
+    @duration_arg = ('-t', $duration);
+}
+
+exec qw/ffmpeg -hide_banner -ss/, $from, @duration_arg, '-i', $in, qw/-c:v h264 -qp:v 0 -c:a flac/, $out;
+die "exec ffmpeg failed: $!\n";

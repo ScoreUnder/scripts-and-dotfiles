@@ -1,0 +1,25 @@
+#!/usr/bin/env perl
+sub sanitize_ffmpeg_stuff {
+    $_[0] =~ s/[\[\]\\,:]/\\$&/g
+}
+
+my ($in, $subs, $out, $wxh) = @ARGV;
+die 'Pass on the command line: input.mkv subs.ass output.mkv [WIDTHxHEIGHT]' if !$out or !$subs or !$in;
+
+sanitize_ffmpeg_stuff $subs;
+
+my @vfs = ("subtitles=filename=$subs");
+if (defined $wxh) {
+    ($wxh =~ /^(\d+)x(\d+)$/) or die "Not a valid WIDTHxHEIGHT: $wxh\n";
+    push @vfs, "scale=w=$1:h=$2";
+    if ($2 * 16 == $1 * 9) {
+        print "Scaling to a 16:9 aspect ratio.\n";
+    } elsif ($2 * 4 == $1 * 3) {
+        print "Scaling to a 4:3 aspect ratio.\n";
+    } else {
+        print "WARNING: Scaled aspect ratio is not exactly 16:9 or 4:3!\n";
+    }
+}
+
+exec qw/ffmpeg -hide_banner -i/, $in, '-vf', join(',', @vfs), qw/-c:v h264 -qp:v 0 -c:a copy -sn/, $out;
+die "Failed exec: $!";
