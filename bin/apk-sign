@@ -1,0 +1,2 @@
+#!/bin/sh
+exec jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/.android/debug.keystore -keypass android -storepass android "$1" androiddebugkey
