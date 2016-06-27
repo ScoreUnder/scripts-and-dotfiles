@@ -1,2 +1,2 @@
 #!/bin/sh
-grep -h '^Dialogue:' -- "$@" | cut -d, -f10- | sed 's/{[^}]*}//g'
+grep -h '^Dialogue:' -- "$@" | cut -d, -f10- | sed 's/{[^}]*}//g;s/\s*\\N\s*/ /g'
