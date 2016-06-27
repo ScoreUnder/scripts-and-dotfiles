@@ -28,7 +28,6 @@ execute pathogen#infect()
 filetype plugin indent on
 
 " latex stuff
-filetype plugin indent on
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 
