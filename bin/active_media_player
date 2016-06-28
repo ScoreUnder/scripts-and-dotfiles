@@ -2,7 +2,7 @@
 # Outputs which media player should be viewed, or controlled by media keys
 
 # MPD if it's playing
-mpc_status=$(mpc status -f '') && {
+mpc_status=$(mpc status -f '' 2>/dev/null) && {
     case $mpc_status in
         (*paused*) ;;
         (*) echo mpd; exit;;
