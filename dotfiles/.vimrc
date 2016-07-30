@@ -40,6 +40,9 @@ nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>te :tabedit<space>
 nnoremap <leader>j Ji;<esc>
 
+nnoremap <F1> <nop>
+inoremap <F1> <nop>
+
 "vnoremap > >gv
 "vnoremap < <gv
 
