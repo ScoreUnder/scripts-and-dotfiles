@@ -1,0 +1,17 @@
+#!/bin/sh
+# Render a .m4 file.
+# Provided as a separate script for convenience if you want to grab one
+# of the config files without running install.sh
+
+file=$1
+out_file=$2
+
+# Also include from the same directory as the file to template
+dir=${file%/*}
+[ "$dir" = "$file" ] && dir=.
+
+exec m4 -EE \
+    -I m4-macros \
+    -I "$dir" \
+    m4-macros/default.m4 \
+    "$@"

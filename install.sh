@@ -15,16 +15,7 @@ _copy_to_git() {
     install -pTm "$(stat -c%a "$2")" -- "$2" "$1"
 }
 
-render_m4() {
-    local file out_file
-    file=$1 out_file=$2
-    m4 -EE \
-        -I m4-macros \
-        -I "$(dirname -- "$file")" \
-        m4-macros/default.m4 \
-        "$file" \
-        >"$out_file"
-}
+render_m4() { ./render-m4 "$1" >"$2"; }
 
 safecopy() {
     local operation answer path dest_path display_path orig_path readonly
