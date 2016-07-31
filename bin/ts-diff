@@ -1,8 +1,13 @@
-#!/bin/sh
-oldtime=$(date +%s%N)
-while IFS= read -r line
-do
-    time=$(date +%s%N)
-    echo "$((time-oldtime)) $line"
-    oldtime=$time
-done
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Time::HiRes 'time';
+
+my $oldtime = time;
+
+while (<STDIN>) {
+    my $time = time;
+    printf "%f %s", $time - $oldtime, $_;
+    $oldtime = $time;
+}
