@@ -17,14 +17,15 @@ _copy_to_git() {
 }
 
 safecopy() {
-    local operation answer
+    local operation answer path dest_path
+    path="$1" dest_path=$2
 
-    [ -e "$my_dir/$1" ] && set -- "$my_dir/$1" "$2"
+    [ -e "$my_dir/$path" ] && path=$my_dir/$path
 
     operation=_install
-    if [ -r "$2" ]; then
-        if ! diff -U5 "$2" "$1"; then
-            echo "You have a different version of $1 - if you install, the above changes will be applied."
+    if [ -r "$dest_path" ]; then
+        if ! diff -U5 "$dest_path" "$path"; then
+            printf 'You have a different version of %s - if you install, the above changes will be applied.\n' "$path"
             answer=
             while :; do case $answer in
                 [iI]) operation=_install; break;;
@@ -41,7 +42,7 @@ safecopy() {
             return 0
         fi
     fi
-    "$operation" "$@"
+    "$operation" "$path" "$dest_path"
 }
 
 recurse() {
