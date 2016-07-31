@@ -1,5 +1,4 @@
 #!/bin/sh
-cd "$(dirname "$0")"
 my_dir=machine-specific/${HOSTNAME:-$(hostname)}
 
 if echo test | read -s -n1 testvar 2>/dev/null; then
@@ -62,6 +61,9 @@ recurse() {
     done
     true
 }
+
+# Ensure we are in the script's directory
+[ "$0" = "${0%/*}" ] || cd -- "${0%/*}"
 
 _copy_loop() { safecopy "$1" "$HOME/$1"; }
 recurse _copy_loop bin
