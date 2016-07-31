@@ -1,5 +1,4 @@
 #!/bin/sh
-my_dir=machine-specific/${HOSTNAME:-$(hostname)}
 my_tempdir=  # Generated later
 
 if echo test | read -s -n1 testvar 2>/dev/null; then
@@ -21,6 +20,7 @@ render_m4() {
     file=$1 out_file=$2
     m4 -EE \
         -I m4-macros \
+        -I "$(dirname -- "$file")" \
         m4-macros/default.m4 \
         "$file" \
         >"$out_file"
@@ -30,9 +30,9 @@ safecopy() {
     local operation answer path dest_path display_path orig_path readonly
     path=$1 dest_path=$2 readonly=false
 
-    [ -e "$my_dir/$path" ] && path=$my_dir/$path
-
     display_path=$path
+
+    [ "${path%.inc.m4}" != "$path" ] && return  # Don't copy .inc.m4 files
 
     # If the path ends in .m4, render it first
     if [ "${path%.m4}" != "$path" ]; then
