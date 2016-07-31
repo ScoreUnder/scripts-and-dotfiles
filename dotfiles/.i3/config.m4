@@ -140,8 +140,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    # status_command i3status
-    status_command i3blocks
+    status_command I3_STATUS_COMMAND()
     colors {
         background #000000
         statusline #ffffff
@@ -152,7 +151,9 @@ bar {
         inactive_workspace #333333 #000000 #888888
         urgent_workspace   #2f343a #900000 #ffffff
     }
-    tray_output DVI-D-0
+ifelse(PRIMARY_MONITOR(), `', `',dnl
+    tray_output PRIMARY_MONITOR()
+)dnl
 }
 
 bindsym $mod+Shift+b bar mode toggle
@@ -206,6 +207,7 @@ mode "run" {
     bindsym l exec luakit, mode default
     bindsym s exec ssh-add -c, mode default
     bindsym x exec xsel -x, mode default
+    bindsym m exec i3-sensible-terminal -e alsamixer -c ALSA_CARD(), mode default
 }
 bindsym $mod+x mode run
 
