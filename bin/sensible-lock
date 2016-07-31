@@ -1,9 +1,16 @@
 #!/bin/sh
 LOCKFILE="/tmp/screen-lock-$DISPLAY"
 exec 6>"$LOCKFILE"
-if flock -n 6; then
-    pkill -x -STOP firefox 2>/dev/null
-    i3lock -dnc 000000
+flock -n 6 || exit
+
+cleanup() {
     pkill -x -CONT firefox 2>/dev/null
-    rm "$LOCKFILE"
-fi
+    rm -- "$LOCKFILE"
+    xset dpms 600 600 600
+}
+trap cleanup EXIT
+trap 'exit 1' INT HUP TERM
+
+pkill -x -STOP firefox 2>/dev/null
+xset dpms 5 5 5
+i3lock -nc 000000
