@@ -1,0 +1,49 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Errno 'EACCES';
+
+sub get_procname {
+    my ($proc) = @_;
+
+    local $/ = "\0";
+    open my $cmdline, '<', "/proc/$proc/cmdline";
+    my $cmd = <$cmdline>;
+    close $cmdline;
+
+    $cmd =~ s@^.*/@@;
+    return $cmd;
+}
+
+sub list_fds {
+    my ($proc, $regex) = @_;
+    my $procname = undef;
+    my $fdpath = "/proc/$proc/fd";
+
+    if (opendir my $fddir, $fdpath) {
+        while ($_ = readdir $fddir) {
+            next if /[^0-9]/;
+            my $path = readlink "$fdpath/$_";
+
+            if (!defined $path && $! == EACCES) {
+                warn "No permissions to check FDs of PID $_\n";
+                last;
+            }
+
+            if ($path =~ $regex) {
+                $procname = get_procname $proc unless defined $procname;
+                print "$proc\t$procname\t$_\t$path\n";
+            }
+        }
+        closedir $fddir;
+    }
+}
+
+die 'Need 1 argument (regex to match against)' unless defined $ARGV[0];
+my $regex = $ARGV[0];
+
+opendir my $procdir, '/proc' or die "Could not open /proc: $!";
+while ($_ = readdir $procdir) {
+    list_fds $_, $regex;
+}
+closedir $procdir;
