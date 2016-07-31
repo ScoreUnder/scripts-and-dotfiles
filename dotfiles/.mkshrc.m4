@@ -10,14 +10,6 @@ alias ....=cd\ ../../..
 
 HISTFILE=~/.mksh_history
 
-host_color() {
-    case ${HOSTNAME=$(hostname)} in
-        konpaku)  echo 95;;
-        kirisame) echo 93;;
-        *)        echo 94;;
-    esac
-}
-
 # Lol.
 eval "$(awk -F: 'function san(str) {gsub(/[^a-zA-Z0-9_]/, "_", str);return str;} $6!="/"{$6=san($6); $1=san($1); print "_homedir_" $6 "=" $1}' /etc/passwd)"
 _pretty_path() {
@@ -37,7 +29,7 @@ _pretty_path() {
     print -r -- "$pretty_dir"
     _last_pwd=$1
 }
-PS1=$'\001\r$(_exitcode)\001\e[1;34m\001'"$USER"$'\001\e[0m\001@\001\e['$(host_color)$'m\001'$(hostname)$' \001\e[1;37m\001$(_pretty_path "$PWD")\001\e[0m\001$(_vcsinfo) \$ '
+PS1=$'\001\r$(_exitcode)\001\e[1;34m\001'"$USER"$'\001\e[0m\001@\001\e[HOST_COLOR()m\001'$(hostname)$' \001\e[1;37m\001$(_pretty_path "$PWD")\001\e[0m\001$(_vcsinfo) \$ '
 
 # {{{ This code mostly taken from grml-dash-config
 # Some are modified for efficiency on mksh
