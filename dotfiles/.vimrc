@@ -17,6 +17,7 @@ set hlsearch
 set incsearch
 set mouse=a
 set shortmess=filnxtToOI
+set cryptmethod=blowfish2
 if match(&term, 'screen') >= 0 || match(&term, 'xterm') >= 0
     set term=xterm-256color
 endif
