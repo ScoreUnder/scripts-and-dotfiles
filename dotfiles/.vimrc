@@ -44,9 +44,6 @@ nnoremap <leader>j Ji;<esc>
 nnoremap <F1> <nop>
 inoremap <F1> <nop>
 
-"vnoremap > >gv
-"vnoremap < <gv
-
 " Bullet point digraph
 dig bp 8226
 
