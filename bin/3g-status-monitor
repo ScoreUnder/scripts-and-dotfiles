@@ -25,10 +25,11 @@ get_xml_line() {
 
 print_bar() {
     # print_bar label progress
-    printf '\033[0;1m%-9s\033[92m' "$1:"
+    printf '\033[0;1m%-9s[\033[92m' "$1:"
     for x in $(seq 1 "$2"); do printf '#'; done
     printf '\033[91m'
-    for x in $(seq "$2" 9); do printf '#'; done
+    for x in $(seq "$2" 9); do printf '-'; done
+    printf '\033[0;1m]'
 }
 
 printf '\033[?25l' # Hide cursor
