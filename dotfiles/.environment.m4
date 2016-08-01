@@ -11,7 +11,7 @@ export WINEDEBUG=-all
 export BROWSER=sensible-browser
 export GCC_COLORS=y
 export _JAVA_OPTIONS="-Dswing.systemlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true"
-export SSH_ASKPASS="$(command -v x11-ssh-askpass || echo /usr/lib/ssh/x11-ssh-askpass)"
+export SSH_ASKPASS="$(PATH=$PATH:/usr/lib/ssh; command -v x11-ssh-askpass)"
 export SUDO_ASKPASS="$SSH_ASKPASS"
 ifelse(HTTP_PROXY, `', `', ``export http_proxy='HTTP_PROXY')
 export MAKEFLAGS=-j`'eval(CPUS + 1)
