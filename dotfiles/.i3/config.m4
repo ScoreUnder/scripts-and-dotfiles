@@ -140,7 +140,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    status_command I3_STATUS_COMMAND()
+    status_command "exec I3_STATUS_COMMAND()"
     colors {
         background #000000
         statusline #ffffff
