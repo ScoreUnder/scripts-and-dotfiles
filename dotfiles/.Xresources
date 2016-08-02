@@ -26,10 +26,10 @@ URxvt.perl-ext-common: default,matcher,clipboard,url-select
 URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
 
-URxvt.keysym.S-C-C: clipboard:copy
-URxvt.keysym.S-C-V: clipboard:paste
-URxvt.keysym.S-C-B: clipboard:paste_escaped
-URxvt.keysym.S-C-U: url-select:select_next
+URxvt.keysym.S-C-C: perl:clipboard:copy
+URxvt.keysym.S-C-V: perl:clipboard:paste
+URxvt.keysym.S-C-B: perl:clipboard:paste_escaped
+URxvt.keysym.S-C-U: perl:url-select:select_next
 
 ! Tabs: gray background, ~white text
 ! and the opposite for the currently focused tab
