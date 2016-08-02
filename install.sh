@@ -7,6 +7,21 @@ else
     sread() { read "$@"; }
 fi
 
+_colour_diff_fallback() {
+    colour_red=$(printf '\033[31m')
+    colour_green=$(printf '\033[32m')
+    colour_reset=$(printf '\033[0m')
+    sed "s/^-/${colour_red}-/;s/^\+/${colour_green}+/;s/$/${colour_reset}/"
+}
+
+_colour_diff() {
+    if command -v colordiff >/dev/null; then
+        colordiff
+    else
+        _colour_diff_fallback
+    fi
+}
+
 _install() {
     install -pvTDm "$(stat -c%a "$1")" -- "$1" "$2"
 }
@@ -16,6 +31,12 @@ _copy_to_git() {
 }
 
 render_m4() { ./render-m4 "$1" >"$2"; }
+
+print_hr() {
+    eval "$(resize)"
+    printf '━%.0s' $(seq "$COLUMNS")
+    printf \\n
+}
 
 safecopy() {
     local operation answer path dest_path display_path orig_path readonly
@@ -40,8 +61,12 @@ safecopy() {
 
     operation=_install
     if [ -r "$dest_path" ]; then
-        if ! diff -U5 "$dest_path" "$path"; then
+        if ! diff=$(diff -U5 -- "$dest_path" "$path"); then
+            print_hr
+            printf %s\\n "$diff" | _colour_diff
+
             printf 'You have a different version of %s - if you install, the above changes will be applied.\n' "$display_path"
+
             answer=
             while :; do case $answer in
                 [iI]) operation=_install; break;;
