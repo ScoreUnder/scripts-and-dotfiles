@@ -16,7 +16,7 @@ command=~/bin/i3blocks/disk
 instance=/
 interval=30
 
-[network]
+[iface]
 instance=DEFAULT_LAN_IFACE()
 color=#00FF00
 label=E
