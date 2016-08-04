@@ -1,4 +1,5 @@
 #!/bin/sh
-socat - unix:/home/score/.config/mpv/mpv.sock <<'EOF' | jq -r .data
+config_dir=${XDG_CONFIG_HOME:-"$HOME/.config"}
+socat - unix:"$config_dir"/mpv/mpv.sock <<'EOF' | jq -r .data
 { "command": ["get_property", "playback-time"] }
 EOF

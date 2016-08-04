@@ -1,7 +1,7 @@
 # DO NOT EDIT! This file will be overwritten by LXAppearance.
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
-include "/home/score/.gtkrc-2.0.mine"
+include "HOME()/.gtkrc-2.0.mine"
 gtk-theme-name="Arc"
 gtk-icon-theme-name="Faenza-Ambiance"
 gtk-font-name="Oxygen 11"

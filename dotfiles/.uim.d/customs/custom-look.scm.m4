@@ -1,5 +1,5 @@
 (define look-dict "/usr/share/dict/words")
-(define look-personal-dict-filename "/home/score/.look-uim-dict")
+(define look-personal-dict-filename "HOME()/.look-uim-dict")
 (define look-use-annotation? #f)
 (define look-annotation-show-lines 2)
 (define look-beginning-character-length 1)

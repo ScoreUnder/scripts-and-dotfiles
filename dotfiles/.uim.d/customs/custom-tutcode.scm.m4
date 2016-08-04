@@ -1,5 +1,5 @@
 (define tutcode-dic-filename "/usr/share/tc/mazegaki.dic")
-(define tutcode-personal-dic-filename "/home/score/.mazegaki.dic")
+(define tutcode-personal-dic-filename "HOME()/.mazegaki.dic")
 (define tutcode-rule-filename "/usr/share/uim/tutcode-rule.scm")
 (define tutcode-enable-mazegaki-learning? #t)
 (define tutcode-mazegaki-fixed-priority-count 0)
