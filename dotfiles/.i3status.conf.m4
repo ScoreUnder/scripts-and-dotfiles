@@ -7,17 +7,16 @@ general {
 order += "disk /"
 ifelse(HOSTNAME, `kirisame',dnl
 order += "disk /mnt/win"
+)dnl
 order += "ethernet DEFAULT_LAN_IFACE()"
-order += "cpu_temperature cpu"
-order += "cpu_temperature mobo"
-,dnl
 ifelse(HOSTNAME, `konpaku',dnl
-order += "ethernet DEFAULT_LAN_IFACE()"
 order += "wireless wlo1"
 order += "battery 0"
+)dnl
 order += "cpu_temperature cpu"
-,dnl
-))dnl
+ifelse(HOSTNAME, `kirisame',dnl
+order += "cpu_temperature mobo"
+)dnl
 order += "load"
 order += "cpu_usage"
 order += "tztime local"
@@ -52,12 +51,12 @@ cpu_usage {
         format = "%usage%%"
 }
 
-ifelse(HOSTNAME, `kirisame',dnl
 cpu_temperature cpu {
         format = "C %degrees°C"
-        path = "/sys/class/hwmon/hwmon0/temp1_input"
+        path = "CPU_TEMPERATURE_FILE()"
 }
 
+ifelse(HOSTNAME, `kirisame',dnl
 cpu_temperature mobo {
         format = "M %degrees°C"
         path = "/sys/class/hwmon/hwmon0/temp2_input"
@@ -71,14 +70,7 @@ disk "/mnt/win" {
         format = "W %free/%total"
 }
 ,dnl
-ifelse(HOSTNAME, `konpaku',dnl
-cpu_temperature cpu {
-        format = "C %degrees°C"
-        path = "/sys/class/thermal/thermal_zone0/temp"
-}
-
 disk "/" {
         format = "%free/%total"
 }
-,dnl
-))dnl
+)dnl
