@@ -17,7 +17,7 @@ instance=/
 interval=30
 
 [network]
-instance=enp3s0
+instance=DEFAULT_LAN_IFACE()
 color=#00FF00
 label=E
 

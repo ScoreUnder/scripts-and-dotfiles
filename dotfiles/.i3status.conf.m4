@@ -7,12 +7,12 @@ general {
 order += "disk /"
 ifelse(HOSTNAME, `kirisame',dnl
 order += "disk /mnt/win"
-order += "ethernet enp3s0"
+order += "ethernet DEFAULT_LAN_IFACE()"
 order += "cpu_temperature cpu"
 order += "cpu_temperature mobo"
 ,dnl
 ifelse(HOSTNAME, `konpaku',dnl
-order += "ethernet eno1"
+order += "ethernet DEFAULT_LAN_IFACE()"
 order += "wireless wlo1"
 order += "battery 0"
 order += "cpu_temperature cpu"
@@ -22,20 +22,13 @@ order += "load"
 order += "cpu_usage"
 order += "tztime local"
 
-ifelse(HOSTNAME, `kirisame',dnl
-ethernet enp3s0 {
-        # if you use %speed, i3status requires root privileges
-        format_up = "E: %ip (%speed)"
-        format_down = "E: down"
-}
-,dnl
-ifelse(HOSTNAME, `konpaku',dnl
-ethernet eno1 {
+ethernet DEFAULT_LAN_IFACE() {
         # if you use %speed, i3status requires root privileges
         format_up = "E %ip (%speed)"
         format_down = "E"
 }
 
+ifelse(HOSTNAME, `konpaku',dnl
 wireless wlo1 {
         format_up = "W %ip %bitrate %essid"
         format_down = "W"
@@ -45,8 +38,7 @@ battery 0 {
         format = "%status %percentage %remaining %emptytime %consumption"
         low_threshold = "5"
 }
-,dnl
-))dnl
+)dnl
 
 tztime local {
         format = "%Y-%m-%d %H:%M:%S"
