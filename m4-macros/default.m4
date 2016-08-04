@@ -7,5 +7,6 @@ define(`HOSTNAME', esyscmd(`hostname | tr -d \\n'))
 
 include(`host-default.m4')
 sinclude(`host-'HOSTNAME`.m4')
+sinclude(`host-localhost.m4')
 
 divert(0)dnl
