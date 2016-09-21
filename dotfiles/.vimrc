@@ -6,6 +6,7 @@ set tabstop=4
 set shiftwidth=4
 set autoindent
 set expandtab
+set copyindent
 set number
 set wildmenu
 set foldmethod=marker
