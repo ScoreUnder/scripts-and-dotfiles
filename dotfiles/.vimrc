@@ -41,6 +41,7 @@ nnoremap <leader>tn :tabnew<cr>
 nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>te :tabedit<space>
 nnoremap <leader>j Ji;<esc>
+nnoremap <leader>m :wa!<cr>:mak<cr>
 
 nnoremap <F1> <nop>
 inoremap <F1> <nop>
