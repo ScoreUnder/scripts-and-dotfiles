@@ -24,6 +24,7 @@ URxvt.scrollWithBuffer: on
 URxvt.perl-lib: .urxvt/
 URxvt.perl-ext-common: default,matcher,clipboard,url-select
 URxvt.url-launcher: /usr/bin/xdg-open
+URxvt*url-select.launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
 
 URxvt.keysym.S-C-C: perl:clipboard:copy
