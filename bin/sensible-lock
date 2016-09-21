@@ -5,6 +5,7 @@ flock -n 6 || exit
 
 cleanup() {
     pkill -x -CONT firefox 2>/dev/null
+    pkill -f -CONT firefox/plugin-container 2>/dev/null
     rm -- "$LOCKFILE"
     xset dpms 600 600 600
 }
@@ -12,5 +13,6 @@ trap cleanup EXIT
 trap 'exit 1' INT HUP TERM
 
 pkill -x -STOP firefox 2>/dev/null
+pkill -f -STOP firefox/plugin-container 2>/dev/null
 xset dpms 5 5 5
 i3lock -nc 000000
