@@ -10,7 +10,7 @@ install.sh
 
 This will copy all my dotfiles over into their rightful locations.
 
-It will not overwrite existing files without overwriting, other than
+It will not overwrite existing files without prompting, other than
 files in the pomfclip repository if that is checked out.
 
 render-m4
