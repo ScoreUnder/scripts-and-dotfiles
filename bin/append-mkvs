@@ -1,11 +1,5 @@
-#!/usr/bin/env perl
-use strict;
-use warnings;
+#!/bin/sh
+out=$1
+shift
 
-die "Args: OUTPUT IN1 [IN2 ...]\n" if @ARGV < 2;
-
-my $out = shift;
-my @in = map {$_, '+'} @ARGV;
-pop @in;
-
-exec qw/mkvmerge -o/, $out, @in;
+exec mkvmerge -o "$out" '[' "$@" ']'
