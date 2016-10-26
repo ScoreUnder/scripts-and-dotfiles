@@ -1,0 +1,31 @@
+#!/usr/bin/perl
+sub uid { int(rand() * 0x100000000) }
+
+print qq{<?xml version="1.0"?>
+<!-- <!DOCTYPE Chapters SYSTEM "matroskachapters.dtd"> -->
+<Chapters>
+    <EditionEntry>
+        <EditionFlagHidden>0</EditionFlagHidden>
+        <EditionFlagDefault>1</EditionFlagDefault>
+        <EditionUID>@{[uid]}</EditionUID>
+};
+while (<>) {
+    chomp;
+    my ($time, $name) = split /\s/, $_, 2;
+    print qq{
+        <ChapterAtom>
+            <ChapterUID>@{[uid]}</ChapterUID>
+            <ChapterTimeStart>$time</ChapterTimeStart>
+            <ChapterFlagHidden>0</ChapterFlagHidden>
+            <ChapterFlagEnabled>1</ChapterFlagEnabled>
+            <ChapterDisplay>
+                <ChapterString>$name</ChapterString>
+                <ChapterLanguage>eng</ChapterLanguage>
+            </ChapterDisplay>
+        </ChapterAtom>
+};
+}
+print qq{
+    </EditionEntry>
+</Chapters>
+};
