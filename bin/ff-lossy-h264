@@ -1,2 +1,2 @@
 #!/bin/sh
-exec ffmpeg -hide_banner -i "$1" -sn -c:a opus -b:a 128k -c:v h264 -crf:v 12 "$2"
+exec ffmpeg -hide_banner -y -nostdin -i "$1" -sn -c:a opus -b:a 128k -c:v h264 -crf:v 12 "$2"
