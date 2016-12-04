@@ -10,7 +10,7 @@ reencode_file() {
     [ -e "$file" ] || return
 
     if [ "${fbase##*.}" = flac ]
-    then ffmpeg -hide_banner -i "$file" -q:a 6 -vn "$base/${fbase%.flac}.ogg"
+    then ffmpeg -hide_banner -loglevel warning -i "$file" -c:a opus -b:a 160k -vn "$base/${fbase%.flac}.opus"
     else cp -r --reflink=auto "$file" "$base/$fbase"
     fi
 }
