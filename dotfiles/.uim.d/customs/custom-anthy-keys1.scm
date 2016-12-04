@@ -16,5 +16,5 @@
 (define anthy-transpose-as-halfwidth-alnum-key? (make-key-predicate '("F10")))
 (define anthy-transpose-as-fullwidth-alnum-key '("F9"))
 (define anthy-transpose-as-fullwidth-alnum-key? (make-key-predicate '("F9")))
-(define anthy-commit-as-opposite-kana-key '())
-(define anthy-commit-as-opposite-kana-key? (make-key-predicate '()))
+(define anthy-commit-as-opposite-kana-key '("<Shift>return"))
+(define anthy-commit-as-opposite-kana-key? (make-key-predicate '("<Shift>return")))
