@@ -1,5 +1,5 @@
 URxvt.geometry: 120x40
-URxvt.font: xft:Tewi:pixelsize=9:antialias=false
+URxvt.font: xft:Tewi:pixelsize=9:antialias=false,xft:IPA Gothic
 URxvt.preeditType: Root
 
 URxvt.saveLines: 10000
