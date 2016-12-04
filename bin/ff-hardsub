@@ -21,5 +21,5 @@ if (defined $wxh) {
     }
 }
 
-exec qw/ffmpeg -hide_banner -y -nostdin -i/, $in, '-vf', join(',', @vfs), qw/-c:v h264 -qp:v 0 -c:a copy -sn/, $out;
+exec qw/ffmpeg -hide_banner -y -nostdin -i/, $in, '-vf', join(',', @vfs), qw/-c:v h264 -qp:v 0 -profile:v high444 -pix_fmt yuv444p -c:a copy -sn/, $out;
 die "Failed exec: $!";
