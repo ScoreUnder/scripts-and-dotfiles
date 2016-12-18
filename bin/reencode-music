@@ -10,8 +10,8 @@ reencode_file() {
     [ -e "$file" ] || return
 
     if [ "${fbase##*.}" = flac ]
-    then ffmpeg -hide_banner -loglevel warning -i "$file" -c:a opus -b:a 160k -vn "$base/${fbase%.flac}.opus"
-    else cp -r --reflink=auto "$file" "$base/$fbase"
+    then exec ffmpeg -hide_banner -nostdin -y -loglevel warning -i "$file" -c:a opus -b:a 160k -vn "$base/${fbase%.flac}.opus"
+    else exec cp -r --reflink=auto "$file" "$base/$fbase"
     fi
 }
 
@@ -27,4 +27,8 @@ for dir do
     export base="$(basename -- "$dir")"
     mkdir -p -- "$base"
     parallel -q --bar "$0" --single-internal {} ::: "$dir"/* "$dir"/.* </dev/null
+    result=$?
+    if [ "$result" -ne 0 ]; then
+        printf 'Parallel died with exit code %s when processing dir %s\n' "$result" "$dir" >&2
+    fi
 done
