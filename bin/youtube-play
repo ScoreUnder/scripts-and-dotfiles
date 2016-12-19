@@ -30,4 +30,4 @@ done
 # Otherwise, stream and download
 youtube-dl --newline -f best --no-call-home --prefer-ffmpeg -o - -- "$vid" |
     tee -- "$filename" |
-    mpv -
+    mpv --force-seekable=yes -
