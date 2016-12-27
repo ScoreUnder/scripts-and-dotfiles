@@ -74,6 +74,7 @@ EOF
 
     # Go to top left & print bars
     printf '\033[1;1H'
+    date +%F\ %T
     print_bar Signal "$((signal * 2))"
     printf ' %s\n' "$net_type"
     print_bar Battery "$((battery / 10))"
