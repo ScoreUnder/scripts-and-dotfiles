@@ -15,4 +15,4 @@ trap 'exit 1' INT HUP TERM
 pkill -x -STOP firefox 2>/dev/null
 pkill -f -STOP firefox/plugin-container 2>/dev/null
 xset dpms 5 5 5
-i3lock -nc 000000
+i3lock -fenc 000000
