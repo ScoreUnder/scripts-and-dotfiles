@@ -18,5 +18,5 @@ if ($to ne 'end') {
     @duration_arg = ('-t', $duration);
 }
 
-exec qw/ffmpeg -hide_banner -y -nostdin -ss/, $from, @duration_arg, '-i', $in, qw/-c:v h264 -qp:v 0 -c:a flac/, $out;
+exec qw/ffmpeg -hide_banner -y -nostdin -ss/, $from, @duration_arg, '-i', $in, qw/-c:v h264 -qp:v 0 -c:a flac -map_chapters -1/, $out;
 die "exec ffmpeg failed: $!\n";
