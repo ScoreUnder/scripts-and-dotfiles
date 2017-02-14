@@ -40,5 +40,5 @@ done
 shift
 
 for f do
-    adb -d push "$f" "$directory/$(eval "$filename_filter \"\$f\"")"
+    adb push "$f" "$directory/$(eval "$filename_filter \"\$f\"")"
 done

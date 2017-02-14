@@ -2,7 +2,7 @@
 since_str=${1:-"00:00"}
 since_unixtime=$(date +%s -d "$since_str") || exit
 
-adb -d shell 'stat -t /sdcard/DCIM/Camera/*' | sed 's/\r$//' |
+adb shell 'stat -t /sdcard/DCIM/Camera/*' | sed 's/\r$//' |
     while
         read -r name size blocks mode_hex uid gid devno inode hardlinks devmajor devminor atime mtime ctime sizehint extra
     do
@@ -12,6 +12,6 @@ adb -d shell 'stat -t /sdcard/DCIM/Camera/*' | sed 's/\r$//' |
         fi
 
         if [ "$mtime" -ge "$since_unixtime" ]; then
-            adb -d pull "$name" .
+            adb pull "$name" .
         fi
     done
