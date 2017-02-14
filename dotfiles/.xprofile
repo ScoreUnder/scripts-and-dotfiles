@@ -48,3 +48,8 @@ xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Two-Finger Scrolling' 1 
 xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Tap Action' 0 0 0 0 1 2 3 &
 # Load i3 workspaces if applicable
 ~/.i3/scripts/when-i3-starts ~/.i3/scripts/load-workspaces &
+# systemd requires DBUS, and DBUS requires XDG_RUNTIME_DIR.  Sometimes systemd
+# fucks up (surprise surprise) and doesn't set XDG_RUNTIME_DIR.  In that case
+# it's not worth getting invested in a logged-in session, and I should probably
+# just log out.
+[ -z "$XDG_RUNTIME_DIR" ] && pgrep systemd >/dev/null && zenity --error --text 'systemd is fucked up again.'
