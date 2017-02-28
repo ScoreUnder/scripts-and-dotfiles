@@ -1,6 +1,6 @@
 #!/bin/sh
 get_mpv_status_raw() {
-    socat - unix:"$HOME/.config/mpv/mpv.sock" << EOF | jq -r 'select(.error == "success") | .data'
+    socat - unix:"$HOME/.config/mpv/mpv.sock" << EOF | jq -r 'select(.error == "success") | (.data // "")'
 {"command":["get_property_string","media-title"]}
 {"command":["get_property_string","length"]}
 {"command":["get_property_string","pause"]}
@@ -22,13 +22,17 @@ get_mpv_status() {
         fi
 
         duration=${duration%.*}
-        duration_sec=$((duration % 60))
-        duration_min=$(((duration / 60) % 60))
-        duration_hour=$((duration / 3600))
-        if [ "$duration_hour" = 0 ]; then
-            duration=$(printf ' [%d:%02d]' "$duration_min" "$duration_sec")
+        if [ -z "$duration" ]; then
+            duration=
         else
-            duration=$(printf ' [%d:%02d:%02d]' "$duration_hour" "$duration_min" "$duration_sec")
+            duration_sec=$((duration % 60))
+            duration_min=$(((duration / 60) % 60))
+            duration_hour=$((duration / 3600))
+            if [ "$duration_hour" = 0 ]; then
+                duration=$(printf ' [%d:%02d]' "$duration_min" "$duration_sec")
+            else
+                duration=$(printf ' [%d:%02d:%02d]' "$duration_hour" "$duration_min" "$duration_sec")
+            fi
         fi
 
         printf %s\\n "$paused$title$duration" "$paused$title" "$colour"
