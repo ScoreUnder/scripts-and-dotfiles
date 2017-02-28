@@ -10,10 +10,11 @@ EOF
 
 get_mpv_status() {
     get_mpv_status_raw 2>/dev/null | {
-        read title
-        read artist
-        read duration
-        read pause || return 1
+        IFS=
+        read -r title
+        read -r artist
+        read -r duration
+        read -r pause || return 1
 
         if [ "$pause" = no ]; then
             paused=
@@ -50,11 +51,12 @@ get_mpv_status() {
 
 get_mpd_status() {
     mpc status -f '%file%\n%artist%\n%title%\n%time%' | {
-        read file
-        read artist
-        read title
-        read time
-        read p || return 1;
+        IFS=
+        read -r file
+        read -r artist
+        read -r title
+        read -r time
+        read -r p || return 1;
         case "$p" in
             "[paused]"*)
                 paused="[paused] "
