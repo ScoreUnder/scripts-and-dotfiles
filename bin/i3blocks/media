@@ -2,6 +2,7 @@
 get_mpv_status_raw() {
     socat - unix:"$HOME/.config/mpv/mpv.sock" << EOF | jq -r 'select(.error == "success") | (.data // "")'
 {"command":["get_property_string","media-title"]}
+{"command":["get_property_string","metadata/by-key/artist"]}
 {"command":["get_property_string","length"]}
 {"command":["get_property_string","pause"]}
 EOF
@@ -10,6 +11,7 @@ EOF
 get_mpv_status() {
     get_mpv_status_raw 2>/dev/null | {
         read title
+        read artist
         read duration
         read pause || return 1
 
@@ -19,6 +21,10 @@ get_mpv_status() {
         else
             paused='[paused] '
             colour='#808080'
+        fi
+
+        if [ -n "$artist" ]; then
+            artist="$artist - "
         fi
 
         duration=${duration%.*}
@@ -35,7 +41,7 @@ get_mpv_status() {
             fi
         fi
 
-        printf %s\\n "$paused$title$duration" "$paused$title" "$colour"
+        printf %s\\n "$paused$artist$title$duration" "$paused$title" "$colour"
 
         [ -n "$paused" ] && return 2
         return 0
