@@ -9,9 +9,6 @@ URxvt.internalBorder: 0
 
 URxvt.urgentOnBell: true
 
-URxvt*cursorColor: white
-URxvt*cursorColor2: #aaaaaa
-
 ! URxvt.iconFile: /usr/share/icons/Humanity/apps/48/bash.svg
 
 URxvt.iso14755: off
@@ -87,6 +84,7 @@ URxvt.keysym.S-M-C-Left:  \033[1;8D
 ! http://linux.die.net/man/7/urxvt
 ! See also http://xcolors.net/dl/gnometerm for a more standard set
 URxvt.cursorColor:  #dc74d1
+URxvt.cursorColor2: #000000
 URxvt.pointerColor: #dc74d1
 !URxvt.background:   #0e0e0e
 !URxvt.foreground:   #4ad5e1
