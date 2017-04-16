@@ -51,11 +51,10 @@ inoremap <F1> <nop>
 " Bullet point digraph
 dig bp 8226
 
-au BufNewFile,BufRead *.sls set ft=yaml sw=2 ts=2
-au BufNewFile,BufRead *.yml set ft=yaml sw=2 ts=2
-au BufNewFile,BufRead *.[ch] set noet
-au BufNewFile,BufRead *.go set noet
-autocmd BufEnter ?akefile* set noet nocindent
+au BufNewFile,BufRead *.sls,*.yml setl ft=yaml sw=2 ts=2 indk-=0#
+au BufNewFile,BufRead *.[ch] setl noet
+au BufNewFile,BufRead *.go setl noet
+autocmd BufEnter ?akefile* setl noet nocindent
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
