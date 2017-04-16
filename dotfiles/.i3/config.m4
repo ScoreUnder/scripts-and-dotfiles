@@ -203,11 +203,12 @@ mode "run" {
 
     bindsym Return exec i3-sensible-terminal, mode default
     bindsym f exec firefox, mode default
-    bindsym p exec palemoon, mode default
+    bindsym j exec tagainijisho, mode default
     bindsym l exec luakit, mode default
+    bindsym m exec i3-sensible-terminal -e alsamixer -c ALSA_CARD(), mode default
+    bindsym p exec palemoon, mode default
     bindsym s exec ssh-add -c, mode default
     bindsym x exec xsel -x, mode default
-    bindsym m exec i3-sensible-terminal -e alsamixer -c ALSA_CARD(), mode default
 }
 bindsym $mod+x mode run
 
