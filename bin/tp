@@ -4,7 +4,9 @@
 filename_filter='printf %s'
 directory=/extSdCard
 
-eval set -- "$(getopt -l basename,directory:,help,filter: -o bd:hf: -n "$0" -- "$@")"
+eval set -- "$(getopt -l basename,directory:,filter:,help,device: -o bd:f:hs: -n "$0" -- "$@")"
+
+device=
 
 while :; do
     case "$1" in
@@ -15,20 +17,26 @@ while :; do
             directory=$2
             shift
             ;;
+        -f|--filter)
+            filename_filter=$2
+            shift
+            ;;
         -h|--help)
             cat <<EOF
 "Copy to phone"
 $0 [ -b | -h | -f FILTER ] [ -d DIRECTORY ] [--] file...
 Args:
     -b | --basename          Only include the file's basename (don't use directory structure)
-    -d | --directory         Choose directory to send to (default /extSdCard)
-    -h | --help              Show help
+    -d | --directory <dir>   Choose directory to send to (default /extSdCard)
     -f | --filter <filter>   Command to filter given paths by
+    -h | --help              Show help
+    -s | --device <device>   Select the device to copy to, as specified by "adb devices"
+    --                       Marks the end of options
 EOF
             exit
             ;;
-        -f|--filter)
-            filename_filter=$2
+        -s|--device)
+            device=$2
             shift
             ;;
         --)
@@ -39,6 +47,9 @@ EOF
 done
 shift
 
+no_device=
+[ -z "$device" ] && no_device=-d
+
 for f do
-    adb push "$f" "$directory/$(eval "$filename_filter \"\$f\"")"
+    adb $no_device ${device:+-s "$device"} push "$f" "$directory/$(eval "$filename_filter \"\$f\"")"
 done
