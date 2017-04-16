@@ -1,5 +1,5 @@
 (define anthy-use-prediction? #t)
-(define anthy-select-prediction-by-numeral-key? #f)
+(define anthy-select-prediction-by-numeral-key? #t)
 (define anthy-use-implicit-commit-prediction? #t)
 (define anthy-prediction-start-char-count 1)
 (define anthy-use-with-vi? #f)
