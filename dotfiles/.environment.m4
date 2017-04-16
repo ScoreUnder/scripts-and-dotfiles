@@ -6,7 +6,6 @@ contains :"$PATH": :"$HOME/bin": || PATH=$HOME/bin:$PATH
 export "IDEA_VM_OPTIONS=$HOME/.IdeaIC13/idea$BITS.vmoptions"
 export "GOPATH=$HOME/src/go"
 export "XDG_DESKTOP_DIR=$HOME"
-export PYTHONWARNINGS=all
 export WINEDEBUG=-all
 export BROWSER=sensible-browser
 export GCC_COLORS=y
