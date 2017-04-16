@@ -40,6 +40,13 @@ bindkey "\e[7~" beginning-of-line
 bindkey "\e[8~" end-of-line
 # }}}
 
+# {{{ Bugfixes
+# Fix multiline command visual duplication in rxvt
+set_title() {
+    printf '\033]0;%s\007' "${*//$'\n'/ }"
+}
+# }}}
+
 READNULLCMD=less
 
 stty -ixon
