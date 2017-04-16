@@ -9,10 +9,11 @@ reencode_file() {
     [ "$fbase" = . -o "$fbase" = .. ] && return
     [ -e "$file" ] || return
 
-    if [ "${fbase##*.}" = flac ]
-    then exec ffmpeg -hide_banner -nostdin -y -loglevel warning -i "$file" -c:a opus -b:a 160k -vn "$base/${fbase%.flac}.opus"
-    else exec cp -r --reflink=auto "$file" "$base/$fbase"
-    fi
+    case ${fbase##*.} in
+        (flac) exec ffmpeg -hide_banner -nostdin -y -loglevel warning -i "$file" -c:a opus -b:a 160k -vn "$base/${fbase%.flac}.ogg";;
+        (m3u|m3u8|fpl|cue|log) ;;  # skip
+        (*) exec cp -r --reflink=auto "$file" "$base/$fbase";;
+    esac
 }
 
 if [ "$1" = --single-internal ]; then
