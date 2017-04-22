@@ -9,10 +9,12 @@ ifelse(HOSTNAME, `kirisame',dnl
 order += "disk /mnt/win"
 )dnl
 order += "ethernet DEFAULT_LAN_IFACE()"
-ifelse(HOSTNAME, `konpaku',dnl
-order += "wireless wlo1"
-order += "battery 0"
+ifelse(WIFI_IFACE, `', `',dnl
+order += "wireless WIFI_IFACE()"
 )dnl
+ifelse(BATTERY, `', `', `dnl
+order += "battery BATTERY()"
+')dnl
 order += "cpu_temperature cpu"
 ifelse(HOSTNAME, `kirisame',dnl
 order += "cpu_temperature mobo"
@@ -27,17 +29,19 @@ ethernet DEFAULT_LAN_IFACE() {
         format_down = "E"
 }
 
-ifelse(HOSTNAME, `konpaku',dnl
-wireless wlo1 {
+ifelse(WIFI_IFACE, `', `', `dnl
+wireless WIFI_IFACE() {
         format_up = "W %ip %bitrate %essid"
         format_down = "W"
 }
+')dnl
 
-battery 0 {
+ifelse(BATTERY, `', `', `dnl
+battery BATTERY() {
         format = "%status %percentage %remaining %emptytime %consumption"
         low_threshold = "5"
 }
-)dnl
+')dnl
 
 tztime local {
         format = "%Y-%m-%d %H:%M:%S"
