@@ -1,0 +1,7 @@
+define(`HOST_COLOR', ``91'')
+define(`CPUS', ``4'')
+define(`ALSA_CARD', ``1'')
+define(`PRIMARY_MONITOR', ``LVDS1'')
+define(`DEFAULT_LAN_IFACE', ``enp0s25'')
+define(`WIFI_IFACE', ``wlp3s0'')
+define(`BATTERY', ``0'')
