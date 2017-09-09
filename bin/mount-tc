@@ -3,7 +3,7 @@
 loopdev=$(losetup -f) || exit
 cleanup_and_exit() {
     c=$?
-    losetup -d "$loopdev"
+    sudo losetup -d "$loopdev"
     exit "$c"
 }
 trap cleanup_and_exit INT HUP TERM QUIT
