@@ -35,6 +35,16 @@ filetype plugin indent on
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 
+function! Ass2Sbv()
+    v/^Dialogue:/d
+    %s/^[^,]*,//
+    %s/^\([^,]*\),\([^,]*\),[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,\(.*\)$/\10,\20\r\3\r/
+    %s/\\N/\r/g
+    1
+endfunction
+
+command! Ass2Sbv silent call Ass2Sbv()
+
 nnoremap <space> za
 nnoremap g] :pts <c-r>=expand("<cword>")<cr><cr>
 
