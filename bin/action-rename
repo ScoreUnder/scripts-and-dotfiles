@@ -1,6 +1,6 @@
 #!/bin/sh
 [ "$#" = 1 ] || [ "$#" = 2 ] || { zenity --error --title=Rename --text='Need 1 argument (and optional second argument for suggested name)'; exit 1; }
-result=$(zenity --entry --title=Rename --text="Renaming $1" --entry-text="${2-$1}") || exit 1
+result=$(zenity --file-selection --save --confirm-overwrite --title="Renaming $1" --filename="${2-$1}") || exit 1
 if [ -e "$result" ]; then
     zenity --question --title=Rename --text="That file already exists. Overwrite?\n$result" || exec "$0" "$1" "$result"
 fi
