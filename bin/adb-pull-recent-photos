@@ -1,6 +1,17 @@
 #!/bin/sh
+device=
+if [ "$1" = -s ]; then
+    shift
+    device=${1:?}
+    shift
+fi
 since_str=${1:-"00:00"}
 since_unixtime=$(date +%s -d "$since_str") || exit
+
+adb() {
+    [ -n "$device" ] && set -- -s "$device" "$@"
+    command adb "$@"
+}
 
 adb shell 'stat -t /sdcard/DCIM/Camera/*' | sed 's/\r$//' |
     while
