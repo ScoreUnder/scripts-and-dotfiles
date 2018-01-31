@@ -175,6 +175,9 @@ bindsym XF86AudioPrev exec press-prev
 bindsym XF86AudioPlay exec press-pause
 bindsym XF86AudioStop exec press-stop
 
+bindsym XF86MonBrightnessUp exec brightness up
+bindsym XF86MonBrightnessDown exec brightness down
+
 # For keyboards with only volume keys
 bindsym Shift+XF86AudioRaiseVolume exec press-next
 bindsym Shift+XF86AudioLowerVolume exec press-prev
