@@ -19,8 +19,11 @@ set incsearch
 set mouse=a
 set shortmess=filnxtToOI
 set cryptmethod=blowfish2
+set formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^[-*+]\\s\\+\\\|^\\[^\\ze[^\\]]\\+\\]:
+set formatoptions+=jn
 " Reindenting on every comment gets tired, fast. Disable:
 set indentkeys-=0#
+
 if match(&term, 'screen') >= 0 || match(&term, 'xterm') >= 0
     set term=xterm-256color
 endif
@@ -30,6 +33,17 @@ highlight Visual guibg=#222244
 highlight LineNr ctermbg=235
 execute pathogen#infect()
 filetype plugin indent on
+
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+
+function DocMode()
+    setlocal formatoptions+=a
+    setlocal textwidth=72
+endfunction
 
 " latex stuff
 set grepprg=grep\ -nH\ $*
