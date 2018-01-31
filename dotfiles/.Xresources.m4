@@ -24,14 +24,9 @@ URxvt.scrollTtyOutput: off
 URxvt.scrollWithBuffer: on
 
 URxvt.perl-lib: .urxvt/
-URxvt.perl-ext-common: default,clipboard,url-select
-URxvt.url-select.launcher: /usr/bin/xdg-open
-URxvt.url-select.button: 1
-
-URxvt.keysym.S-C-C: perl:clipboard:copy
-URxvt.keysym.S-C-V: perl:clipboard:paste
-URxvt.keysym.S-C-B: perl:clipboard:paste_escaped
-URxvt.keysym.S-C-U: perl:url-select:select_next
+URxvt.perl-ext-common: default,matcher
+URxvt.matcher.launcher: /usr/bin/xdg-open
+URxvt.keysym.C-Delete: matcher:select
 
 ! Tabs: gray background, ~white text
 ! and the opposite for the currently focused tab
