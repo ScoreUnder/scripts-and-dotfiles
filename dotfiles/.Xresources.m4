@@ -47,7 +47,9 @@ URxvt*termName: rxvt-unicode-256color
 ! Characters to break a word at
 ! Note: the quote symbol is repeated twice to avoid cpp complaining
 !       the backslash is repeated twice because it doesn''t seem to work otherwise (?)
+changequote(`{:', `:}')dnl
 URxvt.cutchars: \\`"'"&()*,;<=>?@[]^{|}:$#
+changequote({:`:}, {:':})dnl
 
 ! emulate xterm-style control codes for ctrl+arrows and alt+arrows, etc
 URxvt.keysym.S-Up:        \033[1;2A
