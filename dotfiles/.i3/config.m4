@@ -6,7 +6,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
-font pango:Tewi, M+ 2c, IPA Gothic 9px
+font pango:FREETYPE_NEW_NAME(`lucy ')Tewi, M+ 2c, IPA Gothic 9px
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -19,7 +19,7 @@ bindsym $mod+Shift+Return exec i3-sensible-terminal -e busybox sh
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run_mru -fn Tewi-9
+bindsym $mod+d exec dmenu_run_mru -fn 'FREETYPE_NEW_NAME(`lucy ')Tewi-9'
 bindsym $mod+Shift+d exec i3-dmenu-desktop
 
 # change focus

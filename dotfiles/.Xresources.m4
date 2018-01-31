@@ -1,5 +1,5 @@
 URxvt.geometry: 120x40
-URxvt.font: xft:Tewi:pixelsize=9:antialias=false,xft:IPA Gothic
+URxvt.font: xft:FREETYPE_NEW_NAME(`lucy ')Tewi:pixelsize=9:antialias=false,xft:IPA Gothic
 URxvt.preeditType: Root
 
 URxvt.saveLines: 10000
@@ -120,7 +120,7 @@ Xft.autohint: 0
 Xft.antialias: 1
 Xft.rgba: rgb
 
-xterm*faceName: Tewi
+xterm*faceName: FREETYPE_NEW_NAME(`lucy ')Tewi
 xterm*faceSize: 9px
 xterm*termName: xterm-256color
 xterm*locale: true
