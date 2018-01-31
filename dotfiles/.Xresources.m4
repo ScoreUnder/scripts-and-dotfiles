@@ -24,7 +24,7 @@ URxvt.scrollTtyOutput: off
 URxvt.scrollWithBuffer: on
 
 URxvt.perl-lib: .urxvt/
-URxvt.perl-ext-common: default,matcher
+URxvt.perl-ext-common: default,vtwheel,matcher
 URxvt.matcher.launcher: /usr/bin/xdg-open
 URxvt.keysym.C-Delete: matcher:select
 
