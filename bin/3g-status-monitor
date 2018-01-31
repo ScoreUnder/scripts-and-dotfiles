@@ -73,7 +73,7 @@ EOF
     [ -z "$signal" ] || [ -z "$battery" ] || [ -z "$charging" ] && { sleep "$poll_interval"; continue; }
 
     # Go to top left & print bars
-    printf '\033[1;1H'
+    printf '\033[1;1H' || exit
     date +%F\ %T
     print_bar Signal "$((signal * 2))"
     printf ' %s\n' "$net_type"
