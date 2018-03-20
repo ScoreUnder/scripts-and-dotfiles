@@ -7,11 +7,13 @@ if [ -n "$DISPLAY" ]; then
     tried_gui=true
     # In order of preference - the first one in the list which is installed will
     # be run if no others are running.
-    browsers="luakit firefox palemoon chromium"
+    browsers="firefox-developer-edition firefox firefox-developer luakit qupzilla palemoon chromium"
     installed_browsers=
     for BROWSER in $browsers; do
         # If the browser is running, use it
-        pgrep -x "$BROWSER" > /dev/null && exec "$BROWSER" "$@"
+        if pid=$(pgrep -ox "$BROWSER"); then
+            exec "/proc/$pid/exe" "$@"
+        fi
     done
 
     # If we got here, no browser is running
