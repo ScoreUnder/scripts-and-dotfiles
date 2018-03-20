@@ -1,0 +1,94 @@
+#!/usr/bin/env python
+import optparse  # Objectively the best Python argument parser in the core
+import sys
+
+import better_bencode
+
+
+def fopen(name):
+    if name == '-':
+        return sys.stdin.buffer
+    return open(name, 'rb')
+
+
+def parse_args(args):
+    parser = optparse.OptionParser(
+        usage="%prog -h | %prog [-n] [-f FIELD] [--] FILES",
+        description="Parse a bencode-encoded file (e.g. torrent) and output"
+                    " a roughly human-readable representation.")
+    parser.add_option(
+        "-n", "--show-filename", dest="show_filename", action="store_true",
+        help="Prefix every result with the filename it came from")
+    parser.add_option(
+        "-f", "--filter", dest="filter", metavar="FIELD",
+        help="Filter down to a given field (use colon to separate levels)")
+    parser.add_option(
+        "-b", "--bytes", dest="unidecode", action="store_false", default=True,
+        help="Avoid decoding contents as unicode strings")
+    return parser.parse_args(args)
+
+
+def get_from_tree(tree, keys):
+    try:
+        for key in keys:
+            if isinstance(tree, list):
+                tree = tree[int(key)]
+            else:
+                if key not in tree:
+                    key = key.encode('utf-8', 'surrogateescape')
+                tree = tree[key]
+    except (KeyError, ValueError, IndexError):
+        return None
+    return tree
+
+
+def make_unicode(tree):
+    if isinstance(tree, list):
+        return [make_unicode(x) for x in tree]
+    elif isinstance(tree, dict):
+        return {make_unicode(key): make_unicode(value) for key, value in tree.items()}
+    elif isinstance(tree, bytes):
+        try:
+            return tree.decode('utf-8')
+        except UnicodeDecodeError:
+            pass
+    return tree
+
+
+def main(args):
+    error = 0
+    opts, args = parse_args(args)
+
+    filter_keys = opts.filter
+    if filter_keys is None:
+        filter_keys = ()
+    else:
+        filter_keys = tuple(filter_keys.split(':'))
+
+    for file in args or ['-']:
+        try:
+            with fopen(file) as f:
+                structure = better_bencode.loads(f.read())
+        except OSError as ex:
+            error = 1
+            print(f"Failed to read {file}: {ex.strerror}", file=sys.stderr)
+        except ValueError as ex:
+            error = 1
+            print(f"Failed to parse {file} as bencode", file=sys.stderr)
+        else:
+            structure = get_from_tree(structure, filter_keys)
+            if opts.unidecode:
+                structure = make_unicode(structure)
+            structure = repr(structure)
+            try:
+                if opts.show_filename:
+                    print(f"{file}\t{structure}")
+                else:
+                    print(structure)
+            except BrokenPipeError:
+                return error
+
+    return error
+
+if __name__ == '__main__':
+    exit(main(sys.argv[1:]))
