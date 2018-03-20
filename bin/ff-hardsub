@@ -3,8 +3,9 @@ sub sanitize_ffmpeg_stuff {
     $_[0] =~ s/[\[\]\\,:]/\\$&/g
 }
 
-my ($in, $subs, $out, $wxh) = @ARGV;
-die 'Pass on the command line: input.mkv subs.ass output.mkv [WIDTHxHEIGHT]' if !$out or !$subs or !$in;
+my ($in, $subs, $out, $wxh, @args) = @ARGV;
+die 'Pass on the command line: input.mkv subs.ass output.mkv [WIDTHxHEIGHT] [encoder params]' if !$out or !$subs or !$in;
+@args = qw/-c:v h264 -qp:v 0 -profile:v high444 -pix_fmt yuv444p -preset:v fast -c:a copy/ unless @args;
 
 sanitize_ffmpeg_stuff $subs;
 
@@ -21,5 +22,5 @@ if (defined $wxh) {
     }
 }
 
-exec qw/ffmpeg -hide_banner -y -nostdin -i/, $in, '-vf', join(',', @vfs), qw/-c:v h264 -qp:v 0 -profile:v high444 -pix_fmt yuv444p -c:a copy -sn/, $out;
+exec qw/ffmpeg -hide_banner -y -nostdin -i/, $in, '-vf', join(',', @vfs), @args, qw/-sn/, $out;
 die "Failed exec: $!";
