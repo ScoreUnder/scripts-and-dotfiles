@@ -1,4 +1,6 @@
 #!/usr/bin/env perl
+use Scalar::Util 'looks_like_number';
+
 sub normalise_time {
     my @parts = split /:/, $_[0];
     my $res = 0;
@@ -8,6 +10,30 @@ sub normalise_time {
 
 sub round_3dp {
     sprintf "%.3f", @_;
+}
+
+my @filters;
+
+while ($ARGV[0] =~ /^-/) {
+    for ($ARGV[0]) {
+        if (/^--afadeout=(.*)$/) {
+            my $fadetime = $1;
+            push @filters, sub {
+                my ($in, $out, $from, $to) = @_;
+                die "Can't fade out unless exact cut points are provided\n"
+                    unless looks_like_number($from) && looks_like_number($to);
+                my $duration = $to - $from;
+                my $fade_start = round_3dp($duration - $fadetime);
+                return ('-af', "afade=t=out:st=$fade_start:d=$fadetime")
+            };
+        } elsif (/^--$/) {
+            shift;
+            last;
+        } else {
+            die "Bad argument: $_";
+        }
+    }
+    shift;
 }
 
 my ($in, $out, $from, $to) = @ARGV;
@@ -22,5 +48,7 @@ if ($to ne 'end') {
     @duration_arg = ('-t', $duration);
 }
 
-exec qw/ffmpeg -hide_banner -y -nostdin -ss/, $from, @duration_arg, '-i', $in, qw/-c:v h264 -qp:v 0 -c:a flac -map_chapters -1/, $out;
+my @filters_transformed = map { $_->($in, $out, $from, $to) } @filters;
+
+exec qw/ffmpeg -hide_banner -y -nostdin -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qw/-c:v h264 -qp:v 0 -c:a flac -map_chapters -1/, $out;
 die "exec ffmpeg failed: $!\n";
