@@ -6,15 +6,19 @@ sub normalise_time {
     $res;
 }
 
+sub round_3dp {
+    sprintf "%.3f", @_;
+}
+
 my ($in, $out, $from, $to) = @ARGV;
 die "Usage: $0 in.mkv out.mkv cut_from cut_to\n" unless defined $to;
 
-$from = normalise_time $from;
+$from = round_3dp normalise_time $from;
 
 my @duration_arg;
 if ($to ne 'end') {
-    $to = normalise_time $to;
-    my $duration = $to - $from;
+    $to = round_3dp normalise_time $to;
+    my $duration = round_3dp($to - $from);
     @duration_arg = ('-t', $duration);
 }
 
