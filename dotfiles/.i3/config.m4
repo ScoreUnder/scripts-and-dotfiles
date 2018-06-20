@@ -160,7 +160,6 @@ bindsym $mod+Shift+b bar mode toggle
 
 hide_edge_borders both
 new_window 1pixel
-assign [class="Steam"] Steam
 for_window [class="URxvt"] border 1pixel
 for_window [class="Sakura"] border 1pixel
 for_window [class="Xfce4-notifyd"] floating enable, border none
