@@ -11,7 +11,7 @@ if [ -n "$DISPLAY" ]; then
     installed_browsers=
     for BROWSER in $browsers; do
         # If the browser is running, use it
-        if pid=$(pgrep -ox "$BROWSER"); then
+        if pid=$(pgrep -ox "$(printf %s\\n "$BROWSER" | cut -c-15)"); then
             exec "/proc/$pid/exe" "$@"
         fi
     done
