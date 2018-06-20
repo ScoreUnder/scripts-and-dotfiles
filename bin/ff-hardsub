@@ -34,7 +34,7 @@ my $hardsub_filter = "subtitles=filename=$subs";
 my @vfs;
 push @vfs, "setpts=PTS-$pts_offset" if $pts_offset;
 push @vfs, $hardsub_filter unless $scalefirst;
-if (defined $wxh) {
+if (defined $wxh and $wxh ne 'orig') {
     ($wxh =~ /^(\d+)x(\d+)$/) or die "Not a valid WIDTHxHEIGHT: $wxh\n";
     push @vfs, "scale=w=$1:h=$2";
     if ($2 * 16 == $1 * 9) {
