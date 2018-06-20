@@ -24,6 +24,7 @@ set formatoptions+=jn
 " Reindenting on every comment gets tired, fast. Disable:
 set indentkeys-=0#
 set nofsync
+set swapsync=
 
 if match(&term, 'screen') >= 0 || match(&term, 'xterm') >= 0
     set term=xterm-256color
