@@ -50,5 +50,6 @@ if ($to ne 'end') {
 
 my @filters_transformed = map { $_->($in, $out, $from, $to) } @filters;
 
-exec qw/ffmpeg -hide_banner -y -nostdin -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qw/-c:v h264 -qp:v 0 -c:a flac -map_chapters -1/, $out;
+#exec qw/ffmpeg -hide_banner -y -nostdin -hwaccel cuda -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qw/-c:v h264 -qp:v 0 -c:a flac -map_chapters -1/, $out;
+exec qw/ffmpeg -hide_banner -y -nostdin -hwaccel cuda -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qw/-c:v h264_nvenc -preset:v lossless -profile:v high444p -c:a flac -map_chapters -1/, $out;
 die "exec ffmpeg failed: $!\n";

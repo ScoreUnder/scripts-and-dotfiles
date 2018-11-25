@@ -1,2 +1,2 @@
 #!/bin/sh
-exec ffmpeg -hide_banner -y -nostdin -i "$1" -af aresample=matrix_encoding=dplii -ac 2 -sn -c:a libopus -b:a 128k -c:v h264 -crf:v 12 -tune:v animation -preset:v veryslow "$2"
+exec ffmpeg -hide_banner -y -nostdin -hwaccel cuda -i "$1" -af aresample=matrix_encoding=dplii -ac 2 -sn -c:a libopus -b:a 128k -c:v h264 -crf:v 12 -tune:v animation -preset:v veryslow -pix_fmt nv12 "$2"
