@@ -3,16 +3,34 @@ LOCKFILE="/tmp/screen-lock-$DISPLAY"
 exec 6>"$LOCKFILE"
 flock -n 6 || exit
 
+suspend=false
+[ "$1" = --suspend ] && suspend=true
+
+dpms_hack=
 cleanup() {
-    pkill -x -CONT firefox 2>/dev/null
-    pkill -f -CONT firefox/plugin-container 2>/dev/null
+    kill "$dpms_hack"
     rm -- "$LOCKFILE"
     xset dpms 600 600 600
 }
 trap cleanup EXIT
 trap 'exit 1' INT HUP TERM
 
-pkill -x -STOP firefox 2>/dev/null
-pkill -f -STOP firefox/plugin-container 2>/dev/null
+if $suspend; then
+    {
+        sleep 2
+        systemctl suspend
+    } &
+fi
+
 xset dpms 5 5 5
+
+# DPMS is fucked for some reason
+{
+    while sleep 5; do
+        if [ "$(xprintidle)" -ge 5000 ]; then
+            xset dpms force off
+        fi
+    done
+} & dpms_hack=$!
+
 i3lock -fenc 000000

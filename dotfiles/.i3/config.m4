@@ -184,6 +184,7 @@ bindsym Shift+XF86AudioMute exec press-pause
 
 bindsym $mod+b border toggle
 bindsym Ctrl+$mod+l exec sensible-lock
+bindsym Ctrl+$mod+Shift+l exec sensible-lock --suspend
 bindsym XF86ScreenSaver exec sensible-lock
 bindsym Ctrl+$mod+b exec bg-random
 bindsym $mod+slash scratchpad show
