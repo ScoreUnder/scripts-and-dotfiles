@@ -6,6 +6,7 @@ sub sanitize_ffmpeg_stuff {
 my $scalefirst = 0;
 my $pts_offset = 0;
 my $video_pipe = 0;
+my $use_nvenc = 1;
 while (1) {
     if ($ARGV[0] eq '--scale-first') {
         $scalefirst = 1;
@@ -14,6 +15,8 @@ while (1) {
         $pts_offset = $ARGV[0];
     } elsif($ARGV[0] eq '--video-pipe') {
         $video_pipe = 1;
+    } elsif($ARGV[0] eq '--no-hwenc') {
+        $use_nvenc = 0;
     } elsif ($ARGV[0] eq '--') {
         shift; last;
     } else {
@@ -22,10 +25,21 @@ while (1) {
     shift;
 }
 
+if ($use_nvenc) {
+    if (`ffmpeg -v error -codecs` !~ /\b h264_nvenc \b/x) {
+        $use_nvenc = 0;
+    }
+}
+
 my ($in, $subs, $out, $wxh, @args) = @ARGV;
 die 'Pass on the command line: input.mkv subs.ass output.mkv [WIDTHxHEIGHT] [encoder params]' if !$out or !$subs or !$in;
-my @default_vcodec = $video_pipe ? (qw/-c:v huffyuv/) : (qw/-c:v h264 -qp:v 0 -profile:v high444 -preset:v fast/);
-@args = @default_vcodec, qw/-pix_fmt yuv444p -c:a copy/ unless @args;
+my @default_vcodec = $video_pipe
+                        ? (qw/-c:v huffyuv -pix_fmt yuv444p/)
+                        : $use_nvenc
+                            ? (qw/-c:v h264_nvenc -pix_fmt nv12 -profile:v high -preset:v lossless/)
+                            : (qw/-c:v h264 -qp:v 0 -pix_fmt nv12 -preset:v fast/);
+#@args = (@default_vcodec, qw/-pix_fmt yuv444p -c:a copy/) unless @args;
+@args = (@default_vcodec, qw/-c:a copy/) unless @args;
 
 sanitize_ffmpeg_stuff $subs;
 
@@ -50,5 +64,7 @@ push @vfs, "setpts=PTS+$pts_offset" if $pts_offset;
 
 push @args, qw/-f nut/ if $video_pipe;
 
-exec qw/ffmpeg -hide_banner -y -nostdin -i/, $in, '-vf', join(',', @vfs), @args, qw/-sn/, $out;
+my @final = (qw/ffmpeg -hide_banner -y -nostdin -hwaccel cuda -i/, $in, '-vf', join(',', @vfs), @args, qw/-sn/, $out);
+print STDERR join(' ', @final), "\n";
+exec @final;
 die "Failed exec: $!";
