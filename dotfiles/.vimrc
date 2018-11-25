@@ -59,6 +59,61 @@ function! Ass2Sbv()
     1
 endfunction
 
+function! HexDecSwap()
+    py <<EOF
+import vim
+line = vim.current.line
+win = vim.current.window
+row, col = win.cursor
+
+def hexspan(line, col):
+    hexdigits = "0123456789abcdefABCDEF"
+    if line[col:col+2].lower() == '0x':
+        col += 2
+    elif line[col:col+1].lower() == 'x':
+        col += 1
+    start, end = col, col
+    while start > 0 and line[start] in hexdigits:
+        start -= 1
+    if line[start] not in hexdigits:
+        start += 1
+    while end < len(line) and line[end] in hexdigits:
+        end += 1
+    if start < 2 or line[start-2:start].lower() != '0x' or start >= end:
+        return None
+    return start, end
+
+def decspan(line, col):
+    start, end = col, col
+    while start > 0 and line[start].isdigit():
+        start -= 1
+    if not line[start].isdigit():
+        start += 1
+    while end < len(line) and line[end].isdigit():
+        end += 1
+    if start >= end:
+        return None
+    return start, end
+
+span = hexspan(line, col)
+if span:
+    # convert to dec
+    start, end = span
+    line = line[:start-2] + "%d" % int(line[start:end], 16) + line[end:]
+    start -= 2
+else:
+    span = decspan(line, col)
+    if span:
+        start, end = span
+        line = line[:start] + "0x%X" % int(line[start:end]) + line[end:]
+
+if span:
+    col = max(0, min(start, len(line) - 1))
+    vim.current.line = line
+    win.cursor = row, col
+EOF
+endfunction
+
 command! Ass2Sbv silent call Ass2Sbv()
 
 nnoremap <space> za
@@ -70,6 +125,7 @@ nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>te :tabedit<space>
 nnoremap <leader>j Ji;<esc>
 nnoremap <leader>m :wa!<cr>:mak<cr>
+nnoremap <leader>x :call HexDecSwap()<cr>
 
 nnoremap <F1> <nop>
 inoremap <F1> <nop>
