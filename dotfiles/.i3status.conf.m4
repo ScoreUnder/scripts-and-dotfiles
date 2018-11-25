@@ -63,7 +63,7 @@ cpu_temperature cpu {
 ifelse(HOSTNAME, `kirisame',dnl
 cpu_temperature mobo {
         format = "M %degrees°C"
-        path = "/sys/class/hwmon/hwmon0/temp2_input"
+        path = "/sys/class/hwmon/hwmon1/temp1_input"
 }
 
 disk "/" {

@@ -22,11 +22,11 @@ color=#00FF00
 label=E
 
 [temperature-cpu]
-command=~/bin/i3blocks/temperature /sys/class/hwmon/hwmon1/temp1_input
+command=~/bin/i3blocks/temperature CPU_TEMPERATURE_FILE()
 label=C
 
 [temperature-mobo]
-command=~/bin/i3blocks/temperature /sys/class/hwmon/hwmon1/temp2_input
+command=~/bin/i3blocks/temperature /sys/class/hwmon/hwmon1/temp1_input
 label=M
 
 [cpu_usage]
