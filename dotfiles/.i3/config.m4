@@ -167,6 +167,7 @@ for_window [class="Truecrypt"] floating enable
 for_window [title="Firefox Preferences"] floating enable
 for_window [class="Guake"] floating enable, border none
 for_window [class="rdesktop"] border none, floating disable
+for_window [title="Please wait..."] floating enable
 assign [title="Outbreak RDP"] "Outbreak RDP"
 bindsym XF86HomePage exec sensible-browser
 bindsym XF86AudioNext exec press-next
