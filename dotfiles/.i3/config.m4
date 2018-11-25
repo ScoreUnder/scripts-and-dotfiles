@@ -193,6 +193,7 @@ bindsym Print exec take-screenshot
 bindsym Ctrl+Print exec pomfclip
 bindsym Ctrl+Shift+Print exec pomfclip --service=kyaa
 bindsym Mod1+Sys_Req exec take-screenshot -s
+bindsym Shift+Print exec screenshot-and-copy
 
 focus_follows_mouse yes
 mouse_warping none

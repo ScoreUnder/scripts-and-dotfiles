@@ -1,0 +1,7 @@
+#!/bin/sh
+filename=$(date +%F-%H%M%S%N)
+filename=~/$filename.png
+take-screenshot -s -- "$filename" || exit
+xclip -i -t image/png -selection clipboard "$filename"
+optipng -- "$filename"
+xclip -i -t image/png -selection clipboard "$filename"
