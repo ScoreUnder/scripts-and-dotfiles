@@ -10,7 +10,7 @@ reencode_file() {
     [ -e "$file" ] || return
 
     case ${fbase##*.} in
-        (flac) exec ffmpeg -hide_banner -nostdin -y -loglevel warning -i "$file" -c:a libopus -b:a 160k -vn "$base/${fbase%.flac}.ogg";;
+        (flac) exec ffmpeg -hide_banner -nostdin -y -loglevel warning -i "$file" -c:a libopus -b:a 128k -vn "$base/${fbase%.flac}.opus";;
         (m3u|m3u8|fpl|cue|log) ;;  # skip
         (*) exec cp -r --reflink=auto "$file" "$base/$fbase";;
     esac
