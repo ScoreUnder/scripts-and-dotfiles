@@ -1,6 +1,6 @@
 URxvt.geometry: 120x40
 URxvt.font: xft:FREETYPE_NEW_NAME(`lucy ')Tewi:pixelsize=9:antialias=false,xft:IPA Gothic
-URxvt.preeditType: Root
+URxvt.preeditType: OnTheSpot
 
 ! Allow switching between different fonts on-the-fly
 URxvt.keysym.C-1: command:\033]50;xft:FREETYPE_NEW_NAME(`lucy ')Tewi:pixelsize=9:antialias=false,xft:IPA Gothic\007
@@ -24,7 +24,7 @@ URxvt.scrollTtyOutput: off
 URxvt.scrollWithBuffer: on
 
 URxvt.perl-lib: .urxvt/
-URxvt.perl-ext-common: default,matcher
+URxvt.perl-ext-common: default,matcher,xim-onthespot
 URxvt.matcher.launcher: /usr/bin/xdg-open
 URxvt.keysym.C-Delete: matcher:select
 
