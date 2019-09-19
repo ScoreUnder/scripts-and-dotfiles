@@ -3,8 +3,9 @@ use strict;
 use warnings;
 
 # X, Y, W, H
-my @desired_tablet_area = (0, 1/6, 2/3, 2/3);
-my $desired_monitor = 'DVI-D-0';
+#my @desired_tablet_area = (0, 1/6, 2/3, 2/3);
+my @desired_tablet_area = (1, 1, -1, -1);
+my $desired_monitor = 'DP-0';
 
 sub get_monitor_area {
     my @total_area;
@@ -39,4 +40,4 @@ while (<$xinput>) {
     next unless /HUION H420.*\sid=(\d+)\s.*pointer/;
     system 'xinput', 'set-prop', $1, 'Coordinate Transformation Matrix', @matrix;
 }
-system 'xinput', 'disable', 'HUION H420 Keyboard';
+system 'xinput', 'disable', 'keyboard:HUION H420 Consumer Control';
