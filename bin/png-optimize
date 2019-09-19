@@ -2,7 +2,7 @@
 optimize() {
     if command -v pngwolf >/dev/null; then
         cp -- "$1" "$2"
-        optipng -o1 -force -- "$2" 2>&1
+        optipng -fix -o1 -force -- "$2" 2>&1
         pngwolf --in="$2" --out="$2" ${PNGWOLF_ARGS}
     elif command -v zopflipng >/dev/null; then
         zopflipng -y ${ZOPFLIPNG_ARGS:--m --lossy_8bit --lossy_transparent} "$1" "$2"
