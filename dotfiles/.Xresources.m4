@@ -120,7 +120,7 @@ Xft.autohint: 0
 Xft.antialias: 1
 Xft.rgba: rgb
 
-xterm*faceName: FREETYPE_NEW_NAME(`lucy ', `Tewi')
+xterm*faceName: FREETYPE_NEW_NAME(`lucy', `Tewi')
 xterm*faceSize: 9px
 xterm*termName: xterm-256color
 xterm*locale: true
