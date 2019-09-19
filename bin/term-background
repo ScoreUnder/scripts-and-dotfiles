@@ -4,16 +4,4 @@
 image=${1?Please specify an image filename}
 res=${2:-$(sed s/,/x/ /sys/class/graphics/fb0/virtual_size)}
 
-tmpfile=
-cleanup() {
-    rm -- "$tmpfile"
-    trap - EXIT INT HUP QUIT TERM
-    exit
-}
-trap cleanup EXIT INT HUP QUIT TERM
-tmpfile=$(mktemp --tmpdir resized-image-XXXXXXXXXXXX.png)
-
-gm convert "$image" -resize "$res^" -gravity center -extent "$res" -fill black -colorize 87% "$tmpfile"
-fbv -cui "$tmpfile" <<\EOF
-q
-EOF
+$(command -v gm) convert "$image" -resize "$res^" -gravity center -extent "$res" -fill black -colorize 87% bgra:/dev/fb0
