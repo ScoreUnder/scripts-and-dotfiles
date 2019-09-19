@@ -1,22 +1,27 @@
+changequote([, ])dnl
+define(APOS, ['])dnl
+changequote(`, ')dnl
 #!/bin/sh
 # Import important environment vars
 . ~/.environment
 
 # Set up screens
-xrandr \
-    --output DP-0 --primary --mode 2560x1440 --pos 0x0 --rotate normal \
-    --output DP-1 --off \
-    --output DVI-D-0 --mode 1920x1080 --pos 2560x410 --rotate normal \
-    --output HDMI-0 --off &
+~/.screenlayout/default.sh &
 
 # Read in settings in Xresources
 xrdb ~/.Xresources
 
-# Turn on uim for Japanese input
-export GTK_IM_MODULE='uim'
-export QT_IM_MODULE='uim'
-uim-xim &
-export XMODIFIERS='@im=uim'
+ifelse(IME_NAME(), `', `', `dnl
+`#' Turn on IME_NAME() for Japanese input
+export GTK_IM_MODULE=APOS()ifelse(IME_NAME(), `ibus', ``xim'', IME_NAME())APOS()
+export QT_IM_MODULE=APOS()IME_NAME()APOS()
+ifelse(
+    IME_NAME(), `uim', ``uim-xim'',
+    IME_NAME(), `ibus', ``ibus-daemon -drx'',
+    `:'
+) &
+export XMODIFIERS=APOS()@im=IME_NAME()APOS()
+')dnl
 
 # Run SSH agent
 eval "$(ssh-agent)"
@@ -54,8 +59,3 @@ xinput set-prop 'TPPS/2 IBM TrackPoint' 'Evdev Wheel Emulation Button' 2 &
 xinput set-prop 'TPPS/2 IBM TrackPoint' 'Evdev Wheel Emulation Axes' 6 7 4 5 &
 # Load i3 workspaces if applicable
 ~/.i3/scripts/when-i3-starts ~/.i3/scripts/load-workspaces &
-# systemd requires DBUS, and DBUS requires XDG_RUNTIME_DIR.  Sometimes systemd
-# fucks up (surprise surprise) and doesn't set XDG_RUNTIME_DIR.  In that case
-# it's not worth getting invested in a logged-in session, and I should probably
-# just log out.
-[ -z "$XDG_RUNTIME_DIR" ] && pgrep systemd >/dev/null && zenity --error --text 'systemd is fucked up again.'
