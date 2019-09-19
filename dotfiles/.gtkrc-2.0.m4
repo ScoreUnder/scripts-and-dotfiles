@@ -3,7 +3,7 @@
 
 include "HOME()/.gtkrc-2.0.mine"
 gtk-theme-name="Arc"
-gtk-icon-theme-name="Faenza-Ambiance"
+gtk-icon-theme-name="Flat-Remix-Light"
 gtk-font-name="Oxygen 11"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=0
