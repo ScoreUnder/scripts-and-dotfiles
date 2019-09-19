@@ -65,6 +65,7 @@ push @vfs, "setpts=PTS+$pts_offset" if $pts_offset;
 push @args, qw/-f nut/ if $video_pipe;
 
 my @final = (qw/ffmpeg -hide_banner -y -nostdin -hwaccel cuda -i/, $in, '-vf', join(',', @vfs), @args, qw/-sn/, $out);
+unshift @final, qw/sem --ungroup --id nvenc -j 2 --fg/ if $use_nvenc;
 print STDERR join(' ', @final), "\n";
 exec @final;
 die "Failed exec: $!";
