@@ -26,6 +26,11 @@ while ($ARGV[0] =~ /^-/) {
                 my $fade_start = round_3dp($duration - $fadetime);
                 return ('-af', "afade=t=out:st=$fade_start:d=$fadetime")
             };
+        } elsif (/^--afadein=(.*)$/) {
+            my $fadetime = $1;
+            push @filters, sub {
+                return ('-af', "afade=t=in:d=$fadetime")
+            };
         } elsif (/^--$/) {
             shift;
             last;
