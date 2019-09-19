@@ -1,10 +1,10 @@
 URxvt.geometry: 120x40
-URxvt.font: xft:FREETYPE_NEW_NAME(`lucy ')Tewi:pixelsize=9:antialias=false,xft:IPA Gothic
+URxvt.font: xft:FREETYPE_NEW_NAME(`lucy', `Tewi'):pixelsize=9:antialias=false,xft:IPA Gothic
 URxvt.preeditType: OnTheSpot
 
 ! Allow switching between different fonts on-the-fly
-URxvt.keysym.C-1: command:\033]50;xft:FREETYPE_NEW_NAME(`lucy ')Tewi:pixelsize=9:antialias=false,xft:IPA Gothic\007
-URxvt.keysym.C-2: command:\033]50;xft:FREETYPE_NEW_NAME(`xos4 ')Terminus:pixelsize=14:antialias=false,xft:IPA Gothic\007
+URxvt.keysym.C-1: command:\033]50;xft:FREETYPE_NEW_NAME(`lucy', `Tewi'):pixelsize=9:antialias=false,xft:IPA Gothic\007
+URxvt.keysym.C-2: command:\033]50;xft:FREETYPE_NEW_NAME(`xos4', `Terminus'):pixelsize=14:antialias=false,xft:IPA Gothic\007
 URxvt.keysym.C-3: command:\033]50;xft:Source Code Pro:pixelsize=20:antialias=false,xft:IPA Gothic\007
 
 URxvt.saveLines: 10000
@@ -120,7 +120,7 @@ Xft.autohint: 0
 Xft.antialias: 1
 Xft.rgba: rgb
 
-xterm*faceName: FREETYPE_NEW_NAME(`lucy ')Tewi
+xterm*faceName: FREETYPE_NEW_NAME(`lucy ', `Tewi')
 xterm*faceSize: 9px
 xterm*termName: xterm-256color
 xterm*locale: true
