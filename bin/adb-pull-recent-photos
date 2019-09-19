@@ -22,7 +22,13 @@ adb shell 'stat -t /sdcard/DCIM/Camera/*' | sed 's/\r$//' |
             continue
         fi
 
+        if [ -e "${name##*/}" ]; then
+            printf 'Warning: Not overwriting %s\n' "${name##*/}" >&2
+            continue
+        fi
+
         if [ "$mtime" -ge "$since_unixtime" ]; then
+            printf 'Pulling %s\n' "$name" >&2
             adb pull "$name" .
         fi
     done
