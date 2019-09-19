@@ -5,16 +5,29 @@ die() { printf "%s: %s\n" "$_prog_name" "$*" >&2; exit 1; }
 
 reencode_file() {
     file=$1
+    dir=$2
+    base=${dir##*/}
     fbase=${file##*/}
-    [ "$fbase" = . -o "$fbase" = .. ] && return
-    [ -e "$file" ] || return
+    mydir=$base/${file%/*}
+    existing_file="$dir/$file"
+    new_file="$mydir/$fbase"
 
     case ${fbase##*.} in
-        (flac) exec ffmpeg -hide_banner -nostdin -y -loglevel warning -i "$file" -c:a libopus -b:a 128k -vn "$base/${fbase%.flac}.opus";;
-        (m3u|m3u8|fpl|cue|log) ;;  # skip
-        (*) exec cp -r --reflink=auto "$file" "$base/$fbase";;
+        (flac|mp3|m4a|wav) new_file="${new_file%.*}.opus";;
+    esac
+
+    [ "$existing_file" -ot "$new_file" ] && return
+
+    mkdir -p -- "$mydir"
+
+    case ${fbase##*.} in
+        (flac|mp3|m4a|wav) exec ffmpeg -hide_banner -nostdin -y -loglevel warning -i "$existing_file" -c:a libopus -b:a 128k -vn "$new_file";;
+        (m3u|m3u8|fpl|cue|log|part) ;;  # skip
+        (*) exec cp -r --reflink=auto "$existing_file" "$new_file";;
     esac
 }
+
+exec </dev/null
 
 if [ "$1" = --single-internal ]; then
     shift
@@ -25,9 +38,8 @@ fi
 for dir do
     [ -r "$dir" ] || die "No read access: $dir"
     [ -d "$dir" ] || die "Not a directory: $dir"
-    export base="$(basename -- "$dir")"
-    mkdir -p -- "$base"
-    parallel -q --bar "$0" --single-internal {} ::: "$dir"/* "$dir"/.* </dev/null
+    mkdir -p -- "${dir%%*/}"
+    ( cd -- "$dir" && find -L . -mindepth 1 \! -type d ) | parallel -q --bar "$0" --single-internal {} "$dir"
     result=$?
     if [ "$result" -ne 0 ]; then
         printf 'Parallel died with exit code %s when processing dir %s\n' "$result" "$dir" >&2
