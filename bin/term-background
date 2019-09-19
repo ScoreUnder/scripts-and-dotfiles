@@ -2,7 +2,7 @@
 # Sets the background in preparation to call fbterm
 
 image=${1?Please specify an image filename}
-res=${2:-1366x768}
+res=${2:-$(sed s/,/x/ /sys/class/graphics/fb0/virtual_size)}
 
 tmpfile=
 cleanup() {
