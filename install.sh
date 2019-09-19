@@ -33,8 +33,8 @@ _copy_to_git() {
 render_m4() { ./render-m4 "$1" >"$2"; }
 
 print_hr() {
-    eval "$(resize)"
-    printf '━%.0s' $(seq "$COLUMNS")
+    eval "$(resize 2>/dev/null)"
+    printf '━%.0s' $(seq "${COLUMNS:-80}")
     printf \\n
 }
 
