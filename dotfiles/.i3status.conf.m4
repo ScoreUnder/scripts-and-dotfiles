@@ -12,9 +12,9 @@ order += "ethernet DEFAULT_LAN_IFACE()"
 ifelse(WIFI_IFACE, `', `',dnl
 order += "wireless WIFI_IFACE()"
 )dnl
-ifelse(BATTERY, `', `', `dnl
-order += "battery BATTERY()"
-')dnl
+define(BATTERY_ORDER, `ifelse($1, `', `', `order += "battery $1"
+BATTERY_ORDER(shift($@))')')dnl
+BATTERY_ORDER(BATTERY())dnl
 order += "cpu_temperature cpu"
 ifelse(HOSTNAME, `kirisame',dnl
 order += "cpu_temperature mobo"
@@ -36,13 +36,14 @@ wireless WIFI_IFACE() {
 }
 ')dnl
 
-ifelse(BATTERY, `', `', `dnl
-battery BATTERY() {
+define(BATTERY_FORMAT, `ifelse($1, `', `', `dnl
+battery $1 {
         format = "%status %percentage %remaining %emptytime %consumption"
         low_threshold = "5"
 }
-')dnl
 
+BATTERY_FORMAT(shift($@))')')dnl
+BATTERY_FORMAT(BATTERY())dnl
 tztime local {
         format = "%Y-%m-%d %H:%M:%S"
 }
