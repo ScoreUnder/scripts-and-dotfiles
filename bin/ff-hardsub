@@ -7,6 +7,7 @@ my $scalefirst = 0;
 my $pts_offset = 0;
 my $video_pipe = 0;
 my $use_nvenc = 1;
+my @maps;
 while (1) {
     if ($ARGV[0] eq '--scale-first') {
         $scalefirst = 1;
@@ -17,6 +18,9 @@ while (1) {
         $video_pipe = 1;
     } elsif($ARGV[0] eq '--no-hwenc') {
         $use_nvenc = 0;
+    } elsif ($ARGV[0] eq '--map') {
+        shift;
+        push @maps, split /[\s,]+/, $ARGV[0];
     } elsif ($ARGV[0] eq '--') {
         shift; last;
     } else {
@@ -64,7 +68,9 @@ push @vfs, "setpts=PTS+$pts_offset" if $pts_offset;
 
 push @args, qw/-f nut/ if $video_pipe;
 
-my @final = (qw/ffmpeg -hide_banner -y -nostdin -hwaccel cuda -i/, $in, '-vf', join(',', @vfs), @args, qw/-sn/, $out);
+@maps = map { ('-map', $_) } @maps;
+
+my @final = (qw/ffmpeg -hide_banner -y -nostdin -hwaccel cuda -i/, $in, '-vf', join(',', @vfs), @maps, @args, qw/-sn/, $out);
 unshift @final, qw/sem --ungroup --id nvenc -j 2 --fg/ if $use_nvenc;
 print STDERR join(' ', @final), "\n";
 exec @final;
