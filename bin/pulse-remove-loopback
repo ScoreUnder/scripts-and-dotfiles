@@ -1,0 +1,10 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+my $current_id;
+open my $pacmd, '-|', qw( pacmd list-modules );
+while (<$pacmd>) {
+    $current_id = $1 if /^\s+index: (\d+)$/;
+    system qw( pacmd unload-module ), $current_id if /^\s+name: <module-loopback>$/;
+}
