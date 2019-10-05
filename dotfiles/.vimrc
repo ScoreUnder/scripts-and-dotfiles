@@ -18,13 +18,19 @@ set hlsearch
 set incsearch
 set mouse=a
 set shortmess=filnxtToOI
-set cryptmethod=blowfish2
 set formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^[-*+]\\s\\+\\\|^\\[^\\ze[^\\]]\\+\\]:
 set formatoptions+=jn
 " Reindenting on every comment gets tired, fast. Disable:
 set indentkeys-=0#
 set nofsync
-set swapsync=
+
+if has('nvim')
+    set rtp^=/usr/share/vim/vimfiles
+else
+    set cryptmethod=blowfish2
+    set swapsync=
+    execute pathogen#infect()
+endif
 
 if match(&term, 'screen') >= 0 || match(&term, 'xterm') >= 0
     set term=xterm-256color
@@ -33,7 +39,6 @@ syntax on
 highlight Normal guibg=#000000 guifg=#FFFFFF
 highlight Visual guibg=#222244
 highlight LineNr ctermbg=235
-execute pathogen#infect()
 filetype plugin indent on
 
 let g:netrw_banner = 0
