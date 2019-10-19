@@ -103,9 +103,9 @@ URxvt.color12:      #8080ff
 URxvt.color5:       #ce88f0
 URxvt.color13:      #fea8ff
 URxvt.color6:       #73f7ff
-URxvt.color14:      #73f7ff
+URxvt.color14:      #a8f7ff
 URxvt.color7:       #e1dddd
-URxvt.color15:      #e1dddd
+URxvt.color15:      #ffffff
 
 URxvt*foreground: #ffffff
 URxvt*depth: 32
