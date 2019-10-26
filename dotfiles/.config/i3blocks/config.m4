@@ -4,15 +4,13 @@ command=~/bin/i3blocks/$BLOCK_NAME
 [media]
 signal=1
 
-[disk-green]
+[disk]
 label=G
-command=~/bin/i3blocks/disk
 instance=/mnt/green1
 interval=30
 
-[disk-root]
+[disk]
 label=/
-command=~/bin/i3blocks/disk
 instance=/
 interval=30
 
@@ -21,12 +19,12 @@ instance=DEFAULT_LAN_IFACE()
 color=#00FF00
 label=E
 
-[temperature-cpu]
-command=~/bin/i3blocks/temperature CPU_TEMPERATURE_FILE()
+[temperature]
+instance=CPU_TEMPERATURE_FILE()
 label=C
 
-[temperature-mobo]
-command=~/bin/i3blocks/temperature /sys/class/hwmon/hwmon1/temp1_input
+[temperature]
+instance=/sys/class/hwmon/hwmon1/temp1_input
 label=M
 
 [cpu_usage]
