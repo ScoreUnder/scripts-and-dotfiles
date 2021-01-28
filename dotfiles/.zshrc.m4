@@ -22,7 +22,7 @@ prompt_customgrml_precmd() {
     local grmltheme=customgrml
     local -a left_items right_items
 
-    left_items=(subsh rc change-root user at host path percent) # vcs
+    left_items=(subsh rc change-root user at host path vcs percent)
     right_items=(sad-smiley)
 
     prompt_grml_precmd_worker
