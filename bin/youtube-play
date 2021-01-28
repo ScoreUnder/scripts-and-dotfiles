@@ -10,8 +10,10 @@ id=${id##*'/'}
 
 # Ensure VIDEOS/youtube exists, go there
 videos=$(xdg-user-dir VIDEOS || printf %s\\n "$HOME")
-mkdir -p -- "$videos/youtube"
-cd -- "$videos/youtube" || exit
+if [ "${PWD#$videos/youtube}" = "$PWD" ]; then
+    mkdir -p -- "$videos/youtube"
+    cd -- "$videos/youtube" || exit
+fi
 
 # Search for the video on the disk without querying youtube-dl for a filename (performance reasons)
 filename=
@@ -23,11 +25,16 @@ for f in *-"$id".*; do
 done
 
 # If it doesn't exist, query the real filename
-[ -f "$filename" ] || filename=$(youtube-dl --get-filename -- "$vid")
+[ -f "$filename" ] || filename=$(youtube-dl-named --get-filename -- "$vid")
 # If our best guess to the filename exists, play that video
 [ -f "$filename" ] && exec mpv -- "$filename"
 
 # Otherwise, stream and download
-youtube-dl --newline -f best --no-call-home --prefer-ffmpeg -o - -- "$vid" |
+youtube-dl-named --newline -f best --no-call-home --prefer-ffmpeg -o - -- "$vid" |
     tee -- "$filename" |
     mpv --force-seekable=yes -
+
+prefix=./${filename%.*}
+for f in ./-.*; do
+    mv -vn -- "$f" "$prefix${f#./-}"
+done

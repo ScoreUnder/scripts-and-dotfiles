@@ -27,8 +27,9 @@ optimize_with_func() {
     optimize=$1; shift
     for f do
         size=$(stat -c%s -- "$f") || continue
-        "$optimize" "$f" "$tmpfile" || continue
-        newsize=$(stat -c%s -- "$tmpfile") || continue
+        "$optimize" "$f" "$tmpfile" &&
+            newsize=$(stat -c%s -- "$tmpfile") ||
+            newsize=0
         optimize_result "$f" "$size" "$newsize" &&
             cp -- "$tmpfile" "$f"
     done

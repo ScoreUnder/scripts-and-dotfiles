@@ -45,7 +45,7 @@ trap cleanup EXIT HUP INT TERM
 tmpfile=$(mktemp)
 
 # Download
-wget --quiet --show-progress -O "$tmpfile" -- "$url" || exit
+wget --no-verbose --show-progress -O "$tmpfile" -- "$url" || exit
 
 # Determine real file type if possible. Fuck you, imgur, for mislabelling file types
 case $(<$tmpfile file -) in

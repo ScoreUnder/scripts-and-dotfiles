@@ -71,7 +71,7 @@ push @args, qw/-f nut/ if $video_pipe;
 @maps = map { ('-map', $_) } @maps;
 
 my @final = (qw/ffmpeg -hide_banner -y -nostdin -hwaccel cuda -i/, $in, '-vf', join(',', @vfs), @maps, @args, qw/-sn/, $out);
-unshift @final, qw/sem --ungroup --id nvenc -j 2 --fg/ if $use_nvenc;
+unshift @final, qw/sem -q --ungroup --id nvenc -j 2 --fg/ if $use_nvenc;
 print STDERR join(' ', @final), "\n";
 exec @final;
 die "Failed exec: $!";

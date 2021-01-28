@@ -4,4 +4,4 @@
 image=${1?Please specify an image filename}
 res=${2:-$(sed s/,/x/ /sys/class/graphics/fb0/virtual_size)}
 
-$(command -v gm) convert "$image" -resize "$res^" -gravity center -extent "$res" -fill black -colorize 87% bgra:/dev/fb0
+convert "$image" -resize "$res^" -gravity center -extent "$res" -fill black -colorize 87% bgra:/dev/fb0

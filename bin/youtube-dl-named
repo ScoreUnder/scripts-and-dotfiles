@@ -1,0 +1,2 @@
+#!/bin/sh
+exec youtube-dl --no-call-home -o '%(upload_date)s %(id)s %(uploader)s - %(title)s.%(ext)s' --write-description --write-info-json --write-sub --write-thumbnail "$@"
