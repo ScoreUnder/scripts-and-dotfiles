@@ -4,6 +4,12 @@ makepkg() {
     ionice -n 7 makepkg "$@"
 }
 
+ssh-gpg() {
+    gpgconf --launch gpg-agent
+    gpg-connect-agent updatestartuptty /bye >/dev/null
+    SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/${UID:-$(id -u)}}/gnupg/S.gpg-agent.ssh" "$@"
+}
+
 # {{{ Prompt setup
 _print_shlvl_chevrons() {
     if ((SHLVL <= 1)) return
