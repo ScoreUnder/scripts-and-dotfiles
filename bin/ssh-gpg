@@ -1,0 +1,5 @@
+#!/bin/sh
+gpg-connect-agent -q updatestartuptty /bye >/dev/null
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/${UID:-$(id -u)}}/gnupg/S.gpg-agent.ssh"
+if ! [ -e "$SSH_AUTH_SOCK" ]; then SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh; fi
+exec "$@"
