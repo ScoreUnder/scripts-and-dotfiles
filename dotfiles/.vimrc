@@ -65,7 +65,7 @@ function! Ass2Sbv()
 endfunction
 
 function! HexDecSwap()
-    py <<EOF
+    py3 <<EOF
 import vim
 line = vim.current.line
 win = vim.current.window
@@ -142,6 +142,7 @@ au BufNewFile,BufRead *.sls,*.yml setl ft=yaml sw=2 ts=2 indk-=0#
 au BufNewFile,BufRead *.[ch] setl noet
 au BufNewFile,BufRead *.go setl noet
 autocmd BufEnter ?akefile* setl noet nocindent
+
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
@@ -164,3 +165,8 @@ let g:rbpt_colorpairs = [
     \ ['darkred',     'DarkOrchid3'],
     \ ['red',         'pink'],
     \ ]
+
+let g:UltiSnipsEditSplit="vertical"
+let g:ycm_key_list_stop_completion = ['<C-y>', '<Cr>']
+let g:Hexokinase_executable_path = "/usr/bin/hexokinase"
+let g:Hexokinase_highlighters = [ 'backgroundfull' ]
