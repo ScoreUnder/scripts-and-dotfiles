@@ -11,6 +11,9 @@ changequote(`, ')dnl
 # Read in settings in Xresources
 xrdb ~/.Xresources
 
+# Set up QT Theme (manage with qt5ct)
+export QT_QPA_PLATFORMTHEME=qt5ct
+
 ifelse(IME_NAME(), `', `', `dnl
 `#' Turn on IME_NAME() for Japanese input
 ifelse(
