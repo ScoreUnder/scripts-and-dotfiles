@@ -36,7 +36,7 @@ xautolock -locker ~/bin/sensible-lock -time 15 &
 # Random wallpapers on boot and every 10 mins
 wallpaper-cycler &
 # Compositing for transparency and forced vsync
-compton --backend glx &
+picom &
 # Volume icon to make it easy to change volume using the keyboard or mouse
 volumeicon &
 # urxvtd because I use the terminal every minute of every day
