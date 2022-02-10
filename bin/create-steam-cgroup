@@ -1,7 +1,0 @@
-#!/bin/sh
-u=$(id -un)
-g=$(id -gn)
-sudo cgcreate -a "$u:$g" -t "$u:$g" -g cpu,memory,blkio:steam
-echo 768 | sudo tee /sys/fs/cgroup/cpu/steam/cpu.shares > /dev/null
-echo $((1024*1024*1024*5)) | sudo tee /sys/fs/cgroup/memory/steam/memory.limit_in_bytes > /dev/null
-echo Created steam cgroup
