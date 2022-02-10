@@ -33,4 +33,4 @@ min_width=00.00%
 [load_average]
 
 [time]
-command=date '+%F %T'
+command=date '+%a %F %T'
