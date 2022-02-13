@@ -12,7 +12,7 @@ command="$(
         else
             cat "$cache"
         fi
-    } | dmenu -f "$@"
+    } | awk '!seen[$0]++' | dmenu -f "$@"
 )" || exit
 
 [ -z "$command" ] && exit
