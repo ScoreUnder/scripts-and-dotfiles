@@ -69,7 +69,7 @@ numlockx &
   xmodmap -e 'keycode 135 = Super_R Super_R Super_R Super_R'
 ) &
 # Disable mouse acceleration
-xinput | perl -lne '/Razer Razer Naga Chroma.*pointer/ or next; /\bid=(\d+)\b/ or next; print $1' | xargs -I{} xinput set-prop {} 'libinput Accel Speed' -1
+xinput | perl -lne '/Razer Razer Naga Chroma.*pointer/ or next; /\bid=(\d+)\b/ or next; print $1' | xargs -I{} xinput set-prop {} 'libinput Accel Speed' -1 &
 # Set up sensible finger tapping options
 xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Two-Finger Scrolling' 1 1 &
 xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Tap Action' 0 0 0 0 1 2 3 &
