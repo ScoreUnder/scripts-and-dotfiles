@@ -18,7 +18,11 @@ trap 'exit 1' INT HUP TERM
 if $suspend; then
     {
         sleep 2
-        systemctl suspend
+        if command -v systemctl >/dev/null; then
+            systemctl suspend
+        else
+            sudo suspend-to-disk
+        fi
     } &
 fi
 
