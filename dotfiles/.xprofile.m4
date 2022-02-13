@@ -29,6 +29,26 @@ export XMODIFIERS=APOS()@im=IME_NAME()APOS()
 # Run SSH agent
 eval "$(ssh-agent)"
 
+# Setup for launching pipewire on gentoo (& actually launching it)
+if [ -x /usr/bin/gentoo-pipewire-launcher ]; then
+    # XDG Runtime Dir
+    # Using a custom script in /usr/local/sbin to create it in the place firejail expects
+    # But the way recommended on the wiki is here commented out
+    if test -z "$XDG_RUNTIME_DIR"; then
+        #export XDG_RUNTIME_DIR="$(mktemp -d /tmp/"$(id -u)"-runtime-dir.XXX)" \
+        #    && chmod 700 -- "$XDG_RUNTIME_DIR"
+        export XDG_RUNTIME_DIR=$(sudo create-runuser)
+    fi
+
+    # DBUS
+    if command -v dbus-launch >/dev/null && test -z "$DBUS_SESSION_BUS_ADDRESS"; then
+        eval "$(dbus-launch --sh-syntax --exit-with-session)"
+    fi
+
+    # Pipewire
+    /usr/bin/gentoo-pipewire-launcher &
+fi
+
 # Notification daemon
 dunst &
 # Auto-lock screen
