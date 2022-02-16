@@ -87,8 +87,8 @@ if ($hardware eq "amd") {
 }
 
 my @filters = ();
-push @filters, join(",", @afilters_transformed) if @afilters_transformed;
 push @filters, join(",", @vfilters_transformed) if @vfilters_transformed;
+push @filters, join(",", @afilters_transformed) if @afilters_transformed;
 if (@filters) {
     @filters_transformed = ('-filter_complex', join(";", @filters));
 }
