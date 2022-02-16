@@ -21,7 +21,7 @@ ifelse(
     IME_NAME(), `ibus', ``ibus-daemon -drx'',
     `:'
 ) &
-export GTK_IM_MODULE=APOS()ifelse(IME_NAME(), `ibus', ``xim'', `IME_NAME()')APOS()
+export GTK_IM_MODULE=APOS()ifelse(IME_NAME(), `xim', ``none'', `IME_NAME()')APOS()
 export QT_IM_MODULE=APOS()IME_NAME()APOS()
 export XMODIFIERS=APOS()@im=IME_NAME()APOS()
 ')dnl
