@@ -1,0 +1,18 @@
+#!/bin/sh
+me=${1##*/}
+found=false
+IFS=:
+set -f
+for path in $PATH; do
+    if $found && [ -x "$path/$me" ]; then
+        printf "%s/%s\n" "$path" "$me" && exit
+    elif [ "$1" = "$path/$me" ]; then
+        found=true
+    fi
+done
+
+if ! $found; then
+    command -v "$me" && exit
+fi
+
+exit 1
