@@ -23,10 +23,12 @@ label=E
 instance=CPU_TEMPERATURE_FILE()
 label=C
 
+ifelse(GPU_TEMPERATURE_FILE(), `', `', `dnl
 [temperature]
-instance=/sys/class/hwmon/hwmon1/temp1_input
-label=M
+instance=GPU_TEMPERATURE_FILE()
+label=G
 
+')dnl
 [cpu_usage]
 min_width=00.00%
 

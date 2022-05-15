@@ -169,13 +169,18 @@ for_window [class="Truecrypt"] floating enable
 for_window [title="Firefox Preferences"] floating enable
 for_window [class="Guake"] floating enable, border none
 for_window [class="rdesktop"] border none, floating disable
-for_window [title="Please wait..."] floating enable
+for_window [title="Please wait..."] floating enable, border none
+for_window [title="Steam Keyboard" class="steam"] floating enable
+for_window [class="Yad"] floating enable
 assign [title="Outbreak RDP"] "Outbreak RDP"
+assign [class="Steam"] 10
 bindsym XF86HomePage exec sensible-browser
 bindsym XF86AudioNext exec press-next
 bindsym XF86AudioPrev exec press-prev
 bindsym XF86AudioPlay exec press-pause
+bindsym XF86AudioPause exec press-pause
 bindsym XF86AudioStop exec press-stop
+
 bindsym XF86Display exec arandr
 
 # For keyboards with only volume keys
@@ -195,6 +200,18 @@ bindsym Ctrl+Print exec pomfclip
 bindsym Ctrl+Shift+Print exec pomfclip --service=kyaa
 bindsym Mod1+Sys_Req exec take-screenshot -s
 bindsym Shift+Print exec screenshot-and-copy
+bindsym $mod+Shift+s sticky toggle
+
+# Dunst bindings
+mode "dunst" {
+    bindsym space exec dunstctl close
+    bindsym Shift+space exec dunstctl close-all, mode default
+    bindsym grave exec dunstctl history-pop
+    bindsym period exec dunstctl context, mode default
+    bindsym Return exec dunstctl action, mode default
+    bindsym Escape mode default
+}
+bindsym $mod+n mode dunst
 
 focus_follows_mouse yes
 mouse_warping none
@@ -208,11 +225,15 @@ mode "run" {
     bindsym Escape mode default
 
     bindsym Return exec i3-sensible-terminal, mode default
-    bindsym f exec firefox, mode default
+    bindsym f exec FIREFOX_CMD(), mode default
     bindsym h exec i3-sensible-terminal -e htop, mode default
     bindsym j exec tagainijisho, mode default
     bindsym l exec luakit, mode default
+ifelse(SOUND_SERVER(), `alsa',`dnl
     bindsym m exec i3-sensible-terminal -e alsamixer -c ALSA_CARD(), mode default
+',`dnl
+    bindsym m exec pavucontrol, mode default
+')dnl
     bindsym p exec palemoon, mode default
     bindsym s exec ssh-add -c, mode default
     bindsym x exec xsel -x, mode default
