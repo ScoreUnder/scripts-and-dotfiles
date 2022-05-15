@@ -65,7 +65,7 @@ urxvtd -q -o &
 numlockx &
 # Set up key map
 setxkbmap -option -print gb+level3\(ralt_switch_multikey\)+mykeyboard \
-    | xkbcomp -I$HOME/.config/xkb - "$DISPLAY" &
+    | xkbcomp -I`$HOME'/.config/xkb - "$DISPLAY" &
 # Disable mouse acceleration
 xinput | perl -lne '/Razer Razer Naga Chroma.*pointer/ or next; /\bid=(\d+)\b/ or next; print $1' | xargs -I{} xinput set-prop {} 'libinput Accel Speed' -1 &
 # Set up sensible finger tapping options
