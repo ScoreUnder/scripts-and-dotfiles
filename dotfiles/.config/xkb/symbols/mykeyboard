@@ -1,0 +1,15 @@
+default partial
+xkb_symbols "basic" {
+    name[group1] = "English (UK, Custom)";
+
+    replace key <CAPS> {
+        type[Group1] = "THREE_LEVEL",
+        symbols[Group1] = [ Zenkaku_Hankaku, Zenkaku_Hankaku, Caps_Lock ],
+        actions[Group1] = [ NoAction(), NoAction(), LockMods(modifiers = Lock) ]
+    };
+
+    replace key <MENU> {
+        type[Group1] = "ONE_LEVEL",
+        symbols[Group1] = [ Super_R ]
+    };
+};
