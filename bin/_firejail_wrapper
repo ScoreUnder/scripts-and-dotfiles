@@ -1,0 +1,3 @@
+#!/bin/sh
+next=$(next-in-path "$0") \
+    && exec firejail --shell=none -- "$next" "$@"
