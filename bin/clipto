@@ -1,5 +1,0 @@
-#!/bin/sh
-host=$(< ~/.ssh/known_hosts cut -d' ' -f1 | cut -d, -f1 | sort -u | dmenu -p "Hostname") || exit
-w() { xsel -o"$1" | base64 -w0; echo; }
-for x in b p s; do xsel -o"$x" | base64 -w0; echo; done |
-    ssh -q "$host" 'export DISPLAY=:0; for x in b p s; do read l; printf %s\\n "$l" | base64 -d | xsel -i"$x"; done'
