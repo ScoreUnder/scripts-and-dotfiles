@@ -13,9 +13,6 @@ sub parse_wpctl() {
 
     my $state = STATE_NONE;
 
-    my $device_id = undef;
-    my $volume = undef;
-
     while (<$fh>) {
         if ($state == STATE_NONE && /^Audio/) {
             $state = STATE_AUDIO_SECTION;
