@@ -57,8 +57,6 @@ xautolock -locker ~/bin/sensible-lock -time 15 &
 wallpaper-cycler &
 # Compositing for transparency and forced vsync
 picom --experimental-backends &
-# Volume icon to make it easy to change volume using the keyboard or mouse
-volumeicon &
 # urxvtd because I use the terminal every minute of every day
 urxvtd -q -o &
 # Num lock!

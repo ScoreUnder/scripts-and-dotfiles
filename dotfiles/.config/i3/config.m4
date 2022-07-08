@@ -183,6 +183,10 @@ bindsym XF86AudioStop exec press-stop
 
 bindsym XF86Display exec arandr
 
+bindsym XF86AudioRaiseVolume exec pw-volume-change +0.05
+bindsym XF86AudioLowerVolume exec pw-volume-change -0.05
+bindsym XF86AudioMute exec pw-volume-change mute
+
 # For keyboards with only volume keys
 bindsym Shift+XF86AudioRaiseVolume exec press-next
 bindsym Shift+XF86AudioLowerVolume exec press-prev

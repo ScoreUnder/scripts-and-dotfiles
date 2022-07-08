@@ -1,0 +1,88 @@
+#!/usr/bin/env perl
+use v5.36;
+use Scalar::Util 'looks_like_number';
+use constant {
+    STATE_NONE => 0,
+    STATE_AUDIO_SECTION => 1,
+    STATE_AUDIO_SINKS => 2,
+};
+
+sub parse_wpctl() {
+    open(my $fh, '-|', qw'wpctl status')
+        // die "Couldn't fork: $!";
+
+    my $state = STATE_NONE;
+
+    my $device_id = undef;
+    my $volume = undef;
+
+    while (<$fh>) {
+        if ($state == STATE_NONE && /^Audio/) {
+            $state = STATE_AUDIO_SECTION;
+        } elsif ($state == STATE_AUDIO_SECTION && /^$/) {
+            $state = STATE_NONE;
+        } elsif ($state == STATE_AUDIO_SECTION && /Sinks:$/) {
+            $state = STATE_AUDIO_SINKS;
+        } elsif ($state == STATE_AUDIO_SINKS && /:$/) {
+            $state = STATE_NONE;
+        } elsif ($state == STATE_AUDIO_SINKS && /^\D+\*\s+(\d+)\.\s+(.*\S)\s+\[vol: ([\d.]+)(\s[^]]+)?\]/) {
+            my $device_id = $1;
+            my $device_name = $2;
+            my $volume = $3;
+            my $muted = defined $4 && $4 =~ /MUTED/;
+            return ($device_id, $device_name, $volume, $muted);
+        }
+    }
+    die "Could not find default audio device\n";
+}
+
+sub clamp($val, $bottom, $top) {
+    return $bottom if $val < $bottom;
+    return $top if $val > $top;
+    return $val;
+}
+
+sub adjust_volume($adj) {
+    my ($device_id, $device_name, $volume, $muted) = parse_wpctl;
+
+    $volume = clamp($volume + $adj, 0, 1);
+    system "wpctl", "set-volume", $device_id, $volume;
+    return ($device_id, $device_name, $volume, $muted);
+}
+
+sub toggle_mute() {
+    my ($device_id, $device_name, $volume, $muted) = parse_wpctl;
+
+    $muted = !$muted;
+    system "wpctl", "set-mute", $device_id, int($muted);
+    return ($device_id, $device_name, $volume, $muted);
+}
+
+sub pick_icon($volume, $muted) {
+    if ($muted) {
+        return 'audio-volume-muted';
+    } elsif ($volume > 0.6) {
+        return 'audio-volume-high';
+    } elsif ($volume < 0.2) {
+        return 'audio-volume-low';
+    } else {
+        return 'audio-volume-medium';
+    }
+}
+
+if (!defined $ARGV[0] || (!looks_like_number($ARGV[0]) && $ARGV[0] ne 'mute')) {
+    print STDERR <<EOF;
+Usage: $0 <adjustment>
+Adjustment amount is usually +0.05 or -0.05
+EOF
+    exit 1;
+}
+
+my ($device_id, $device_name, $volume, $muted) =
+    $ARGV[0] eq 'mute' ? toggle_mute() : adjust_volume($ARGV[0]);
+my $vol_pct = int($volume * 100);
+my $notif_id = 865863;  # "volume" in t9 keys
+system qw/notify-send -h/, "int:value:$vol_pct",
+    '-i', pick_icon($volume, $muted),
+    '-r', $notif_id,
+    "Volume control", "$device_name @ $vol_pct%";
