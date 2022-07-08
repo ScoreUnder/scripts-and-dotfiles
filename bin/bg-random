@@ -12,8 +12,9 @@ shift
 if [ "$#" = 0 ]; then
     set -- ~/img/wallpaper_safe
     hr=$(date +%H)
-    [ "$hr" -lt 9 -o "$hr" -ge 18 ] &&
+    if [ "$hr" -lt 9 ] || [ "$hr" -ge 18 ]; then
         set -- "$@" ~/img/wallpaper
+    fi
 fi
 fn="$(find "$@" -type f -print0 | shuf -zn1 | tr -d \\0; echo x)"; fn=${fn%x}
 if "$dry"
