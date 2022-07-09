@@ -36,6 +36,8 @@ sub list_fds {
             }
         }
         closedir $fddir;
+    } elsif ($! == EACCES) {
+        warn "No permissions to list FDs of PID $_\n";
     }
 }
 
