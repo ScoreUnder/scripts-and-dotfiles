@@ -15,7 +15,9 @@ _colour_diff_fallback() {
 }
 
 _colour_diff() {
-    if command -v colordiff >/dev/null; then
+    if command -v delta >/dev/null; then
+        delta --paging never
+    elif command -v colordiff >/dev/null; then
         colordiff
     else
         _colour_diff_fallback
