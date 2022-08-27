@@ -106,6 +106,12 @@ bindsym $mod+Shift+period move container to workspace next
 
 bindsym $mod+t move workspace to output right
 
+# read 1 character and mark the current window with this character
+bindsym $mod+Shift+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
+
+# read 1 character and go to the window with the character
+bindsym $mod+m exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
