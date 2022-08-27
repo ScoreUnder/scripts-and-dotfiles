@@ -1,4 +1,6 @@
 #!/usr/bin/env perl
+#use local::lib;
+use Quote::Code;
 sub sanitize_ffmpeg_stuff {
     $_[0] =~ s/[\[\]\\,:]/\\$&/g
 }
@@ -37,11 +39,12 @@ if ($use_nvenc) {
 
 my ($in, $subs, $out, $wxh, @args) = @ARGV;
 die 'Pass on the command line: input.mkv subs.ass output.mkv [WIDTHxHEIGHT] [encoder params]' if !$out or !$subs or !$in;
+my $codec = "hevc";  # h264 is broken somehow on ffmpeg w/ vaapi?
 my @default_vcodec = $video_pipe
                         ? (qw/-c:v huffyuv -pix_fmt yuv444p/)
                         : $use_nvenc
-                            ? (qw/-c:v h264_nvenc -pix_fmt nv12 -profile:v high -preset:v lossless/)
-                            : (qw/-c:v h264 -qp:v 0 -pix_fmt nv12 -preset:v fast/);
+                            ? (qcw/-c:v {$codec}_vaapi -qp:v 1/)  # -profile:v high
+                            : (qcw/-c:v {$codec} -qp:v 0 -preset:v fast/);
 #@args = (@default_vcodec, qw/-pix_fmt yuv444p -c:a copy/) unless @args;
 @args = (@default_vcodec, qw/-c:a copy/) unless @args;
 
@@ -52,9 +55,11 @@ my $hardsub_filter = "subtitles=filename=$subs";
 my @vfs;
 push @vfs, "setpts=PTS-$pts_offset" if $pts_offset;
 push @vfs, $hardsub_filter unless $scalefirst;
+push @vfs, "format=nv12", "hwupload" unless $scalefirst;
 if (defined $wxh and $wxh ne 'orig') {
     ($wxh =~ /^(\d+)x(\d+)$/) or die "Not a valid WIDTHxHEIGHT: $wxh\n";
-    push @vfs, "scale=w=$1:h=$2";
+    push @vfs, "scale_vaapi=w=$1:h=$2" unless $scalefirst || !$use_nvenc;
+    push @vfs, "scale=w=$1:h=$2" if $scalefirst || !$use_nvenc;
     if ($2 * 16 == $1 * 9) {
         print "Scaling to a 16:9 aspect ratio.\n";
     } elsif ($2 * 4 == $1 * 3) {
@@ -64,14 +69,15 @@ if (defined $wxh and $wxh ne 'orig') {
     }
 }
 push @vfs, $hardsub_filter if $scalefirst;
+push @vfs, "format=nv12", "hwupload" if $scalefirst;
 push @vfs, "setpts=PTS+$pts_offset" if $pts_offset;
 
 push @args, qw/-f nut/ if $video_pipe;
 
 @maps = map { ('-map', $_) } @maps;
 
-my @final = (qw/ffmpeg -hide_banner -y -nostdin -hwaccel cuda -i/, $in, '-vf', join(',', @vfs), @maps, @args, qw/-sn/, $out);
-unshift @final, qw/sem -q --ungroup --id nvenc -j 2 --fg/ if $use_nvenc;
+my @final = (qw/ffmpeg -hide_banner -y -nostdin -hwaccel vaapi -i/, $in, '-vf', join(',', @vfs), @maps, @args, qw/-sn/, $out);
+#unshift @final, qw/sem -q --ungroup --id nvenc -j 2 --fg/ if $use_nvenc;
 print STDERR join(' ', @final), "\n";
 exec @final;
 die "Failed exec: $!";
