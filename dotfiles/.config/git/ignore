@@ -1,0 +1,8 @@
+.vscode/
+.idea/
+*.sw?
+.cache/
+compile_commands.json
+.bloop/
+.bsp/
+.metals/

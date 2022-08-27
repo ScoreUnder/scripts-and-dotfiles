@@ -1,0 +1,40 @@
+[user]
+	name = Score_Under
+	email = seejay.11@gmail.com
+	signingkey = 1EE36101C77AC765E1F2D17FA99742B6A92A14E8
+[alias]
+	ss = status --short
+	lp = log --patch
+	pf = pull --ff-only
+	pr = pull --rebase
+	ls = log --stat
+	fa = fetch --all --prune
+	co = checkout
+	dc = diff --cached
+[push]
+	default = simple
+	autoSetupRemote = true
+[color]
+	ui = auto
+[merge]
+	conflictstyle = diff3
+[diff]
+	algorithm = histogram
+[commit]
+	gpgsign = true
+[pull]
+	rebase = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main
+[core]
+	pager = delta
+#	pager = /usr/share/git/diff-highlight/diff-highlight | less -FRX
+
+# Doesn't work on newer git?
+#[interactive]
+#	diffFilter = /usr/share/git/diff-highlight/diff-highlight
