@@ -5,8 +5,8 @@ command=~/bin/i3blocks/$BLOCK_NAME
 signal=1
 
 [disk]
-label=G
-instance=/mnt/green1
+label=H
+instance=/home
 interval=30
 
 [disk]
