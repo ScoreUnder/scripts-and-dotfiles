@@ -14,11 +14,11 @@ Parameters:
 ' "$prog_name" "$prog_name"
 }
 
-lossless=
+quality="-crf:v 30"
 
 for arg do
     case "$arg" in
-        (--lossless) lossless="-lossless 1";;
+        (--lossless) quality="-lossless 1";;
         (--help) usage; exit;;
         (--) shift; break;;
         (-*) printf 'Unknown argument %s\n' "$arg" >&2; exit 1;;
@@ -30,10 +30,10 @@ done
 command -v ffmpeg >/dev/null || { printf 'This script requires ffmpeg\n' >&2; exit 1; }
 
 for file do
-    ffmpeg -i "$file" -c:v libvpx-vp9 $lossless -pass 1 -b:v 1000K -threads 1 -speed 4 \
+    ffmpeg -i "$file" -c:v libvpx-vp9 $quality -pass 1 -threads 0 -speed 4 \
         -tile-columns 0 -frame-parallel 0 -auto-alt-ref 1 -lag-in-frames 25 \
         -g 9999 -aq-mode 0 -an -f webm -y /dev/null
-    ffmpeg -i "$file" -c:v libvpx-vp9 $lossless -pass 2 -b:v 1000K -threads 1 -speed 0 \
+    ffmpeg -i "$file" -c:v libvpx-vp9 $quality -pass 2 -threads 0 -speed 0 \
         -tile-columns 0 -frame-parallel 0 -auto-alt-ref 1 -lag-in-frames 25 \
         -g 9999 -aq-mode 0 -c:a libopus -b:a 64k -f webm "$file.webm"
 done
