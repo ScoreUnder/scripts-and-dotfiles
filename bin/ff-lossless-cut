@@ -1,4 +1,6 @@
 #!/usr/bin/env perl
+#use local::lib;
+use Quote::Code;
 use Scalar::Util 'looks_like_number';
 
 sub normalise_time {
@@ -96,13 +98,17 @@ if (@filters) {
 my @command = qw/ffmpeg -hide_banner -y -nostdin/;
 my @common_out = qw/-c:a flac -map_chapters -1 -map 0:v -map 0:a/;
 
+my $codec = "hevc";  # h264 is broken somehow on ffmpeg w/ vaapi?
+
 if ($hardware eq "nvidia") {
-    push @command, qw/-hwaccel cuda -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qw/-c:v h264_nvenc -preset:v lossless -profile:v high444p/, @common_out, $out;
+    push @command, qw/-hwaccel cuda -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qcw/-c:v {$codec}_nvenc -preset:v lossless -profile:v high444p/, @common_out, $out;
     unshift @command, qw/sem --ungroup --id nvenc -j 2 --fg/;
 } elsif ($hardware eq "amd") {
-    push @command, qw/-hwaccel vaapi -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qw/-c:v h264_vaapi -profile:v high -qp:v 1/, @common_out, $out;
+    my @profile = qw/-profile:v high/;
+    @profile = () if $codec eq "hevc";
+    push @command, qw/-hwaccel vaapi -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qcw/-c:v {$codec}_vaapi -qp:v 1/, @profile, @common_out, $out;
 } else {
-    push @command, qw/-hwaccel auto -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qw/-c:v h264 -qp:v 0/, @common_out, $out;
+    push @command, qw/-hwaccel auto -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qcw/-c:v {$codec} -qp:v 0/, @common_out, $out;
 }
 print STDERR join(" ", @command), "\n";
 exec @command;
