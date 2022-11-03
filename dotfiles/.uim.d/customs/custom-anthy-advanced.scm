@@ -1,7 +1,0 @@
-(define anthy-use-prediction? #t)
-(define anthy-select-prediction-by-numeral-key? #t)
-(define anthy-use-implicit-commit-prediction? #t)
-(define anthy-prediction-start-char-count 1)
-(define anthy-use-with-vi? #f)
-(define anthy-auto-start-henkan? #f)
-(define anthy-use-mode-transition-keys-in-off-mode? #f)
