@@ -59,22 +59,7 @@ wallpaper-cycler &
 picom --experimental-backends &
 # urxvtd because I use the terminal every minute of every day
 urxvtd -q -o &
-# Num lock!
-numlockx &
-# Set up key map
-setxkbmap -option -print gb+level3\(ralt_switch_multikey\)+mykeyboard \
-    | xkbcomp -I`$HOME'/.config/xkb - "$DISPLAY" &
-# Disable mouse acceleration
-xinput | perl -lne '/Razer Razer Naga Chroma.*pointer/ or next; /\bid=(\d+)\b/ or next; print $1' | xargs -I{} xinput set-prop {} 'libinput Accel Speed' -1 &
-# Set up sensible finger tapping options
-xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Two-Finger Scrolling' 1 1 &
-xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Tap Action' 0 0 0 0 1 2 3 &
-# Enable palm detection
-xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Palm Detection' 1 &
-xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Palm Dimensions' 6 10 &
-# Use TrackPoint wheel emulation (middle mouse + trackpoint drag)
-xinput set-prop 'TPPS/2 IBM TrackPoint' 'Evdev Wheel Emulation' 1 &
-xinput set-prop 'TPPS/2 IBM TrackPoint' 'Evdev Wheel Emulation Button' 2 &
-xinput set-prop 'TPPS/2 IBM TrackPoint' 'Evdev Wheel Emulation Axes' 6 7 4 5 &
+# Set default input configuration (mouse sensitivity, keyboard layout, etc)
+set-default-input-config &
 # Load i3 workspaces if applicable
 ~/.i3/scripts/when-i3-starts ~/.i3/scripts/load-workspaces &
