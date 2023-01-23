@@ -58,6 +58,8 @@ while ($ARGV[0] =~ /^-/) {
             push @vfilters, sub {
                 return "fade=t=in:d=$fadetime"
             };
+        } elsif (/^--no-hwaccel$/) {
+            $hardware = "none";
         } elsif (/^--$/) {
             shift;
             last;
@@ -108,7 +110,7 @@ if ($hardware eq "nvidia") {
     @profile = () if $codec eq "hevc";
     push @command, qw/-hwaccel vaapi -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qcw/-c:v {$codec}_vaapi -qp:v 1/, @profile, @common_out, $out;
 } else {
-    push @command, qw/-hwaccel auto -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qcw/-c:v {$codec} -qp:v 0/, @common_out, $out;
+    push @command, '-ss', $from, @duration_arg, '-i', $in, @filters_transformed, qcw/-c:v {$codec} -qp:v 0/, @common_out, $out;
 }
 print STDERR join(" ", @command), "\n";
 exec @command;

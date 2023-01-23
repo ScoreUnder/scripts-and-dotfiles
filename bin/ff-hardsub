@@ -43,8 +43,8 @@ my $codec = "hevc";  # h264 is broken somehow on ffmpeg w/ vaapi?
 my @default_vcodec = $video_pipe
                         ? (qw/-c:v huffyuv -pix_fmt yuv444p/)
                         : $use_nvenc
-                            ? (qcw/-c:v {$codec}_vaapi -qp:v 1/)  # -profile:v high
-                            : (qcw/-c:v {$codec} -qp:v 0 -preset:v fast/);
+                            ? (qcw/-c:v {$codec}_vaapi -qp:v 1 -preset:v veryslow -profile:v main/)
+                            : (qcw/-c:v {$codec} -qp:v 0 -preset:v fast -profile:v main/);
 #@args = (@default_vcodec, qw/-pix_fmt yuv444p -c:a copy/) unless @args;
 @args = (@default_vcodec, qw/-c:a copy/) unless @args;
 
@@ -55,7 +55,8 @@ my $hardsub_filter = "subtitles=filename=$subs";
 my @vfs;
 push @vfs, "setpts=PTS-$pts_offset" if $pts_offset;
 push @vfs, $hardsub_filter unless $scalefirst;
-push @vfs, "format=nv12", "hwupload" unless $scalefirst;
+push @vfs, "format=nv12", "hwupload" if !$scalefirst && $use_nvenc;
+push @vfs, "format=yuv444p" if !$use_nvenc;
 if (defined $wxh and $wxh ne 'orig') {
     ($wxh =~ /^(\d+)x(\d+)$/) or die "Not a valid WIDTHxHEIGHT: $wxh\n";
     push @vfs, "scale_vaapi=w=$1:h=$2" unless $scalefirst || !$use_nvenc;
@@ -69,14 +70,17 @@ if (defined $wxh and $wxh ne 'orig') {
     }
 }
 push @vfs, $hardsub_filter if $scalefirst;
-push @vfs, "format=nv12", "hwupload" if $scalefirst;
+push @vfs, "format=nv12", "hwupload" if $scalefirst && $use_nvenc;
 push @vfs, "setpts=PTS+$pts_offset" if $pts_offset;
 
 push @args, qw/-f nut/ if $video_pipe;
 
 @maps = map { ('-map', $_) } @maps;
 
-my @final = (qw/ffmpeg -hide_banner -y -nostdin -hwaccel vaapi -i/, $in, '-vf', join(',', @vfs), @maps, @args, qw/-sn/, $out);
+# removed: -hwaccel vaapi
+# because hardware accelerated decode can also cause bugs :/
+# mpv does it fine tho...
+my @final = (qw/ffmpeg -hide_banner -y -nostdin -init_hw_device vaapi=vaapi:\/dev\/dri\/renderD128 -i/, $in, '-vf', join(',', @vfs), @maps, @args, qw/-sn/, $out);
 #unshift @final, qw/sem -q --ungroup --id nvenc -j 2 --fg/ if $use_nvenc;
 print STDERR join(' ', @final), "\n";
 exec @final;
