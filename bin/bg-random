@@ -1,23 +1,59 @@
 #!/bin/sh
-eval set -- "$(getopt -n bg-random -o n -l dry-run -- "$@")"
+# bg-random - Set the wallpaper to a random image from the given directories
+usage="Usage: $0 [-n|--dry-run] [--] [DIR...]
+Set the wallpaper to a random image from the given directories.  If no
+directories are given, use ~/img/wallpaper_safe (all hours) and ~/img/wallpaper
+(outside of working hours).
+"
+
+usage() {
+    printf '%s\n' "$usage" >&2
+}
+
+command -v shuf >/dev/null 2>&1 || \
+    shuf() {
+        # shuf(1) is not available on some systems (e.g. MacOS)
+        # This is a shim to replace it with awk. This script only uses the
+        # arguments -zn1, so any other behaviour is not implemented, i.e. this shuf
+        # shim will just pick a single random element from a NUL-delimited list on
+        # stdin, regardless of arguments.
+        # AWK with RS="\0" is not available on MacOS either, so we have to use
+        # tr to replace the NULs with newlines first.  The consequence is that
+        # newline characters in filenames are not supported on systems without
+        # shuf.
+        # A great irony is that such systems probably don't have feh either.
+        tr '\0' '\n' | awk 'BEGIN {srand()} {a[i++]=$0} END {ORS=""; print a[int(rand()*i)]}'
+    }
+
+# Parse arguments
 dry=false
-while [ "$1" != -- ]; do
-    case "$1" in
+for arg do
+    case "$arg" in
         -n|--dry-run) dry=true;;
+        --) shift; break;;
+        -*) usage; exit 1;;
     esac
     shift
 done
-shift
 
-if [ "$#" = 0 ]; then
+if [ "$#" -eq 0 ]; then
+    # No directories given, use defaults
+    # Start out with "powerlevel" wallpapers
     set -- ~/img/wallpaper_safe
+
+    # If outside of working hours, add weeb stuff :)
     hr=$(date +%H)
     if [ "$hr" -lt 9 ] || [ "$hr" -ge 18 ]; then
         set -- "$@" ~/img/wallpaper
     fi
 fi
+
+# Pick a random file from the given directories
 fn="$(find "$@" -type f -print0 | shuf -zn1 | tr -d \\0; echo x)"; fn=${fn%x}
+
+# If we're in dry-run mode, just print the filename
+# Otherwise, set the wallpaper using feh
 if "$dry"
-then echo "$fn"
+then printf '%s\n' "$fn"
 else exec feh --bg-fill "$fn"
 fi
