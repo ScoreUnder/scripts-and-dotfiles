@@ -1,4 +1,7 @@
 #!/bin/sh
+# Invoke mpc, then update i3blocks.
+# Useful if you track currently playing media in i3blocks.
+# Usage: mpc-with-update [mpc arguments]
 mpc "$@"
 success=$?
 pkill -SIGRTMIN+1 i3blocks

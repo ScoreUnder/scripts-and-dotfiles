@@ -1,4 +1,6 @@
 #!/bin/sh
+# Enable or disable touch on the Wacom Bamboo Craft tablet.
+# Usage: wacom-touch [on|off]
 case "$1" in
     t*|e*|on)  xsetwacom set 'Wacom Bamboo Craft Finger touch' Touch on ;;
     f*|d*|off) xsetwacom set 'Wacom Bamboo Craft Finger touch' Touch off ;;

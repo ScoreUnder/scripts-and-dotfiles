@@ -1,4 +1,11 @@
 #!/bin/sh
+# Find the next matching executable in $PATH corresponding to the given name.
+# If the given name is not in $PATH, then use command -v to find it.
+# This allows you to write a wrapper script that calls the original executable
+# without hardcoding its path, relying only on $0.
+# Usage: next-in-path <path>
+# Example: next-in-path /usr/local/bin/git
+# (The example might print out "/usr/bin/git" if that's the next git in $PATH.)
 me=${1##*/}
 found=false
 IFS=:

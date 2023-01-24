@@ -1,2 +1,3 @@
 #!/bin/sh
+# ffprobe wrapper which is shorter to invoke and doesn't print the banner (which is spammy if you invoke it a lot)
 exec ffprobe -hide_banner "$@"

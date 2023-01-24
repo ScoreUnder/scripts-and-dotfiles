@@ -1,2 +1,5 @@
 #!/bin/sh
+# Run a command under eatmydata using dmenu_run
+# I don't think I have ever used this script. I just type the command in dmenu and press home + "eatmydata " + enter.
+# This script now only exists as a warning against the hubris of programmerkind.
 exec eatmydata dmenu_run -p eatmydata "$@"

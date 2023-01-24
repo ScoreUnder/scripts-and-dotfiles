@@ -1,4 +1,6 @@
 #!/bin/sh
+# Remove Skype lock files, as it tended to leave them behind and refuse to start.
+# (Does the old Linux Skype client still exist?)
 skype_dir=~/.jails/skype/.Skype
 [ -d "$skype_dir" ] && [ -w "$skype_dir" ] || skype_dir=~/.Skype
 

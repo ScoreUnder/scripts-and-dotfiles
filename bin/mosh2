@@ -1,4 +1,8 @@
 #!/bin/sh
+# Wrapper script for mosh that uses ipinfo.io to find the server's IP address,
+# rather than trying to resolve from the client side.
+# Usage: mosh2 [SSH ARGS...]
+# Example: mosh2 -p 2222 user@server
 die() { printf %s\\n "$*" >&2; exit 1; }
 
 # Start mosh on the server, retrieve its IP from ipinfo.io

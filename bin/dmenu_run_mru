@@ -1,8 +1,18 @@
 #!/bin/sh
+# Run commands through dmenu, with most recently used programs at the top
+# Usage: dmenu_run_mru [dmenu options]
+
+# New terminals should inherit a fresh SHLVL, imho
 unset SHLVL
+
+# Ensure that the cache directory exists
 [ -d "${XDG_CACHE_HOME:=$HOME/.cache}" ] || mkdir -p "$XDG_CACHE_HOME"
+
 cache=$XDG_CACHE_HOME/dmenu_run
 mru_cache=$XDG_CACHE_HOME/dmenu_run_mru
+
+# Get and run the command, running stest to update the cache if necessary as in dmenu_run
+# Except this time, the mru_cache is also used to provide sorted results
 command="$(
     {
         IFS=:
@@ -17,6 +27,7 @@ command="$(
 
 [ -z "$command" ] && exit
 
+# Record the command in the MRU cache
 perl -e '
     fork and exit;
 

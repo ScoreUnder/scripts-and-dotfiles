@@ -1,3 +1,6 @@
+# Shell utility functions for optimising images.
+# Intended to be called from other specialised wrapper scripts which handle specific image types.
+
 optimize_result() {
     f=$1; size=$2; newsize=$3
     if [ "$newsize" = 0 ]; then

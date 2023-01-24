@@ -1,8 +1,19 @@
 #!/bin/sh
+# Run commands through dmenu
+# Usage: dmenu_run [dmenu options]
+# Based on the original dmenu_run script (or at least an old version of it)
+
+# New terminals should inherit a fresh SHLVL, imho
 unset SHLVL
+
+# Ensure that the cache directory exists
 [ -d "${XDG_CACHE_HOME:=$HOME/.cache}" ] || mkdir -p "$XDG_CACHE_HOME"
 cache=$XDG_CACHE_HOME/dmenu_run
 eval exec "$(
+    # Use dmenu's stest utility to test and regenerate the command cache if necessary
+    # (If it's good already, just use it)
+    # Then pass the result to dmenu.
+    # Since this is all in an eval+exec, the result of dmenu is executed.
     IFS=:
     if stest -dqr -n "$cache" $PATH; then
         stest -flx $PATH | sort -u | tee "$cache"

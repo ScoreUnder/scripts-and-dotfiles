@@ -1,4 +1,6 @@
 #!/usr/bin/env perl
+# Set a Huion H420 tablet to a specific area of a monitor.
+# It might work for other tablets with some minor changes.
 use strict;
 use warnings;
 

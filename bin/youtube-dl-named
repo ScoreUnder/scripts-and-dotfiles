@@ -1,2 +1,5 @@
 #!/bin/sh
+# Download with youtube-dl, with some sensible verbose defaults for archival.
+# Nowadays youtube-dl is just going to be a wrapper around yt-dlp, but this
+# still works.
 exec youtube-dl --no-call-home -o '%(upload_date)s %(id)s %(uploader)s - %(title)s.%(ext)s' --write-description --write-info-json --write-sub --write-thumbnail "$@"

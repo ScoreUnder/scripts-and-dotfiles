@@ -1,4 +1,6 @@
 #!/bin/sh
+# Start urxvtd if necessary and then open a new urxvtc window.
+# Taken from the man page of urxvtc with one small adjustment: SHLVL is unset.
 unset SHLVL
 urxvtc "$@"
 if [ $? -eq 2 ]; then

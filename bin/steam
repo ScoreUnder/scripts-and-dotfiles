@@ -1,2 +1,3 @@
 #!/bin/sh
+# Steam wrapper script. Used to contain cgroup stuff, now just execs steam-native.
 exec /usr/bin/steam-native "$@"

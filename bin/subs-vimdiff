@@ -1,4 +1,6 @@
 #!/bin/sh
+# Diffs subtitle files after filtering through subs-to-plaintext to allow focused diffing on dialogue changes
+# Usage: subs-vimdiff <left> <right>
 leftfile="${1:?}.txt"
 rightfile="${2:?}.txt"
 

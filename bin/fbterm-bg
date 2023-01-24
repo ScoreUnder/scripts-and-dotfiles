@@ -1,5 +1,6 @@
 #!/bin/sh
 # Start fbterm with the given background image (first argument); pass all reaining arguments to fbterm.
+# Usage: fbterm-bg <background image> [fbterm arguments]
 printf '\033[?25l' # Hide cursor
 term-background "$1"
 shift

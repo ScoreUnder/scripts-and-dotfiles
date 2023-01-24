@@ -1,5 +1,6 @@
 #!/bin/sh
 # tp: To Phone (sends a file to a connected android device using adb)
+# See --help for more information
 
 filename_filter='printf %s'
 directory=/extSdCard

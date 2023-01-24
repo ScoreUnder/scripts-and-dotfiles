@@ -1,3 +1,9 @@
 #!/bin/sh
+# Another testament to the hubris of programmerkind.
+# This script is a wrapper around dmenu that allows you to select a host from
+# your known_hosts file (if it's unhashed) and ssh to it in a new terminal.
+# Not only is an unhashed known_hosts file considered a security risk and
+# therefore shouldn't work on modern systems, but I have never once actually
+# found a practical use for this script.
 host=$(< ~/.ssh/known_hosts cut -d' ' -f1 | cut -d, -f1 | grep -v : | sort | dmenu -p '(ssh) Host') \
     && exec i3-sensible-terminal -e ssh "$host"

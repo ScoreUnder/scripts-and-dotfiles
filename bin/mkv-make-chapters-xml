@@ -1,4 +1,13 @@
 #!/usr/bin/perl
+# Create a chapters.xml file from a list of chapter names and times.
+# Usage: mkv-make-chapters-xml < chapters.txt > chapters.xml
+# Input format:
+#     00:00:00.000 Chapter 1
+#     00:12:00.000 Chapter 2
+#     00:34:00.000 Chapter 3
+#
+# Probably not necessary now that mkvmerge has a plain-text chapter format.
+# Maybe it always had that. Whatever.
 sub uid { int(rand() * 0x100000000) }
 
 print qq{<?xml version="1.0"?>

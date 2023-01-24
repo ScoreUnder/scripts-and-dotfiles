@@ -1,4 +1,7 @@
 #!/bin/sh
+# Set some sensible defaults for my input devices
+# Isn't there a way to do this with xorg.conf? Either way I'm using xprofile instead.
+
 # Num lock!
 numlockx &
 # Set up key map

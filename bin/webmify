@@ -1,4 +1,6 @@
 #!/bin/sh
+# Convert a video to webm using ffmpeg.
+# See --help for more information.
 prog_name=${0##*/}
 
 usage() {

@@ -1,10 +1,18 @@
 #!/bin/sh
+# Check for images that are wider than 4:3 and at least 800x600
+# i.e. images that might work well as a desktop background?
+# Usage: dims <files...>
 for f do
+    # Check if the file is an image and get its dimensions
     if DIMS=$(gm identify -format %wx%h "$f" 2>/dev/null | head -1) && [ -n "$DIMS" ]; then
+        # Ensure the dimensions don't have another x in them
         [ "${DIMS#*x*x}" != "$DIMS" ] && echo "STUPID FILE $f" >&2 && continue
+
         WIDTH=${DIMS%x*}
         HEIGHT=${DIMS#*x}
+        # Check if the image is wider than 4:3 and at least 800x600
         if [ "$HEIGHT" -ne 0 ] && [ "$(echo "0 20k $WIDTH $HEIGHT / 4 3 / [1]sx <x p" | dc)" -eq 1 -a "$WIDTH" -ge 800 -a "$HEIGHT" -ge 600 ]; then
+            # Print the filename, null-terminated
             printf %s\\0 "$f"
         fi
     fi

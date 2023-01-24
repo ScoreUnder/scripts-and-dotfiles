@@ -1,4 +1,7 @@
 #!/bin/sh
+# Re-encode a directory of music files to Opus. I use this for putting music on my phone.
+# Usage: reencode-music <dir> [<dir> ...]
+# Creates a new directory of the same name under the current working directory with the re-encoded files inside.
 _prog_name=${0##*/}
 die() { printf "%s: %s\n" "$_prog_name" "$*" >&2; exit 1; }
 [ "$#" != 0 ] || die "Need a dir to transcode"

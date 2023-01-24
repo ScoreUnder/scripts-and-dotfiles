@@ -1,4 +1,8 @@
 #!/bin/sh
+# Grab the first available ssh-agent socket and export it as SSH_AUTH_SOCK, then exec the given command.
+# This is always a bad idea, but if you need it, you need it.
+# Usage: grab-ssh-agent <command>
+# Example: grab-ssh-agent git push
 for possible_agent in /tmp/ssh-*/agent.*; do
     [ -w "$possible_agent" ] && break
 done

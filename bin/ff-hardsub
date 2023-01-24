@@ -1,4 +1,14 @@
 #!/usr/bin/env perl
+# Hardsub a video file using an ASS subtitle file.
+# Usage: ff-hardsub [OPTIONS...] <input.mkv> <input.ass> <output.mkv> [WIDTHxHEIGHT] [encoder params]
+# Options:
+#   --scale-first           Scale the video first, then hardsub. Useful for videos with a small resolution that want crisp subs.
+#                           By default, the video is hardsubbed first, then scaled. This is better for videos with a large resolution.
+#   --pts-offset <seconds>  Offset the PTS by this many seconds. Lets you re-sync the video with the subs without editing the sub file.
+#   --video-pipe            Output a raw video stream to stdout. Useful for piping to other programs.
+#   --no-hwenc              Don't use hardware encoding (here for portability, it doesn't have many actual advantages).
+#   --map <stream>          Pass through the given stream. Can be used multiple times. Same as ffmpeg -map.
+#   --                      End of options.
 #use local::lib;
 use Quote::Code;
 sub sanitize_ffmpeg_stuff {

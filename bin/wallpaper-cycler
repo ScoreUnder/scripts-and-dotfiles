@@ -1,4 +1,9 @@
 #!/bin/sh
+# Cycle through random wallpapers in a given time interval
+# Pauses while a VNC viewer is attached to this display to save bandwidth
+# Usage: wallpaper-cycler [interval] [command]
+#  interval: Time in seconds between wallpaper changes
+#  command:  Command to change the wallpaper to a random image
 while :; do
     # Do not switch backgrounds while a VNC viewer is attached to this display
     while pgrep -ax x11vnc | grep -qe "-display $DISPLAY"; do

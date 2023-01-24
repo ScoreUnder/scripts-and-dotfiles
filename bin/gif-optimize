@@ -1,4 +1,6 @@
 #!/bin/sh
+# Optimise GIF images, wrapping gifsicle with optimize-utils.sh.
+# Usage: gif-optimize [FILES...]
 optimize() {
     cp -- "$1" "$2"
     gifsicle --batch --no-comments --no-names --no-extensions -O3 -- "$2" || { printf 'Filename: %s\n' "$1" >&2; false; }

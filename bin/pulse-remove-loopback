@@ -1,4 +1,7 @@
 #!/usr/bin/env perl
+# Remove all loopback modules from pulseaudio
+# Useful for ending sessions where you had to do some funky game audio splitting stuff. It happens.
+# The null sinks you created will still be there of course, but they don't actively impact CPU usage.
 use strict;
 use warnings;
 

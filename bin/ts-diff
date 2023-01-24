@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# Add timing information to a stream of lines, showing the time since the last line.
 use strict;
 use warnings;
 

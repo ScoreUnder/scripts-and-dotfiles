@@ -1,4 +1,6 @@
 #!/bin/sh
+# Capture of the `reset` command when used in urxvt.
+# Like `reset` itself, but without the sleep.
 printf '\r\033[3g'
 i=20
 while [ $i != 0 ]; do printf '        \033H'; i=$((i-1)); done

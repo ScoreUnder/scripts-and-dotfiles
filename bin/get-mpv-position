@@ -1,4 +1,7 @@
 #!/bin/sh
+# Get the current position of the currently playing media in mpv.
+# Usage: get-mpv-position
+# Requites jq and socat.
 config_dir=${XDG_CONFIG_HOME:-"$HOME/.config"}
 socat - unix:"$config_dir"/mpv/mpv.sock <<'EOF' | jq -r .data
 { "command": ["get_property", "playback-time"] }

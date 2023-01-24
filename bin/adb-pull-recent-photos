@@ -1,4 +1,10 @@
 #!/bin/sh
+# Pull recently taken photos from a connected Android device.
+# Usage: adb-pull-recent-photos [-s device] [since]
+#   device: The device to pull from. If not specified, uses default adb behavior.
+#   since: The time to start pulling photos from. If not specified, defaults to today at midnight.
+
+# Parse arguments.
 device=
 if [ "$1" = -s ]; then
     shift
@@ -6,27 +12,35 @@ if [ "$1" = -s ]; then
     shift
 fi
 since_str=${1:-"00:00"}
+
+# Convert the given "since" time to a Unix timestamp.
 since_unixtime=$(date +%s -d "$since_str") || exit
 
+# Wrap ADB to use the given device if specified.
 adb() {
     [ -n "$device" ] && set -- -s "$device" "$@"
     command adb "$@"
 }
 
+# Check files in the Camera directory, and pull any that were modified since the given time.
 adb shell 'stat -t /sdcard/DCIM/Camera/*' | sed 's/\r$//' |
     while
         read -r name size blocks mode_hex uid gid devno inode hardlinks devmajor devminor atime mtime ctime sizehint extra
     do
+        # Check for unexpected stat output. This suggests that the format of
+        # the stat output has changed, and that the script needs updating.
         if [ -n "$extra" ] || [ -z "$sizehint" ]; then
             printf 'Warning: Skipping file due to unexpected stat format. Filename: %s\n' "$name" >&2
             continue
         fi
 
+        # Ensure that the file does not already exist in the current directory.
         if [ -e "${name##*/}" ]; then
             printf 'Warning: Not overwriting %s\n' "${name##*/}" >&2
             continue
         fi
 
+        # Pull the file if it was modified since the given time.
         if [ "$mtime" -ge "$since_unixtime" ]; then
             printf 'Pulling %s\n' "$name" >&2
             adb pull "$name" .

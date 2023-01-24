@@ -1,4 +1,6 @@
 #!/bin/sh
+# Take a screenshot and copy it to the clipboard, also saving it to a datestamped file in the home directory.
+# Uses "take-screenshot", meant to be a stand-in for another screenshot tool, see the script of the same name in this repo.
 filename=$(date +%F-%H%M%S%N)
 filename=~/$filename.png
 take-screenshot -s -- "$filename" || exit

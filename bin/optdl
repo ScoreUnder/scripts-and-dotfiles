@@ -1,4 +1,14 @@
 #!/bin/sh
+# Download an image from the internet and optimize it
+# Usage: optdl [URL] [newname] [dir]
+# If no URL is given, it will be read from the PRIMARY selection
+# If no newname is given, it will be the basename of the URL
+# If no dir is given, it will be $SAVED_IMAGE_DIR from ~/docs/dec/vars
+#
+# Yes it's a mess, but I don't use this script much. Turns out saving from the browser is easier. Another warning against the hubris of programmerkind.
+# This probably still has some salvageable parts, though.
+# Or perhaps that is again the hubris of programmerkind speaking.
+
 [ -r ~/docs/dec/vars ] && . ~/docs/dec/vars
 
 # {{{ Utilities

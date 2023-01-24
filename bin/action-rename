@@ -1,4 +1,9 @@
 #!/bin/sh
+# "Rename" action for feh
+# Requires zenity
+# Usage example:
+#   feh --action "action-rename %F" --draw-actions
+
 [ "$#" = 1 ] || [ "$#" = 2 ] || { zenity --error --title=Rename --text='Need 1 argument (and optional second argument for suggested name)'; exit 1; }
 result=$(zenity --file-selection --save --confirm-overwrite --title="Renaming $1" --filename="${2-$1}") || exit 1
 if [ -e "$result" ]; then

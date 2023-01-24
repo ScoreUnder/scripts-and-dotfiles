@@ -1,4 +1,12 @@
 #!/usr/bin/env perl
+# Change the volume of the default audio device using pipewire, displaying a notification with the new volume.
+# Intended to be used with a key-binding tool or window manager.
+# Requires wpctl and notify-send.
+# Usage: pw-volume-change <adjustment>
+# Adjustment value is a floating point number, with 1 corresponding to 100% volume.
+# Example: pw-volume-change +0.05
+# The string "mute" can be used to toggle mute.
+# Example: pw-volume-change mute
 use v5.36;
 use Scalar::Util 'looks_like_number';
 use constant {

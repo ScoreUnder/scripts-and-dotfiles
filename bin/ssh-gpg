@@ -1,4 +1,9 @@
 #!/bin/sh
+# Use GPG agent for SSH authentication
+# Usage: ssh-gpg <ssh command>
+# Example: ssh-gpg ssh user@host
+# Example: ssh-gpg git push
+# Useful for Yubikeys etc.
 gpg-connect-agent -q updatestartuptty /bye >/dev/null
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/${UID:-$(id -u)}}/gnupg/S.gpg-agent.ssh"
 export GPG_TTY="$(tty)"

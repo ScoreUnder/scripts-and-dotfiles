@@ -1,4 +1,5 @@
 #!/bin/sh
+# Convert a video to a GIF using ffmpeg
 # http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
 
 cut_arg() {

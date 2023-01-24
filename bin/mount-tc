@@ -1,4 +1,5 @@
 #!/bin/sh
+# Mount a TrueCrypt volume using tcplay
 [ "$#" = 3 ] || { echo 'Need 3 args exactly! (file, mapping name, mountpoint)'; exit 1; }
 loopdev=$(losetup -f) || exit
 cleanup_and_exit() {

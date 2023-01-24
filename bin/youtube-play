@@ -1,5 +1,11 @@
 #!/bin/sh
-# Get video URL from the clipboard
+# Play a YouTube video in mpv, downloading it if necessary
+# Usage: youtube-play [URL]
+# If no URL is given, the URL is read from the PRIMARY selection
+# If the video is already downloaded, it is played from disk
+# Otherwise, it is streamed and downloaded
+
+# Get video URL from the command line or the PRIMARY selection
 vid=${1:-$(xsel)}
 
 # Extract video ID from URL

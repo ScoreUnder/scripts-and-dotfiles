@@ -1,4 +1,5 @@
 #!/bin/sh
+# Add a timestamp to each line of input
 while IFS= read -r line; do
     echo "$(date +%s%N) $line"
 done

@@ -1,4 +1,5 @@
 #!/bin/sh
+# Optimize a JPEG image, wrapping jpegtran or mozjpeg in optimize-utils.sh.
 # Use with mozjpeg instead of libjpeg-turbo for best results.
 if_executable() {
     [ -x "$1" ] && printf %s "$1"

@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+# Read a bencode-encoded file (e.g. torrent) and output a plain-text representation.
+# This is a simple wrapper around the better_bencode module.
+# Intended for informational purposes only, no guarantees about output format are made.
+# See `read-bencode --help` for usage information.
 import optparse  # Objectively the best Python argument parser in the core
 import sys
 

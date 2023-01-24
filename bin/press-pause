@@ -1,4 +1,8 @@
 #!/bin/sh
+# Action I bind to the "pause" button on my keyboard.
+# Determines which player to target using `active_media_player` and then
+# sends the appropriate "pause" command to the player and updates
+# the i3blocks display.
 mpv_toggle() {
     echo 'cycle pause' | socat - unix:"$HOME/.config/mpv/mpv.sock"
 }

@@ -1,4 +1,6 @@
 #!/bin/sh
+# Optimize a PNG image using optipng, pngwolf, or zopflipng, wrapped in optimize-utils.sh.
+# pngwolf my beloved, if only you were still maintained :'(
 optimize() {
     if command -v pngwolf >/dev/null; then
         cp -- "$1" "$2"

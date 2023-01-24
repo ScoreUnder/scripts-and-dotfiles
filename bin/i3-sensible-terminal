@@ -1,2 +1,3 @@
 #!/bin/sh
+# A default terminal to be executed by i3
 exec urxvtc-auto "$@"
