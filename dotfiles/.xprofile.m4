@@ -56,7 +56,7 @@ xautolock -locker ~/bin/sensible-lock -time 15 &
 # Random wallpapers on boot and every 10 mins
 wallpaper-cycler &
 # Compositing for transparency and forced vsync
-picom --experimental-backends &
+picom &
 # urxvtd because I use the terminal every minute of every day
 urxvtd -q -o &
 # Set default input configuration (mouse sensitivity, keyboard layout, etc)
