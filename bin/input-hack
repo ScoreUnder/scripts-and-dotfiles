@@ -1,0 +1,8 @@
+#!/bin/sh
+udevadm monitor | while read -r source time event path class; do
+    if [ "$event" = add ] && [ "$class" = '(hid)' ]; then
+        printf "%s: Change detected, reconfiguring\n" "$(date)" >&2
+
+        set-default-input-config
+    fi
+done
