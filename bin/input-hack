@@ -1,8 +1,18 @@
 #!/bin/sh
+# Automatically reconfigure input devices when new ones are added
+# (e.g. when a KVM switch is activated or a USB keyboard is plugged in)
+# This is inefficient, but I don't know of a better way to do it.
+# Usage: input-hack
+# (No arguments)
+
+# Read udev events as a stream
 udevadm monitor | while read -r source time event path class; do
+    # Check if the event is a device being added
     if [ "$event" = add ] && [ "$class" = '(hid)' ]; then
         printf "%s: Change detected, reconfiguring\n" "$(date)" >&2
 
+        # Reconfigure input devices
+        # (This script should be modified by the user based on their needs)
         set-default-input-config
     fi
 done
