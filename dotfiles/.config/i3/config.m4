@@ -207,7 +207,7 @@ bindsym $mod+slash scratchpad show
 bindsym $mod+Shift+slash move to scratchpad
 bindsym Print exec take-screenshot
 bindsym Ctrl+Print exec pomfclip
-bindsym Ctrl+Shift+Print exec pomfclip --service=kyaa
+bindsym Ctrl+Shift+Print exec pomfclip --service='FILE_UPLOAD_SERVICE()'
 bindsym Mod1+Sys_Req exec take-screenshot -s
 bindsym Shift+Print exec screenshot-and-copy
 bindsym $mod+Shift+s sticky toggle
