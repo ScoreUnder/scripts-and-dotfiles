@@ -37,5 +37,5 @@ for file do
         -g 9999 -aq-mode 0 -an -f webm -y /dev/null
     ffmpeg -i "$file" -c:v libvpx-vp9 $quality -pass 2 -threads 0 -speed 0 \
         -tile-columns 0 -frame-parallel 0 -auto-alt-ref 1 -lag-in-frames 25 \
-        -g 9999 -aq-mode 0 -c:a libopus -b:a 64k -f webm "$file.webm"
+        -g 9999 -aq-mode 0 -row-mt 1 -c:a libopus -b:a 64k -f webm "$file.webm"
 done
