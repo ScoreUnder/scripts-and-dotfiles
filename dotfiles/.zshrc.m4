@@ -71,6 +71,10 @@ done
 
 READNULLCMD=less
 
+setopt hist_expire_dups_first
+SAVEHIST=100000
+HISTSIZE=$((SAVEHIST * 2))
+
 stty -ixon
 
 umask 077
