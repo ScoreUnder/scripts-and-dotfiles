@@ -25,11 +25,11 @@ _colour_diff() {
 }
 
 _install() {
-    install -pvTDm "$(stat -c%a "$1")" -- "$1" "$2"
+    install -pvTDm "$3" -- "$1" "$2"
 }
 
 _copy_to_git() {
-    install -pTm "$(stat -c%a "$2")" -- "$2" "$1"
+    install -pTm "$3" -- "$2" "$1"
 }
 
 render_m4() { ./render-m4 "$1" >"$2"; }
@@ -40,6 +40,19 @@ print_hr() {
     printf \\n
 }
 
+get_mode() {
+    stat -c%a "$1"
+}
+
+get_and_compare_mode() {
+    path=$1
+    desired_mode=$2
+
+    actual_mode=$(get_mode "$path")
+    printf %s\\n "$actual_mode"
+    [ "$actual_mode" = "$desired_mode" ]
+}
+
 safecopy() {
     local operation answer path dest_path display_path orig_path readonly
     path=$1 dest_path=$2 readonly=false
@@ -47,6 +60,8 @@ safecopy() {
     display_path=$path
 
     [ "${path%.inc.m4}" != "$path" ] && return  # Don't copy .inc.m4 files
+
+    desired_mode=$(get_mode "$path")
 
     # If the path ends in .m4, render it first
     if [ "${path%.m4}" != "$path" ]; then
@@ -63,9 +78,14 @@ safecopy() {
 
     operation=_install
     if [ -r "$dest_path" ]; then
-        if ! diff=$(diff -U5 -- "$dest_path" "$path"); then
+        if ! diff=$(diff -U5 -- "$dest_path" "$path") \
+                || ! actual_mode=$(get_and_compare_mode "$dest_path" "$desired_mode"); then
             print_hr
-            printf %s\\n "$diff" | _colour_diff
+            if [ -n "$diff" ]; then
+                printf %s\\n "$diff" | _colour_diff
+            else
+                printf 'Permissions differ for %s: %s -> %s\n' "$display_path" "$actual_mode" "$desired_mode"
+            fi
 
             printf 'You have a different version of %s - if you install, the above changes will be applied.\n' "$display_path"
 
@@ -96,7 +116,7 @@ safecopy() {
             return 0
         fi
     fi
-    "$operation" "$path" "$dest_path"
+    "$operation" "$path" "$dest_path" "$desired_mode"
 }
 
 recurse() {
