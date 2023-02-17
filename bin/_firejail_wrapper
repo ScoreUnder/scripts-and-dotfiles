@@ -1,5 +1,8 @@
 #!/bin/sh
 # Wrapper to run a program in firejail
 # Usage: `ln -s _firejail_wrapper ~/bin/some_program`
-next=$(next-in-path "$0") \
-    && exec firejail -- "$next" "$@"
+
+next=$(next-in-path "$0") || exit
+# Work around https://github.com/netblue30/firejail/issues/5659
+[ "${next#/}" = "$next" ] && next=./$next
+exec firejail "$next" "$@"
