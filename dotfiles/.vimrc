@@ -170,3 +170,7 @@ let g:UltiSnipsEditSplit="vertical"
 let g:ycm_key_list_stop_completion = ['<C-y>', '<Cr>']
 let g:Hexokinase_executable_path = "/usr/bin/hexokinase"
 let g:Hexokinase_highlighters = [ 'backgroundfull' ]
+
+imap <C-C>\ <Plug>(copilot-suggest)
+imap <C-C>[ <Plug>(copilot-previous)
+imap <C-C>] <Plug>(copilot-next)
