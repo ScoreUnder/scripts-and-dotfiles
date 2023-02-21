@@ -15,11 +15,11 @@ export SUDO_ASKPASS="$SSH_ASKPASS"
 'ifelse(HTTP_PROXY, `', `', ``export http_proxy='HTTP_PROXY
 ')dnl
 export MAKEFLAGS=-j`'eval(CPUS + 1)
-
+`
 # {{{ perl local::lib
 PATH="$HOME/.local/share/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="$HOME/.local/share/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="$HOME/.local/share/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"$HOME/.local/share/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=$HOME/.local/share/perl5"; export PERL_MM_OPT;
-# }}}
+# }}}'
