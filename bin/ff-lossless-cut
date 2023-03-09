@@ -102,15 +102,25 @@ if ($hardware eq "amd") {
     push @vfilters_transformed, "hwupload";
 }
 
+my $vmap = '0:v';
+if (@vfilters_transformed) {
+    $vmap = '[v]';
+}
+
+my $amap = '0:a';
+if (@afilters_transformed) {
+    $amap = '[a]';
+}
+
 my @filters = ();
-push @filters, join(",", @vfilters_transformed) if @vfilters_transformed;
-push @filters, join(",", @afilters_transformed) if @afilters_transformed;
+push @filters, join(",", @vfilters_transformed) . $vmap if @vfilters_transformed;
+push @filters, join(",", @afilters_transformed) . $amap if @afilters_transformed;
 if (@filters) {
     @filters_transformed = ('-filter_complex', join(";", @filters));
 }
 
 my @command = qw/ffmpeg -hide_banner -y -nostdin/;
-my @common_out = qw/-c:a flac -map_chapters -1 -map 0:v -map 0:a/;
+my @common_out = (qw/-c:a flac -map_chapters -1 -map/, $vmap, '-map', $amap);
 
 my $codec = "hevc";  # h264 is broken somehow on ffmpeg w/ vaapi?
 
