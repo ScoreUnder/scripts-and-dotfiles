@@ -178,8 +178,8 @@ for_window [class="rdesktop"] border none, floating disable
 for_window [title="Please wait..."] floating enable, border none
 for_window [title="Steam Keyboard" class="steam"] floating enable
 for_window [class="Yad"] floating enable
-assign [title="Outbreak RDP"] "Outbreak RDP"
 assign [class="Steam"] 10
+assign [class="steamwebhelper"] 10
 bindsym XF86HomePage exec sensible-browser
 bindsym XF86AudioNext exec press-next
 bindsym XF86AudioPrev exec press-prev
