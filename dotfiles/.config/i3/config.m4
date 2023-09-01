@@ -179,6 +179,7 @@ for_window [title="Please wait..."] floating enable, border none
 for_window [title="Steam Keyboard" class="steam"] floating enable
 for_window [class="Yad"] floating enable
 assign [class="Steam"] 10
+assign [class="steam"] 10
 assign [class="steamwebhelper"] 10
 bindsym XF86HomePage exec sensible-browser
 bindsym XF86AudioNext exec press-next
