@@ -23,6 +23,7 @@ set formatoptions+=jn
 " Reindenting on every comment gets tired, fast. Disable:
 set indentkeys-=0#
 set nofsync
+set lazyredraw
 
 if has('nvim')
     set rtp^=/usr/share/vim/vimfiles
