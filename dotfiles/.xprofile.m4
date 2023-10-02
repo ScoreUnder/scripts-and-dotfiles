@@ -24,6 +24,11 @@ ifelse(
 export GTK_IM_MODULE=APOS()ifelse(IME_NAME(), `xim', ``none'', `IME_NAME()')APOS()
 export QT_IM_MODULE=APOS()IME_NAME()APOS()
 export XMODIFIERS=APOS()@im=IME_NAME()APOS()
+ifelse(
+    IME_NAME(), `ibus', `dnl
+export XIM_PROGRAM=/usr/bin/ibus-daemon XIM_ARGS="--xim"
+/usr/lib/ibus/ibus-x11 &
+', `')dnl
 ')dnl
 
 # Run SSH agent
