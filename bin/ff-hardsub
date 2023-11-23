@@ -19,6 +19,7 @@ my $scalefirst = 0;
 my $pts_offset = 0;
 my $video_pipe = 0;
 my $use_nvenc = 1;
+my $audio_resample = 0;
 my @maps;
 while (1) {
     if ($ARGV[0] eq '--scale-first') {
@@ -33,6 +34,8 @@ while (1) {
     } elsif ($ARGV[0] eq '--map') {
         shift;
         push @maps, split /[\s,]+/, $ARGV[0];
+    } elsif ($ARGV[0] eq '--audio-resample') {
+        $audio_resample = 1;
     } elsif ($ARGV[0] eq '--') {
         shift; last;
     } else {
@@ -85,6 +88,7 @@ push @vfs, "format=nv12", "hwupload" if $scalefirst && $use_nvenc;
 push @vfs, "setpts=PTS+$pts_offset" if $pts_offset;
 
 push @args, qw/-f nut/ if $video_pipe;
+push @args, qw/-ar 48000/ if $audio_resample;
 
 @maps = map { ('-map', $_) } @maps;
 
