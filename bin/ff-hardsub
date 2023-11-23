@@ -50,11 +50,12 @@ if ($use_nvenc) {
 my ($in, $subs, $out, $wxh, @args) = @ARGV;
 die 'Pass on the command line: input.mkv subs.ass output.mkv [WIDTHxHEIGHT] [encoder params]' if !$out or !$subs or !$in;
 my $codec = "hevc";  # h264 is broken somehow on ffmpeg w/ vaapi?
+my $profile = $use_nvenc ? "main" : "main444-8";
 my @default_vcodec = $video_pipe
                         ? (qw/-c:v huffyuv -pix_fmt yuv444p/)
                         : $use_nvenc
-                            ? (qcw/-c:v {$codec}_vaapi -qp:v 1 -preset:v veryslow -profile:v main/)
-                            : (qcw/-c:v {$codec} -qp:v 0 -preset:v fast -profile:v main/);
+                            ? (qcw/-c:v {$codec}_vaapi -qp:v 1 -preset:v veryslow -profile:v {$profile}/)
+                            : (qcw/-c:v {$codec} -qp:v 0 -preset:v fast -profile:v {$profile}/);
 #@args = (@default_vcodec, qw/-pix_fmt yuv444p -c:a copy/) unless @args;
 @args = (@default_vcodec, qw/-c:a copy/) unless @args;
 
