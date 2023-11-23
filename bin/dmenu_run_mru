@@ -35,23 +35,21 @@ perl -e '
     use warnings;
     use Errno "ENOENT";
     my ($mru_cache, $command) = @ARGV;
-    my $found = 0;
     open(my $cache_w, ">", "$mru_cache.new") or die "Could not write new cache: $!";
     if (open(my $cache, "<", $mru_cache)) {
         while (<$cache>) {
+            # Remove executed command from the list
             chomp;
-            my ($amt, $cmd) = split /\t/, $_, 2;
+            my ($time, $cmd) = split /\t/, $_, 2;
             next if !defined $cmd;
-            if ($cmd eq $command) {
-                ++$amt;
-                $found = 1;
-            }
-            print $cache_w "$amt\t$cmd\n";
+            next if $cmd eq $command;
+            print $cache_w "$_\n";
         }
     } else {
         die "Could not open cache for reading: $!" if $! != ENOENT;
     }
-    print $cache_w "1\t$command\n" unless $found;
+    # Re-add the executed command with the current time
+    printf $cache_w "%d\t%s\n", time, $command;
     rename "$mru_cache.new", $mru_cache;
 ' -- "$mru_cache" "$command"
 eval exec "$command"
