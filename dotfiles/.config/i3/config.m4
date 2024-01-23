@@ -6,7 +6,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
-font pango:FREETYPE_NEW_NAME(`lucy', `Tewi'), M+ 2c, IPA Gothic 9px
+font pango:Source Code Pro, monospace, M+ 2c, IPA Gothic 10px
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
