@@ -28,6 +28,14 @@ URxvt.perl-ext-common: default,matcher,xim-onthespot
 URxvt.matcher.launcher: /usr/bin/xdg-open
 URxvt.keysym.C-Delete: matcher:select
 
+! Rebind default copy/paste keys to include shift key (so it never conflicts
+! with terminal control codes).  This is also consistent with other terminal
+! emulators
+URxvt.keysym.S-C-C: eval:selection_to_clipboard
+URxvt.keysym.S-C-V: eval:paste_clipboard
+URxvt.keysym.M-C-c: builtin-string:
+URxvt.keysym.M-C-v: builtin-string:
+
 ! Tabs: gray background, ~white text
 ! and the opposite for the currently focused tab
 URxvt.tabbed.tabbar-fg: 7
