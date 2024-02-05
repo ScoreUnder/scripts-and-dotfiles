@@ -39,7 +39,7 @@ wireless WIFI_IFACE() {
 define(BATTERY_FORMAT, `ifelse($1, `', `', `dnl
 battery $1 {
         format = "%status %percentage %remaining %emptytime %consumption"
-        low_threshold = "5"
+        low_threshold = "10"
 }
 
 BATTERY_FORMAT(shift($@))')')dnl
