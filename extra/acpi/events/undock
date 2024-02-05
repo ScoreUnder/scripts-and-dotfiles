@@ -1,0 +1,2 @@
+event=ibm/hotkey LEN0068:00 00000080 00004011
+action=/etc/acpi/actions/undock

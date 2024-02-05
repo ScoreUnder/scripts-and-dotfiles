@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export DISPLAY=:0
+export XAUTHORITY="$(pgrep -a X | perl -lne '@s=split;shift @s while @s && $s[0] ne "-auth"; shift @s; print $s[0] if @s')"
+xrandr --output DP-2 --auto --right-of LVDS-1 --rotate left

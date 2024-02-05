@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+import sys
+import os
+import time
+
+backlight = '/sys/class/backlight/intel_backlight'
+
+def read_param(param):
+    with open(os.path.join(backlight, param), 'r') as f:
+        return int(f.read().strip())
+
+def write_param(param, value):
+    with open(os.path.join(backlight, param), 'w') as f:
+        print(value, file=f)
+
+def warp(x):
+    return x ** (1/2.3)
+
+def unwarp(x):
+    return x ** 2.3
+
+increment = float(sys.argv[1])
+max_brightness = read_param('max_brightness')
+current_brightness = read_param('brightness')
+
+max_warped = warp(max_brightness)
+brightness = warp(current_brightness) * 100 / max_warped
+brightness += increment
+brightness = min(100, max(0, brightness))
+brightness = int(unwarp(brightness * max_warped / 100))
+
+steps = 30
+target = warp(brightness)
+current = warp(current_brightness)
+increment = (target - current) / steps
+
+for i in range(1, steps):
+    write_param('brightness', int(unwarp(current + i * increment)))
+    time.sleep(0.3 / steps)
+
+write_param('brightness', brightness)
