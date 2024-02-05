@@ -189,6 +189,7 @@ bindsym XF86AudioPause exec press-pause
 bindsym XF86AudioStop exec press-stop
 
 bindsym XF86Display exec arandr
+bindsym XF86TouchpadToggle exec toggle-touchpad
 
 bindsym XF86AudioRaiseVolume exec pw-volume-change +0.05
 bindsym XF86AudioLowerVolume exec pw-volume-change -0.05

@@ -1,0 +1,8 @@
+#!/bin/sh
+touchpad='SynPS/2 Synaptics TouchPad'
+enabled=$(xinput list-props "$touchpad" | awk -F: '/Device Enabled/{gsub(/[[:space:]]+/,"",$2);print $2}')
+if [ "$enabled" -eq 1 ]; then
+    xinput disable "$touchpad"
+else
+    xinput enable "$touchpad"
+fi
