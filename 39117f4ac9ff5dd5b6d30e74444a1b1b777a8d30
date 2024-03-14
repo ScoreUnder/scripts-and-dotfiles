@@ -1,0 +1,3 @@
+This is for consistency with other applications, as well as because
+ctrl+alt+[cv] have tty keycodes mapped while ctrl+shift+[cv] don't (i.e.
+they are indistinguishable from not holding shift).
