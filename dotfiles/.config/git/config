@@ -38,3 +38,5 @@
 # Doesn't work on newer git?
 #[interactive]
 #	diffFilter = /usr/share/git/diff-highlight/diff-highlight
+[rerere]
+	enabled = true
