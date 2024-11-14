@@ -13,7 +13,7 @@ set foldmethod=marker
 set list listchars=tab:╾─,trail:·,nbsp:.
 set background=dark
 set omnifunc=syntaxcomplete#Complete
-set completeopt=menu,preview,menuone
+set completeopt=menu,preview,menuone,longest
 set hlsearch
 set incsearch
 set mouse=a
@@ -122,6 +122,11 @@ endfunction
 
 command! Ass2Sbv silent call Ass2Sbv()
 
+function AlwaysComplete()
+    inoremap . .<C-X><C-O>
+    inoremap # #<C-X><C-O>
+endfunction
+
 nnoremap <space> za
 nnoremap g] :pts <c-r>=expand("<cword>")<cr><cr>
 
@@ -133,7 +138,7 @@ nnoremap <leader>j Ji;<esc>
 nnoremap <leader>m :wa!<cr>:mak<cr>
 nnoremap <leader>x :call HexDecSwap()<cr>
 
-nnoremap <F1> <nop>
+nnoremap <silent> <F1> :ALEHover<cr>
 inoremap <F1> <nop>
 
 " Bullet point digraph
@@ -149,6 +154,17 @@ let g:UltiSnipsEditSplit="vertical"
 let g:ycm_key_list_stop_completion = ['<C-y>', '<Cr>']
 let g:Hexokinase_executable_path = "/usr/bin/hexokinase"
 let g:Hexokinase_highlighters = [ 'backgroundfull' ]
+let g:ale_fixers = {
+\    'c': ['clang-format'],
+\    'cpp': ['clang-format'],
+\    'ocaml': ['ocamlformat'],
+\    'scala': ['scalafmt'],
+\    'dune': ['dune'],
+\}
+let g:ale_linters = {
+\    'c': ['clangd'],
+\}
+let g:ale_c_build_dir_names = ['build', 'bin', '.']
 
 imap <C-C>\ <Plug>(copilot-suggest)
 imap <C-C>[ <Plug>(copilot-previous)
