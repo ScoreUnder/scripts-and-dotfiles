@@ -42,6 +42,13 @@ if [ "$1" = --single-internal ]; then
 fi
 
 for dir do
+    while
+        case $dir in
+            (*/) dir=${dir%/}; true;;
+            (*) false;;
+        esac
+    do :; done
+
     [ -r "$dir" ] || die "No read access: $dir"
     [ -d "$dir" ] || die "Not a directory: $dir"
     mkdir -p -- "${dir%%*/}"
