@@ -53,6 +53,15 @@ get_and_compare_mode() {
     [ "$actual_mode" = "$desired_mode" ]
 }
 
+replace_right_file() {
+    display_path=$1
+    awk -v path="$display_path" '
+        BEGIN { go = 1 }
+        go && /^\+\+\+ / { $0 = "+++ " path; go = 0 }
+        { print }
+    '
+}
+
 safecopy() {
     local operation answer path dest_path display_path orig_path readonly
     path=$1 dest_path=$2 readonly=false
@@ -82,7 +91,7 @@ safecopy() {
                 || ! actual_mode=$(get_and_compare_mode "$dest_path" "$desired_mode"); then
             print_hr
             if [ -n "$diff" ]; then
-                printf %s\\n "$diff" | _colour_diff
+                printf %s\\n "$diff" | replace_right_file "$display_path" | _colour_diff
             else
                 printf 'Permissions differ for %s: %s -> %s\n' "$display_path" "$actual_mode" "$desired_mode"
             fi
