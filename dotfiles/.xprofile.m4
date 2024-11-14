@@ -26,6 +26,7 @@ export QT_IM_MODULE=APOS()IME_NAME()APOS()
 export XMODIFIERS=APOS()@im=IME_NAME()APOS()
 ifelse(
     IME_NAME(), `ibus', `dnl
+export GLFW_IM_MODULE=ibus
 export XIM_PROGRAM=/usr/bin/ibus-daemon XIM_ARGS="--xim"
 /usr/lib/ibus/ibus-x11 &
 ', `')dnl
@@ -62,8 +63,10 @@ xautolock -locker ~/bin/sensible-lock -time 15 &
 wallpaper-cycler &
 # Compositing for transparency and forced vsync
 picom &
+ifelse(TERMINAL(), `urxvt', `dnl
 # urxvtd because I use the terminal every minute of every day
 urxvtd -q -o &
+', `')dnl
 # Set default input configuration (mouse sensitivity, keyboard layout, etc)
 set-default-input-config &
 # Load i3 workspaces if applicable
