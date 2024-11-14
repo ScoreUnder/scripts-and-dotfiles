@@ -68,13 +68,18 @@ my $hardsub_filter = "subtitles=filename=$subs";
 
 my @vfs;
 push @vfs, "setpts=PTS-$pts_offset" if $pts_offset;
-push @vfs, $hardsub_filter unless $scalefirst;
-push @vfs, "format=nv12", "hwupload" if !$scalefirst && $use_nvenc;
-push @vfs, "format=yuv444p" if !$use_nvenc;
+if (!$scalefirst) {
+    push @vfs, $hardsub_filter;
+    push @vfs, "format=nv12", "hwupload" if $use_nvenc;
+}
+push @vfs, "format=nv12" if !$use_nvenc;
 if (defined $wxh and $wxh ne 'orig') {
     ($wxh =~ /^(\d+)x(\d+)$/) or die "Not a valid WIDTHxHEIGHT: $wxh\n";
-    push @vfs, "scale_vaapi=w=$1:h=$2" unless $scalefirst || !$use_nvenc;
-    push @vfs, "scale=w=$1:h=$2" if $scalefirst || !$use_nvenc;
+    if ($scalefirst || !$use_nvenc) {
+        push @vfs, "scale=w=$1:h=$2";
+    } else {
+        push @vfs, "scale_vaapi=w=$1:h=$2";
+    }
     if ($2 * 16 == $1 * 9) {
         print "Scaling to a 16:9 aspect ratio.\n";
     } elsif ($2 * 4 == $1 * 3) {
@@ -83,8 +88,10 @@ if (defined $wxh and $wxh ne 'orig') {
         print "WARNING: Scaled aspect ratio is not exactly 16:9 or 4:3!\n";
     }
 }
-push @vfs, $hardsub_filter if $scalefirst;
-push @vfs, "format=nv12", "hwupload" if $scalefirst && $use_nvenc;
+if ($scalefirst) {
+    push @vfs, $hardsub_filter;
+    push @vfs, "format=nv12", "hwupload" if $use_nvenc;
+}
 push @vfs, "setpts=PTS+$pts_offset" if $pts_offset;
 
 push @args, qw/-f nut/ if $video_pipe;
