@@ -29,6 +29,7 @@ caffeinate_begin()
     trap 'caffeinate_end' INT TERM EXIT
 
     xset s off
+    xset -dpms
     pkill -STOP -f '^xautolock'
 
     touch -- "$my_dir/$$"
@@ -46,6 +47,7 @@ caffeinate_end()
     done
 
     xset s on
+    xset +dpms
     pkill -CONT -f '^xautolock'
 }
 
