@@ -5,4 +5,4 @@
 next=$(next-in-path "$0") || exit
 # Work around https://github.com/netblue30/firejail/issues/5659
 [ "${next#/}" = "$next" ] && next=./$next
-exec firejail "$next" "$@"
+exec firejail --quiet "$next" "$@"

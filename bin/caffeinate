@@ -1,0 +1,61 @@
+#!/bin/sh
+# caffeinate: run a command while ensuring that a screensaver does not interrupt
+# (like Caffeine for OS X, but for Linux/x11)
+#
+# Usage: caffeinate [command]
+#
+# If no command is given, caffeinate will run until you press enter.
+# If a command is given, caffeinate will run for the duration of the command.
+#
+# This script has been designed with re-entrancy in mind, so you can run multiple
+# instances of caffeinate at the same time and they will not interfere with each
+# other. In practice, this has not been thoroughly tested.
+
+runtime_dir=${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
+my_dir=$runtime_dir/caffeinate
+
+mkdir -p -- "$my_dir" || {
+    # Less secure alternative:
+    runtime_dir=/tmp/caffeinate-$(id -u)
+    my_dir=$runtime_dir/caffeinate
+    mkdir -p -- "$my_dir" || {
+        echo "Failed to create runtime directory" >&2
+        exit 1
+    }
+}
+
+caffeinate_begin()
+{
+    trap 'caffeinate_end' INT TERM EXIT
+
+    xset s off
+    xset -dpms
+    pkill -STOP -f '^xautolock'
+
+    touch -- "$my_dir/$$"
+}
+
+caffeinate_end()
+{
+    rm -f -- "$my_dir/$$"
+
+    for pid in "$my_dir"/*; do
+        # if any pid file exists & is still running, return
+        [ -e "/proc/${pid##*/}" ] && return
+        # otherwise, remove the pid file
+        rm -f -- "$pid"
+    done
+
+    xset s on
+    xset +dpms
+    pkill -CONT -f '^xautolock'
+}
+
+caffeinate_begin
+
+if [ "$#" -eq 0 ]; then
+    echo 'Caffeinate used without command; press enter to un-caffeinate.'
+    read dummy
+else
+    "$@"
+fi

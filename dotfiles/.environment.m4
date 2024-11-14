@@ -16,6 +16,13 @@ export SUDO_ASKPASS="$SSH_ASKPASS"
 ')dnl
 export MAKEFLAGS=-j`'eval(CPUS + 1)
 `
+
+# {{{ AMDGPU Vulkan driver selection
+#export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json
+#export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
+export AMD_VULKAN_ICD=RADV
+# }}}
+
 # {{{ perl local::lib
 PATH="$HOME/.local/share/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="$HOME/.local/share/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;

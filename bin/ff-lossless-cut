@@ -122,7 +122,7 @@ if (@filters) {
 my @command = qw/ffmpeg -hide_banner -y -nostdin/;
 my @common_out = (qw/-c:a flac -map_chapters -1 -map/, $vmap, '-map', $amap);
 
-my $codec = "hevc";  # h264 is broken somehow on ffmpeg w/ vaapi?
+my $codec = "h264";
 
 if ($hardware eq "nvidia") {
     push @command, qw/-hwaccel cuda -ss/, $from, @duration_arg, '-i', $in, @filters_transformed, qcw/-c:v {$codec}_nvenc -preset:v lossless -profile:v high444p/, @common_out, $out;

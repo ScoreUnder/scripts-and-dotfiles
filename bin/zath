@@ -1,0 +1,13 @@
+#!/bin/sh
+# Wrapper script to open something in firejailed Zathura avoiding weird
+# permission issues that arise through firejail
+[ "$#" -eq 1 ] || {
+    echo "Usage: $0 FILE" >&2
+    exit 1
+}
+
+exec < "$1" || exit 1  # Open the file for reading
+
+cd /  # Get out of a directory that Zathura might not have access to under firejail
+
+exec firejail --quiet zathura -

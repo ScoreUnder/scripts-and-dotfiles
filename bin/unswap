@@ -1,0 +1,27 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+# No warning for non-portable use of hex() function (we are literally using platform-size pointers)
+no warnings 'portable';
+
+my $proc = shift || die "Usage: $0 <PID>\n";
+
+open my $maps, "<", "/proc/$proc/maps" or die "Can't open /proc/$proc/maps: $!\n";
+open my $mem, "<", "/proc/$proc/mem" or die "Can't open /proc/$proc/mem: $!\n";
+while (<$maps>) {
+    if (/^([0-9a-f]+)-([0-9a-f]+) ([-rwxp]+) (\S+) (\d+:\d+) (\d+) +(.*)$/) {
+        my ($start, $end) = (hex($1), hex($2));
+        my $size = $end - $start;
+        my $perms = $3;
+        # my $offset = $6;
+        # my $file = $7;
+        if ($perms =~ /r/) {
+            seek $mem, $start, 0;
+            my $data;
+            read $mem, $data, $size;
+        }
+    }
+}
+close $mem;
+close $maps;

@@ -1,4 +1,10 @@
 #!/bin/sh
 # Sign an APK with the default debug keys
 # Usage: apk-sign <apk>
-exec jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/.android/debug.keystore -keypass android -storepass android "$1" androiddebugkey
+
+# V1 signature
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/.android/debug.keystore -keypass android -storepass android "$1" androiddebugkey
+zipalign -p 4 "$1" "$1".aligned.apk
+
+# V2-V4 signature
+apksigner sign --ks ~/.android/debug.keystore --ks-pass pass:android --ks-key-alias androiddebugkey --key-pass pass:android --v4-signing-enabled true "$1".aligned.apk
