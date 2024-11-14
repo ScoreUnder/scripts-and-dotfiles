@@ -6,6 +6,9 @@ _prog_name=${0##*/}
 die() { printf "%s: %s\n" "$_prog_name" "$*" >&2; exit 1; }
 [ "$#" != 0 ] || die "Need a dir to transcode"
 
+bitrate=96k
+frame_duration=60
+
 reencode_file() {
     file=$1
     dir=$2
@@ -24,7 +27,7 @@ reencode_file() {
     mkdir -p -- "$mydir"
 
     case ${fbase##*.} in
-        (flac|mp3|m4a|wav) exec ffmpeg -hide_banner -nostdin -y -loglevel warning -i "$existing_file" -c:a libopus -b:a 128k -vn "$new_file";;
+        (flac|mp3|m4a|wav) exec ffmpeg -hide_banner -nostdin -y -loglevel warning -i "$existing_file" -c:a libopus -b:a "$bitrate" -frame_duration:a "$frame_duration" -vn "$new_file";;
         (m3u|m3u8|fpl|cue|log|part) ;;  # skip
         (*) exec cp -r --reflink=auto "$existing_file" "$new_file";;
     esac
