@@ -131,12 +131,12 @@ nnoremap <space> za
 nnoremap g] :pts <c-r>=expand("<cword>")<cr><cr>
 
 nnoremap <leader>w :w!<cr>
-nnoremap <leader>tn :tabnew<cr>
-nnoremap <leader>tc :tabclose<cr>
-nnoremap <leader>te :tabedit<space>
+nnoremap <silent> <leader>tn :tabnew<cr>
+nnoremap <silent> <leader>tc :tabclose<cr>
+nnoremap <silent> <leader>te :tabedit<space>
 nnoremap <leader>j Ji;<esc>
-nnoremap <leader>m :wa!<cr>:mak<cr>
-nnoremap <leader>x :call HexDecSwap()<cr>
+nnoremap <silent> <leader>m :wa!<cr>:mak<cr>
+nnoremap <silent> <leader>x :call HexDecSwap()<cr>
 
 nnoremap <silent> <F1> :ALEHover<cr>
 inoremap <F1> <nop>
