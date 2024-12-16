@@ -33,21 +33,19 @@ prompt_customgrml_setup() {
 prompt_themes+=(customgrml)
 command -v prompt >/dev/null && prompt customgrml
 # }}}
-
 # {{{ Bindkey setup
 # Home/end for mosh
 bindkey "\e[7~" beginning-of-line
 bindkey "\e[8~" end-of-line
 # }}}
-
 # {{{ Bugfixes
 # Fix multiline command visual duplication in rxvt
 set_title() {
     printf '\033]0;%s\007' "${*//$'\n'/ }"
 }
 # }}}
-
-_lazy_opam_aliases=(
+ifelse(OPAM_IN_PATH, `true',
+``_lazy_opam_aliases=(
     ocaml{,{c,opt}{,p},lex,mktop,mklib,dep,objinfo,prof,doc}{,.opt,.byte}
     ocamlbuild{,.byte,.native}
     ocaml{find{,_opt},debug,format,yacc,run{,i,d},lsp,merlin{,-server},-language-server}
@@ -68,6 +66,7 @@ _ensure_opam_env() {
 for _raw_ocaml_command in "${_lazy_opam_aliases[@]}"; do
     alias "$_raw_ocaml_command=_ensure_opam_env $_raw_ocaml_command"
 done
+'')dnl
 
 READNULLCMD=less
 
