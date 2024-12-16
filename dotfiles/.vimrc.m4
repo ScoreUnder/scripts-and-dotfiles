@@ -1,4 +1,5 @@
-scriptencoding utf-8
+changequote(`{{',`}}')dnl
+{{scriptencoding utf-8
 set encoding=utf-8
 set smarttab
 set tabstop=4
@@ -29,8 +30,10 @@ if has('nvim')
 else
     set cryptmethod=blowfish2
     set swapsync=
-    execute pathogen#infect()
-endif
+}}changequote({{`}},{{'}})ifelse(VIM_PACKAGE_LOADER, `pathogen',
+``    execute pathogen#infect()
+'')dnl
+changequote(`{{',`}}'){{endif
 
 if match(&term, 'screen') >= 0 || match(&term, 'xterm') >= 0
     set term=xterm-256color
@@ -168,4 +171,4 @@ let g:ale_c_build_dir_names = ['build', 'bin', '.']
 
 imap <C-C>\ <Plug>(copilot-suggest)
 imap <C-C>[ <Plug>(copilot-previous)
-imap <C-C>] <Plug>(copilot-next)
+imap <C-C>] <Plug>(copilot-next)}}
