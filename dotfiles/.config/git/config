@@ -11,6 +11,7 @@
 	fa = fetch --all --prune
 	co = checkout
 	dc = diff --cached
+	mf = merge --ff-only
 [push]
 	default = simple
 	autoSetupRemote = true
