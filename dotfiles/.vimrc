@@ -159,6 +159,7 @@ let g:ale_fixers = {
 \    'ocaml': ['ocamlformat'],
 \    'scala': ['scalafmt'],
 \    'dune': ['dune'],
+\    'nix': ['alejandra', 'statix'],
 \}
 let g:ale_linters = {
 \    'c': ['clangd'],
