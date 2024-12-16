@@ -4,6 +4,10 @@ makepkg() {
     ionice -n 7 makepkg "$@"
 }
 
+# {{{ Aliases
+alias l='ls -l'
+alias ll='ls -la'
+# }}}
 # {{{ Prompt setup
 _print_shlvl_chevrons() {
     if ((SHLVL <= 1)) return
