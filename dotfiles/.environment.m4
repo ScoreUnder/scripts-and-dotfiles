@@ -22,14 +22,16 @@ export MAKEFLAGS=-j`'eval(CPUS + 1)
 #export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
 export AMD_VULKAN_ICD=RADV
 # }}}
-# {{{ perl local::lib
+'ifelse(PERL_LOCAL_LIB, `true',
+``# {{{ perl local::lib
 PATH="$HOME/.local/share/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="$HOME/.local/share/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="$HOME/.local/share/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"$HOME/.local/share/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=$HOME/.local/share/perl5"; export PERL_MM_OPT;
 # }}}
-# {{{ Default ssh-gpg
+'')dnl
+`# {{{ Default ssh-gpg
 _default_to_ssh_gpg() {
     local authsock
     authsock="${XDG_RUNTIME_DIR:-/run/user/${UID:-$(id -u)}}/gnupg/S.gpg-agent.ssh"
