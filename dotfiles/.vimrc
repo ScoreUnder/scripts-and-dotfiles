@@ -1,6 +1,5 @@
 scriptencoding utf-8
 set encoding=utf-8
-set smartindent
 set smarttab
 set tabstop=4
 set shiftwidth=4
