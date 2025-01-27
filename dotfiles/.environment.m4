@@ -15,6 +15,8 @@ export SUDO_ASKPASS="$SSH_ASKPASS"
 'ifelse(HTTP_PROXY, `', `', ``export http_proxy='HTTP_PROXY
 ')dnl
 export MAKEFLAGS=-j`'eval(CPUS + 1)
+ifelse(DISTRO, `arch', `export DEBUGINFOD_URLS="https://debuginfod.archlinux.org"
+', `')dnl
 `
 
 # {{{ AMDGPU Vulkan driver selection
