@@ -18,7 +18,8 @@
 [color]
 	ui = auto
 [merge]
-	conflictstyle = diff3
+	conflictstyle = zdiff3
+	tool = vimdiff
 [diff]
 	algorithm = histogram
 [commit]
@@ -41,3 +42,5 @@
 #	diffFilter = /usr/share/git/diff-highlight/diff-highlight
 [rerere]
 	enabled = true
+[mergetool]
+	keepBackup = false
