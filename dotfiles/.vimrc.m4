@@ -14,6 +14,7 @@ set list listchars=tab:╾─,trail:·,nbsp:.
 set background=dark
 set omnifunc=ale#completion#OmniFunc
 set completeopt=menu,preview,menuone,longest
+set ignorecase
 set hlsearch
 set incsearch
 set mouse=a
