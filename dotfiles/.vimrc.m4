@@ -12,7 +12,7 @@ set wildmenu
 set foldmethod=marker
 set list listchars=tab:╾─,trail:·,nbsp:.
 set background=dark
-set omnifunc=syntaxcomplete#Complete
+set omnifunc=ale#completion#OmniFunc
 set completeopt=menu,preview,menuone,longest
 set hlsearch
 set incsearch
@@ -132,7 +132,7 @@ endfunction
 nnoremap <space> za
 nnoremap g] :pts <c-r>=expand("<cword>")<cr><cr>
 
-nnoremap <leader>w :w!<cr>
+nnoremap <leader>w :ALEFix<cr>:w!<cr>
 nnoremap <silent> <leader>tn :tabnew<cr>
 nnoremap <silent> <leader>tc :tabclose<cr>
 nnoremap <silent> <leader>te :tabedit<space>
@@ -162,12 +162,14 @@ let g:ale_fixers = {
 \    'ocaml': ['ocamlformat'],
 \    'scala': ['scalafmt'],
 \    'dune': ['dune'],
+\    'python': ['black'],
 \    'nix': ['alejandra', 'statix'],
 \}
 let g:ale_linters = {
 \    'c': ['clangd'],
 \}
 let g:ale_c_build_dir_names = ['build', 'bin', '.']
+let g:ale_completion_enabled = 1
 
 imap <C-C>\ <Plug>(copilot-suggest)
 imap <C-C>[ <Plug>(copilot-previous)
