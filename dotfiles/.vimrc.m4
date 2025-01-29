@@ -165,6 +165,7 @@ let g:ale_fixers = {
 \    'dune': ['dune'],
 \    'python': ['black'],
 \    'nix': ['alejandra', 'statix'],
+\    'zig': ['zigfmt'],
 \}
 let g:ale_linters = {
 \    'c': ['clangd'],
