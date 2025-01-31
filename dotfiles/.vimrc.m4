@@ -142,8 +142,8 @@ nnoremap <silent> <leader>m :wa!<cr>:mak<cr>
 nnoremap <silent> <leader>x :call HexDecSwap()<cr>
 
 nnoremap <F1> <Plug>(ale_hover)
-nnoremap <F2> <Plug>(ale_next_wrap)
-nnoremap <F3> <Plug>(ale_previous_wrap)
+nnoremap <F2> <Plug>(ale_previous_wrap)
+nnoremap <F3> <Plug>(ale_next_wrap)
 nnoremap <F4> <Plug>(ale_detail)
 nnoremap <F5> <Plug>(ale_toggle)
 nnoremap <F12> <Plug>(ale_go_to_definition_in_split)
