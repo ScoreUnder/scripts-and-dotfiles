@@ -157,12 +157,12 @@ trap 'exit 1' INT HUP TERM PIPE  # dash doesn't call EXIT traps on interrupt etc
 my_tempdir=$(mktemp -d) || exit
 
 # Start copying scripts and dotfiles over
-_copy_loop() { safecopy "$1" "$HOME/$1"; }
-recurse _copy_loop bin
+_bin_copy_loop() { safecopy "$1" "$HOME/.local/$1"; }
+recurse _bin_copy_loop bin
 
 _dotfiles_copy_loop() { safecopy "$1" "$HOME/${1#*/}"; }
 recurse _dotfiles_copy_loop dotfiles
 
 echo 'As always, make sure you have pulled submodules!'
 # Install pomfclip
-cd pomfclip && ./install.sh
+cd pomfclip && ./install.sh "$HOME/.local/bin"

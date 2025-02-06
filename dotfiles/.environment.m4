@@ -2,7 +2,7 @@ contains() {
     [ "${1#*$2}" != "$1" ]
 }
 `
-contains :"$PATH": :"$HOME/bin": || PATH=$HOME/bin:$PATH
+contains :"$PATH": :"$HOME/.local/bin": || PATH=$HOME/.local/bin:$PATH
 export "IDEA_VM_OPTIONS=$HOME/.IdeaIC13/idea$BITS.vmoptions"
 export "GOPATH=$HOME/src/go"
 export "XDG_DESKTOP_DIR=$HOME"
