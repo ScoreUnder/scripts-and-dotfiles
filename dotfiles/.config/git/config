@@ -18,7 +18,7 @@
 [color]
 	ui = auto
 [merge]
-	conflictstyle = zdiff3
+	conflictstyle = diff3
 	tool = vimdiff
 [diff]
 	algorithm = histogram
