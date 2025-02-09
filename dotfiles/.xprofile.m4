@@ -59,7 +59,7 @@ fi
 # Notification daemon
 dunst &
 # Auto-lock screen
-xautolock -locker ~/bin/sensible-lock -time 15 &
+xautolock -locker "$(command -v sensible-lock)" -time 15 &
 # Random wallpapers on boot and every 10 mins
 wallpaper-cycler &
 # Compositing for transparency and forced vsync
