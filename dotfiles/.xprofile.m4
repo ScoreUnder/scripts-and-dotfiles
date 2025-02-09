@@ -71,5 +71,3 @@ urxvtd -q -o &
 ', `')dnl
 # Set default input configuration (mouse sensitivity, keyboard layout, etc)
 set-default-input-config &
-# Load i3 workspaces if applicable
-~/.i3/scripts/when-i3-starts ~/.i3/scripts/load-workspaces &
