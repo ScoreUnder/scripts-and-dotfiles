@@ -35,6 +35,7 @@ export XIM_PROGRAM=/usr/bin/ibus-daemon XIM_ARGS="--xim"
 # Run SSH agent
 eval "$(ssh-agent)"
 
+ifelse(DISTRO()-SOUND_SERVER(), `gentoo-pipewire', `dnl
 # Setup for launching pipewire on gentoo (& actually launching it)
 if [ -x /usr/bin/gentoo-pipewire-launcher ]; then
     # XDG Runtime Dir
@@ -55,6 +56,7 @@ if [ -x /usr/bin/gentoo-pipewire-launcher ]; then
     /usr/bin/gentoo-pipewire-launcher &
 fi
 
+', `')dnl
 # Notification daemon
 dunst &
 # Auto-lock screen
