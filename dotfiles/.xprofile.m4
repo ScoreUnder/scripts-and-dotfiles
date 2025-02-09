@@ -27,8 +27,7 @@ export XMODIFIERS=APOS()@im=IME_NAME()APOS()
 ifelse(
     IME_NAME(), `ibus', `dnl
 export GLFW_IM_MODULE=ibus
-export XIM_PROGRAM=/usr/bin/ibus-daemon XIM_ARGS="--xim"
-/usr/lib/ibus/ibus-x11 &
+export XIM_PROGRAM="$(command -v ibus-daemon)" XIM_ARGS="--xim"
 ', `')dnl
 ')dnl
 
