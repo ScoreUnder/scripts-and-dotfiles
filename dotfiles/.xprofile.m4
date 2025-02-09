@@ -6,7 +6,7 @@ changequote(`, ')dnl
 . ~/.environment
 
 # Set up screens
-~/.screenlayout/default.sh &
+([ -e ~/.screenlayout/default.sh ] && ~/.screenlayout/default.sh) &
 
 # Read in settings in Xresources
 xrdb ~/.Xresources
